@@ -10,14 +10,14 @@ import { Link, useHistory } from "react-router-dom";
  * as well as the components for display and editing,
  * drawers and modal
  */
-const Yolo = () => {
-    console.log("Yolo WORLD !!!")
+const Salut = () => {
+    console.log("HELLO WORLD !!!")
   return (
     <div>
-      <h1>Salut les gens</h1>
-      <Link to="/yolo">Redirection</Link>
+      <h1>Hello World!</h1>
+      <Link to="/salut">Redirection salut</Link>
     </div>
   );
 };
 
-export default Yolo;
+export default Salut;

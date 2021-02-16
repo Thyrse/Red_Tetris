@@ -11,6 +11,8 @@ const PrivateRoute = ({ path, component, children, render, other }) => {
   // Est-ce que la personne est authentifiée ou pas
   // const { isAuthenticated } = useContext(AuthContext);
   // Si elle est authentifiée, on affiche le composant demandé, sinon on redirige vers le login
+  console.log("PERSONNAL LOG: TRYING TO FIND PRIVATE ROUTE... ==>", path)
+  
   return (
     <Route path={path} component={component} render={render} {...other}>
       {children}

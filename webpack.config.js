@@ -5,7 +5,8 @@ module.exports = {
 
   output: {
     path: path.join(__dirname, 'build'),
-    filename: 'bundle.js'
+    filename: 'bundle.js',
+    publicPath: '/'
   },
 
   module: {
@@ -17,5 +18,14 @@ module.exports = {
         presets: ["es2015", "react", "stage-0"]
       }
     }]
-  }
+  },
+  devServer: {
+    historyApiFallback: true,
+  },
+
+  resolve: {
+    alias: {        
+        'react-router-dom': path.resolve('./node_modules/react-router-dom')
+    }
+}
 };

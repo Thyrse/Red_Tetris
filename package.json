@@ -67,14 +67,15 @@
     "react-to-print": "^2.12.0",
     "react-use-dimensions": "^1.2.1",
     "reactstrap": "^8.4.1",
+    "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
     "reinspect": "^1.1.0",
     "rooks": "^3.6.0",
     "segmented-control": "^0.1.12",
+    "socket.io": "^1.4.6",
     "sockjs-client": "^1.4.0",
     "websocket": "^1.0.31",
-    "yarn": "^1.22.10",
-    "socket.io": "^1.4.6"
+    "yarn": "^1.22.10"
   },
   "devDependencies": {
     "babel-cli": "^6.7.7",

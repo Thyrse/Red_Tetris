@@ -2,13 +2,15 @@ import React, {useEffect} from 'react'
 import ReactDOM from 'react-dom'
 import logger from 'redux-logger'
 import thunk from 'redux-thunk'
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware } from "@reduxjs/toolkit"
 import { Provider } from 'react-redux'   
 import store from "./redux";                                                                                                                                                 
 import {storeStateMiddleWare} from './middleware/storeStateMiddleWare'
 import reducer from './reducers'
 import App from './containers/app'
 import {alert} from './actions/alert'
+import { BrowserRouter } from 'react-router-dom'
+
 
 // PROVIDED BOILERPLATE CODE BELOW
 // const initialState = {}
@@ -25,7 +27,7 @@ import {alert} from './actions/alert'
 
 
 const Shell = () => {
-  console.log("SALUT ICI")
+  console.log("SALUT ICI UI")
   useEffect(() => {
     // connectSocketClient();
   }, []);
@@ -73,9 +75,11 @@ const Shell = () => {
 
 return (
   <div>
+    <BrowserRouter>
     <Provider store={store}>
         <App />
     </Provider>
+    </BrowserRouter>
   </div>
 )
 }

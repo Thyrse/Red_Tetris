@@ -5,6 +5,7 @@ import MomentUtils from "@date-io/moment";
 import PrivateRoute from "../components/PrivateRoute/PrivateRoute";
 import { Switch, Route, useLocation, useParams } from "react-router-dom";
 import Yolo from "./Yolo/Yolo";
+import Salut from "./Yolo/Salut";
 
 const App = ({message}) => {
   // const location = useLocation();
@@ -15,21 +16,23 @@ const App = ({message}) => {
   // const [id, setId] = useState();
 
   return (
-    <>
-    <MuiPickersUtilsProvider utils={MomentUtils}>
-      <Route
-        exact
-        path="/"
-        render={() => <Login playerId={oneSignalUserid} />}
-      ></Route>
+    <div>
       <Switch>
-        <PrivateRoute
+        <Route
+          exact
+          path="/"
+          render={() => <Yolo />}
+        ></Route>
+          <PrivateRoute
           path="/yolo"
-          render={() => <Yolo/>}
+          render={() => <Yolo />}
+        ></PrivateRoute>
+                  <PrivateRoute
+          path="/salut"
+          render={() => <Salut />}
         ></PrivateRoute>
       </Switch>
-    </MuiPickersUtilsProvider>
-    </>
+    </div>
   );
 };
 
