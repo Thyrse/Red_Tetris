@@ -1,0 +1,73 @@
+// IMPORT FILES AND UTILS
+@import "bootstrap";
+@import "./fonts/font.css";
+@import "variables.scss";
+@import "mixins.scss";
+@import "game.scss";
+@import "login.scss";
+@import "chat.scss";
+@import "home.scss";
+
+// MAIN THEME
+* {
+  font-family: slkscr;
+}
+
+body {
+  background-color: $dark-light;
+}
+
+h1,
+h2,
+h3 {
+  font-family: slkscre;
+}
+
+h3 {
+  font-size: $title3;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+.shadow {
+  box-shadow: 0px 0px 10px 0px rgba($dark, $obg) !important;
+  &-top {
+    box-shadow: 0px 0px 10px 0px rgba($dark, $obg) !important;
+    &__light {
+      box-shadow: 0px -3px 10px 0px rgba($white, $osm) !important;
+    }
+  }
+  &__light {
+    box-shadow: 0px 0px 10px 0px rgba($white, $osm) !important;
+  }
+}
+
+.text-white {
+  color: $white;
+}
+
+// BUTTONS
+
+.btn-white {
+  background-color: $white;
+  border-color: $white;
+  color: $white-text;
+
+  &:hover {
+    background-color: #f5f5f5;
+    border-color: #f1f1f1;
+    color: $white-text;
+  }
+}
+
+// OVERWRITE BOOTSTRAP
+
+label {
+  margin-bottom: 0;
+}

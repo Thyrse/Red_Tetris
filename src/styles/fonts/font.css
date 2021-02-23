@@ -1,0 +1,16 @@
+@font-face {
+  font-family: "slkscr";
+  src: local("slkscr"), url("./slkscr.ttf") format("truetype");
+}
+@font-face {
+  font-family: "slkscrb";
+  src: local("slkscrb"), url("./slkscrb.ttf") format("truetype");
+}
+@font-face {
+  font-family: "slkscre";
+  src: local("slkscre"), url("./slkscre.ttf") format("truetype");
+}
+@font-face {
+  font-family: "slkscreb";
+  src: local("slkscreb"), url("./slkscreb.ttf") format("truetype");
+}
