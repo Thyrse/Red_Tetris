@@ -4,6 +4,7 @@ import React, { useState, useEffect, useContext, useCallback } from "react";
 // REACT ROUTER
 import { Link, useHistory } from "react-router-dom";
 import logo from './img/logo_blue.png'
+import disconnect from './img/power-button.png'
 
 
 /**
@@ -12,16 +13,21 @@ import logo from './img/logo_blue.png'
  * as well as the components for display and editing,
  * drawers and modal
  */
-const Layout = () => {
+export const Layout = (props) => {
   return (
     <>
-        <header className="header px-3">
+        <header className="header p-3 shadow-top__light">
+            <div className="header__username">
+                <span>Thyrse</span>
+            </div>
             <div className="header__logo">
                 <img alt='Logo Red Tetris'src={logo} />
             </div>
+            <div className="header__disconnect">
+                <img alt='Deconnexion'src={disconnect} />
+            </div>
         </header>
+        {props.children}
     </>
   );
 };
-
-export default Layout;

@@ -52,6 +52,30 @@ a {
   color: $white;
 }
 
+.header {
+  background-color: $main-dark;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 90px;
+  &__username {
+    color: $white;
+  }
+  &__logo {
+    img {
+      width: 160px;
+    }
+  }
+  &__disconnect {
+    img {
+      width: 25px;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}
+
 // BUTTONS
 
 .btn-white {

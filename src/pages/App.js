@@ -4,7 +4,7 @@ import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import MomentUtils from "@date-io/moment";
 import PrivateRoute from "../components/PrivateRoute/PrivateRoute";
 import { Switch, Route, useLocation, useParams } from "react-router-dom";
-import Layout from "../Layout"
+import {Layout} from "../Layout"
 import Login from "./Login";
 import Home from "./Home";
 import Game from "./Game";
