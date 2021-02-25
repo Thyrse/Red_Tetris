@@ -1,0 +1,33 @@
+.room-container {
+  border: 1px solid $darker;
+  border-radius: 5px;
+  min-height: 650px;
+  max-height: 800px;
+  overflow-y: auto;
+  &__create {
+    display: flex;
+    justify-content: space-around;
+    input {
+      max-width: 300px;
+    }
+  }
+  &__list {
+    border-top: 1px solid $darker;
+    border-bottom: 1px solid $darker;
+    .room-item {
+      &:not(:first-child) {
+        border-top: 1px solid $darker;
+      }
+      div {
+        padding: 0.25rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .room-join {
+        border-left: 1px solid $darker;
+        border-right: 1px solid $darker;
+      }
+    }
+  }
+}

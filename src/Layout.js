@@ -4,7 +4,7 @@ import React, { useState, useEffect, useContext, useCallback } from "react";
 // REACT ROUTER
 import { Link, useHistory } from "react-router-dom";
 import logo from './img/logo_blue.png'
-import disconnect from './img/power-button.png'
+import disconnect from './img/power_button.png'
 
 
 /**
