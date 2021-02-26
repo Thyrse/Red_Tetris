@@ -103,26 +103,36 @@ const Home = () => {
               </div>
             </div>
           </div>
-          <div className="bg-warning col-12 col-lg-6">
-            <div class="container row mx-auto d-flex justify-content-center my-4">
-              <div class="col-12 col-md-11 col-lg-9 border-dark rounded bg-dark">
-                <div class="row align-items-center msg-head border-bottom">
-                  <div class="col-md-3 col-lg-2">
-                    <a href="/matchs" class="btn btn-matcha msg-button">
-                      &#8678; Matchs
-                    </a>
-                  </div>
-                  <div class="col-md-9 col-lg-10 justify-content-center">
-                    <div class="d-flex align-items-center justify-content-center msg-head-username">
-                      <h3>Thyrse</h3>
-                    </div>
-                  </div>
+          <div className="bg-warning col-12 col-lg-6 chat-container">
+            <div className="container-fluid row mx-auto d-flex justify-content-center m-3">
+              <div className="col-12 border-dark rounded bg-dark">
+                <div className="row align-items-center justify-content-center border-bottom p-2">
+                  <h3>Messagerie</h3>
                 </div>
-                <div class="row msg-body">
-                  <div class="col-md-12 pt-2" id="zone_chat">
-                    <div class="row msg-right">
-                      <div class="col-md-5 offset-md-7 msg-content-right">
-                        <p class="speech-bubble speech-bubble-right">
+                <div className="row">
+                  <div className="col-12 pt-2 chat-messages" id="zone_chat">
+                    <div className="row">
+                      <div className="col-12 text-right my-1 chat-messages__message">
+                        <span>Thyrse</span>
+                        <p className="">
+                          Lorem ipsum dolor sit amet consectetur.
+                        </p>
+                      </div>
+                      <div className="col-12 text-left my-1 chat-messages__message">
+                        <span>Ziphlot</span>
+                        <p className="">
+                          Lorem ipsum dolor sit amet consectetur.
+                        </p>
+                      </div>
+                      <div className="col-12 text-left my-1 chat-messages__message">
+                        <span>Scao</span>
+                        <p className="">
+                          Lorem ipsum dolor sit amet consectetur.
+                        </p>
+                      </div>
+                      <div className="col-12 text-right my-1 chat-messages__message">
+                        <span>Thyrse</span>
+                        <p className="">
                           Lorem ipsum dolor sit amet consectetur.
                         </p>
                       </div>
@@ -135,10 +145,10 @@ const Home = () => {
                   id="formulaire_chat"
                   onsubmit="return false;"
                 >
-                  <div class="row msg-foot border-top">
-                    <div class="col-md-9 col-lg-10 msg-new">
+                  <div className="row msg-foot border-top">
+                    <div className="col-md-9 col-lg-10 msg-new">
                       <input
-                        class="msg-new-input"
+                        className="msg-new-input"
                         type="text"
                         name="message"
                         id="message"
@@ -149,10 +159,10 @@ const Home = () => {
                       />
                       <input type="hidden" name="roomie" />
                     </div>
-                    <div class="col-md-3 col-lg-2 text-right">
+                    <div className="col-md-3 col-lg-2 text-right">
                       <input type="hidden" value="" name="profile_id" />
                       <button
-                        class="btn btn-matcha msg-button"
+                        className="btn btn-white msg-button"
                         type="submit"
                         id="envoi_message"
                         onclick="add_message(this)"

@@ -1,8 +1,7 @@
 .room-container {
   border: 1px solid $darker;
   border-radius: 5px;
-  min-height: 650px;
-  max-height: 800px;
+  height: 41em;
   overflow-y: auto;
   &__create {
     display: flex;
@@ -29,5 +28,39 @@
         border-right: 1px solid $darker;
       }
     }
+  }
+}
+
+.chat-container {
+  .chat-messages {
+    height: 35em;
+    overflow-y: scroll;
+    &__message {
+      color: $whiter;
+    }
+  }
+
+  .msg-button {
+    padding: 9px;
+    width: 100%;
+    height: 100%;
+  }
+
+  .msg-foot div {
+    padding: 0;
+  }
+
+  .msg-foot {
+    line-height: 0;
+  }
+
+  .msg-new .msg-new-input {
+    height: 100%;
+    width: 100%;
+    outline: none;
+    border: none;
+    background: none;
+    padding: 20px 8px 5px 8px;
+    color: #ffffff;
   }
 }
