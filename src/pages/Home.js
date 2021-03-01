@@ -4,6 +4,7 @@ import React, { useState, useEffect, useContext, useCallback } from "react";
 // REACT ROUTER
 import { Link, useHistory } from "react-router-dom";
 import arrowRight from "../img/arrow_right.png";
+import arrowRightWhite from "../img/arrow_right_white.png";
 
 /**
  * Component that displays the patient page,
@@ -16,9 +17,12 @@ const Home = () => {
     <>
       <div className="container-fluid">
         <div className="row">
-          <div className="bg-success col-12 col-lg-6">
-            <div className="room-container py-4 m-3">
-              <div className="px-3">
+          <div className="col-12 col-lg-6">
+            <div className="room-container pb-4 m-3 shadow">
+              <div className="bg-head chat-container__box-title row align-items-center justify-content-center border-bottom p-3">
+                <h3>Rooms</h3>
+              </div>
+              <div className="p-3">
                 <form action="">
                   <div className="room-container__create">
                     <input
@@ -29,12 +33,12 @@ const Home = () => {
                       placeholder="Enter room name..."
                     />
                     <button className="btn btn-img btn-outline-arrow">
-                      <img src={arrowRight} alt="Validation button" />
+                      <img src={arrowRightWhite} alt="Validation button" />
                     </button>
                   </div>
                 </form>
               </div>
-              <div className="container-fluid room-container__list mt-4">
+              <div className="container-fluid room-container__list">
                 <div className="row text-center room-item">
                   <div className="col-8">
                     <span>Room name</span>
@@ -44,7 +48,7 @@ const Home = () => {
                   </div>
                   <div className="col-2">
                     <button className="btn btn-img">
-                      <img src={arrowRight} alt="Validation button" />
+                      <img src={arrowRightWhite} alt="Validation button" />
                     </button>
                   </div>
                 </div>
@@ -57,7 +61,7 @@ const Home = () => {
                   </div>
                   <div className="col-2">
                     <button className="btn btn-img">
-                      <img src={arrowRight} alt="Validation button" />
+                      <img src={arrowRightWhite} alt="Validation button" />
                     </button>
                   </div>
                 </div>
@@ -70,7 +74,7 @@ const Home = () => {
                   </div>
                   <div className="col-2">
                     <button className="btn btn-img">
-                      <img src={arrowRight} alt="Validation button" />
+                      <img src={arrowRightWhite} alt="Validation button" />
                     </button>
                   </div>
                 </div>
@@ -83,7 +87,7 @@ const Home = () => {
                   </div>
                   <div className="col-2">
                     <button className="btn btn-img">
-                      <img src={arrowRight} alt="Validation button" />
+                      <img src={arrowRightWhite} alt="Validation button" />
                     </button>
                   </div>
                 </div>
@@ -103,10 +107,10 @@ const Home = () => {
               </div>
             </div>
           </div>
-          <div className="bg-warning col-12 col-lg-6 chat-container">
+          <div className="col-12 col-lg-6 chat-container">
             <div className="container-fluid row mx-auto d-flex justify-content-center m-3">
-              <div className="col-12 border-dark rounded bg-dark">
-                <div className="row align-items-center justify-content-center border-bottom p-2">
+              <div className="col-12 border-dark rounded chat-container__box shadow">
+                <div className="bg-head chat-container__box-title row align-items-center justify-content-center border-bottom p-3">
                   <h3>Messagerie</h3>
                 </div>
                 <div className="row">
@@ -114,25 +118,25 @@ const Home = () => {
                     <div className="row">
                       <div className="col-12 text-right my-1 chat-messages__message">
                         <span>Thyrse</span>
-                        <p className="">
+                        <p className="secondary-font">
                           Lorem ipsum dolor sit amet consectetur.
                         </p>
                       </div>
                       <div className="col-12 text-left my-1 chat-messages__message">
                         <span>Ziphlot</span>
-                        <p className="">
+                        <p className="secondary-font">
                           Lorem ipsum dolor sit amet consectetur.
                         </p>
                       </div>
                       <div className="col-12 text-left my-1 chat-messages__message">
                         <span>Scao</span>
-                        <p className="">
+                        <p className="secondary-font">
                           Lorem ipsum dolor sit amet consectetur.
                         </p>
                       </div>
                       <div className="col-12 text-right my-1 chat-messages__message">
                         <span>Thyrse</span>
-                        <p className="">
+                        <p className="secondary-font">
                           Lorem ipsum dolor sit amet consectetur.
                         </p>
                       </div>
@@ -146,7 +150,7 @@ const Home = () => {
                   onsubmit="return false;"
                 >
                   <div className="row msg-foot border-top">
-                    <div className="col-md-9 col-lg-10 msg-new">
+                    <div className="col-md-9 col-lg-10 msg-new secondary-font">
                       <input
                         className="msg-new-input"
                         type="text"

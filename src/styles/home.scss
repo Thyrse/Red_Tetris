@@ -1,21 +1,27 @@
 .room-container {
-  border: 1px solid $darker;
   border-radius: 5px;
-  height: 41em;
+  height: 41.5em;
   overflow-y: auto;
+  background: url("../img/blue_background.jpg") no-repeat center;
+  background-size: cover;
+  color: $whiter;
+  overflow-x: hidden;
   &__create {
     display: flex;
     justify-content: space-around;
     input {
-      max-width: 300px;
+      max-width: 400px;
     }
   }
   &__list {
-    border-top: 1px solid $darker;
-    border-bottom: 1px solid $darker;
+    border-top: 3px solid $whiter;
+    border-bottom: 3px solid $whiter;
     .room-item {
+      &:hover {
+        background-color: darken($dark-light, 4);
+      }
       &:not(:first-child) {
-        border-top: 1px solid $darker;
+        border-top: 3px solid $whiter;
       }
       div {
         padding: 0.25rem;
@@ -24,19 +30,37 @@
         align-items: center;
       }
       .room-join {
-        border-left: 1px solid $darker;
-        border-right: 1px solid $darker;
+        border-left: 3px solid $whiter;
+        border-right: 3px solid $whiter;
       }
     }
   }
 }
 
 .chat-container {
+  &__box {
+  background-color: $dark-light;
+  &-title {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    color: $whiter;
+  }
+  }
   .chat-messages {
+    background: url("../img/green_background.png") no-repeat center;
+    background-size: cover;
     height: 35em;
-    overflow-y: scroll;
+    overflow-y: auto;
     &__message {
       color: $whiter;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      &:hover {
+        cursor: pointer;
+        background-color: darken($dark-light, 2.5);
+        transition: 0.3s;
+
+      }
     }
   }
 

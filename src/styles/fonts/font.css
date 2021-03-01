@@ -14,3 +14,11 @@
   font-family: "slkscreb";
   src: local("slkscreb"), url("./slkscreb.ttf") format("truetype");
 }
+@font-face {
+  font-family: "Roboto";
+  src: local("Roboto-Regular-webfont"), url("./Roboto-Regular-webfont.woff") format("truetype");
+}
+@font-face {
+  font-family: "Roboto-light";
+  src: local("Roboto-Light-webfont"), url("./Roboto-Light-webfont.woff") format("truetype");
+}

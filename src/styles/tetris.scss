@@ -15,6 +15,9 @@
 
 body {
   background-color: $dark-light;
+  background: url("../img/background.jpg") no-repeat center center fixed;
+  background-size: cover;
+  padding-top: 110px;
 }
 
 h1,
@@ -53,12 +56,23 @@ a {
   color: $white;
 }
 
+.primary-font {
+  font-family: slkscre;
+}
+
+.secondary-font {
+  font-family: Roboto;
+}
+
 .header {
   background-color: $main-dark;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 90px;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 999;
   &__username {
     color: $white;
   }
@@ -75,6 +89,10 @@ a {
       }
     }
   }
+}
+
+.bg-head {
+  background-color: $main-dark;
 }
 
 // BUTTONS
@@ -94,7 +112,7 @@ a {
     padding: 0.1rem 0.7rem;
   }
   &-outline-arrow {
-    border: 1px solid $darker;
+    border: 1px solid $whiter;
     border-radius: 0.25rem;
   }
 }
