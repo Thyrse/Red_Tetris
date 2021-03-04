@@ -3,7 +3,8 @@
 import React, { useState, useEffect, useContext, useCallback } from "react";
 // REACT ROUTER
 import { Link, useHistory } from "react-router-dom";
-
+import arrowRight from "../img/arrow_right.png";
+import arrowRightWhite from "../img/arrow_right_white.png";
 
 /**
  * Component that displays the patient page,
@@ -13,9 +14,255 @@ import { Link, useHistory } from "react-router-dom";
  */
 const Game = () => {
   return (
-    <div className="salut">
-      <h1 className="salut__oui">Game</h1>
-    </div>
+    <>
+      <div className="game">
+        <div className="game__pan bg-success p-3">
+          <div className="bg-warning game-table">
+            <div className="game-table__line">
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+            </div>
+            <div className="game-table__line">
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+            </div>
+            <div className="game-table__line">
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+            </div>
+            <div className="game-table__line">
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+            </div>
+            <div className="game-table__line">
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+            </div>
+            <div className="game-table__line">
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+            </div>
+            <div className="game-table__line">
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+            </div>
+            <div className="game-table__line">
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+            </div>
+            <div className="game-table__line">
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+            </div>
+            <div className="game-table__line">
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+            </div>
+            <div className="game-table__line">
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+            </div>
+            <div className="game-table__line">
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+            </div>
+            <div className="game-table__line">
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+            </div>
+            <div className="game-table__line">
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+            </div>
+            <div className="game-table__line">
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+            </div>
+            <div className="game-table__line">
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+            </div>
+            <div className="game-table__line">
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+            </div>
+            <div className="game-table__line">
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+            </div>
+            <div className="game-table__line">
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+            </div>
+            <div className="game-table__line">
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+              <div className="game-table__cell"></div>
+            </div>
+          </div>
+          <div className="bg-danger game-stats"></div>
+        </div>
+      </div>
+    </>
   );
 };
 

@@ -1,0 +1,26 @@
+.game {
+  display: flex;
+  flex: 1 1 0%;
+  &__pan {
+    display: flex;
+    flex: 2 1 0%;
+    .game-table {
+      height: 85vh;
+      width: 40vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      &__line {
+        display: flex;
+        flex: 1 1 0%;
+      }
+      &__cell {
+        display: flex;
+        flex: 1 1 10%;
+        border: 2px solid pink;
+      }
+    }
+    .game-stats {
+    }
+  }
+}
