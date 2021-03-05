@@ -25,6 +25,7 @@
     "core-js": "^3.6.5",
     "date-fns": "^2.16.1",
     "emoji-mart": "^3.0.0",
+    "express": "^4.17.1",
     "formdata-polyfill": "^3.0.19",
     "fuse.js": "^5.2.3",
     "https": "^1.0.0",
@@ -61,6 +62,8 @@
     "reinspect": "^1.1.0",
     "rooks": "^3.6.0",
     "segmented-control": "^0.1.12",
+    "socket.io": "^3.1.2",
+    "socket.io-client": "^3.1.2",
     "sockjs-client": "^1.4.0",
     "websocket": "^1.0.31",
     "yarn": "^1.22.10"

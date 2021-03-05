@@ -21,6 +21,35 @@
       }
     }
     .game-stats {
+      display: flex;
+      border: 2px solid pink;
+      align-items: center;
+      height: 85vh;
+      flex-direction: column;
+      width: 20vh;
+      &__next {
+        display: flex;
+        flex-direction: column;
+        height: 20vh;
+        width: 100%;
+        align-items: center;
+        border-bottom: 5px solid pink;
+      }
+      &__block {
+        display: flex;
+        width: 80%;
+        flex-direction: column;
+        height: 100%;
+        .next-line {
+          display: flex;
+          flex: 1 1 0%;
+        }
+        .next-cell {
+          display: flex;
+          flex: 1 1 10%;
+          border: 2px solid pink;
+        }
+      }
     }
   }
 }
