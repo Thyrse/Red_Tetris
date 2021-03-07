@@ -17,7 +17,7 @@ import { BrowserRouter } from "react-router-dom";
 // router.get("/", (req, res) => {
 //   res.send({ response: "Its working!!!!" }).status(200);
 // });
-
+const socket = socketIOClient("http://localhost:4000");
 // module.exports = router;
 
 // const express = require("express");
@@ -41,7 +41,6 @@ import { BrowserRouter } from "react-router-dom";
 // setupAuthentication();
 
 const Shell = () => {
-  console.log("SALUT ICI UI");
   useEffect(() => {
     // connectSocketClient();
   }, []);

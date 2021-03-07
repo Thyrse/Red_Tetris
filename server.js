@@ -1,23 +1,40 @@
 const express = require("express");
-const http = require("http");
-const socketIo = require("socket.io");
+const app = express();
+const http = require("http").Server(app);
+const io = require("socket.io")(http, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+  },
+});
+const cors = require("cors");
+
+app.use(cors());
+
 // const port = 8000;
 const port = 4000;
+
 // const index = require("./src/index");
-const app = express();
+
 // app.use(index);
-const server = http.createServer(app);
-const io = socketIo(server);
+
+// const io = socketIo(server);
 
 // io.listen(port)
 
 io.on("connection", (client) => {
-  console.log("SALUT SALUT");
+  console.log("SALUT SALUT ==>", client);
+  // const player = new Player(client);
+  // client.send({rooms: roomList });
   // here you can start emitting events to the client
 });
 
-io.listen(port, () => {
+http.listen(port, () => {
   console.log("LISTENING ON PORT ==>", port);
 });
+
+// server.listen(4000, function () {
+//   console.log("Server listening on port: 4000");
+// });
 
 console.log("Hello world");
