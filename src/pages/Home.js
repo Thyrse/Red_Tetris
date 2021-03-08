@@ -6,6 +6,8 @@ import { Link, useHistory } from "react-router-dom";
 import arrowRight from "../img/arrow_right.png";
 import arrowRightWhite from "../img/arrow_right_white.png";
 import Chat from "../components/Chat";
+import socketIOClient from "socket.io-client";
+// import { yoloEmit } from "../../public/yolo";
 
 /**
  * Component that displays the patient page,
@@ -14,6 +16,11 @@ import Chat from "../components/Chat";
  * drawers and modal
  */
 const Home = () => {
+  const socket = socketIOClient("http://localhost:3000/home");
+  useEffect(() => {
+    console.log("Passing here ==>", socket);
+    socket.emit("yolo", socket);
+  });
   return (
     <>
       <div className="container-fluid">

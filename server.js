@@ -23,11 +23,17 @@ const port = 4000;
 // io.listen(port)
 
 io.on("connection", (client) => {
-  console.log("SALUT SALUT ==>", client);
+  console.log("CONNECTED TO SOCKETIO");
   // const player = new Player(client);
   // client.send({rooms: roomList });
   // here you can start emitting events to the client
 });
+
+io.on("yolo", (data) => {
+  console.log("Received emit!!!");
+});
+
+io.emit("Yolo");
 
 http.listen(port, () => {
   console.log("LISTENING ON PORT ==>", port);
@@ -36,5 +42,3 @@ http.listen(port, () => {
 // server.listen(4000, function () {
 //   console.log("Server listening on port: 4000");
 // });
-
-console.log("Hello world");

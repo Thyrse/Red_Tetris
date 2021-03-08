@@ -51,12 +51,7 @@ const Chat = () => {
                 </div>
               </div>
             </div>
-            <form
-              action=""
-              method="post"
-              id="formulaire_chat"
-              onsubmit="return false;"
-            >
+            <form action="" method="post" id="formulaire_chat">
               <div className="row msg-foot border-top">
                 <div className="col-md-9 col-lg-10 msg-new secondary-font">
                   <input
@@ -66,8 +61,8 @@ const Chat = () => {
                     id="message"
                     placeholder="Message..."
                     size="50"
-                    spellcheck="false"
-                    autofocus
+                    spellCheck="false"
+                    autoFocus
                   />
                   <input type="hidden" name="roomie" />
                 </div>
@@ -77,7 +72,6 @@ const Chat = () => {
                     className="btn btn-white msg-button"
                     type="submit"
                     id="envoi_message"
-                    onclick="add_message(this)"
                   >
                     Send &#8679;
                   </button>
