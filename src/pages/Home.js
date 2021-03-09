@@ -16,10 +16,10 @@ import socketIOClient from "socket.io-client";
  * drawers and modal
  */
 const Home = () => {
-  const socket = socketIOClient("http://localhost:3000/home");
+  const socket = socketIOClient.connect("http://localhost:4000");
   useEffect(() => {
     console.log("Passing here ==>", socket);
-    socket.emit("yolo", socket);
+    socket.emit("yolo", "Salut les michtos");
   });
   return (
     <>

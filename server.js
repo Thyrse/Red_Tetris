@@ -27,10 +27,13 @@ io.on("connection", (client) => {
   // const player = new Player(client);
   // client.send({rooms: roomList });
   // here you can start emitting events to the client
-});
+  client.on("yolo", (data) => {
+    console.log("Received emit!!!");
+  });
 
-io.on("yolo", (data) => {
-  console.log("Received emit!!!");
+  client.on("login", (data) => {
+    console.log("Username received ==>", data);
+  });
 });
 
 io.emit("Yolo");
