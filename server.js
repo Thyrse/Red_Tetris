@@ -13,6 +13,19 @@ app.use(cors());
 
 // const port = 8000;
 const port = 4000;
+const allUsers = [];
+const users = [];
+
+function allAssignement(id, nickname) {
+  const current = { id, nickname };
+
+  allUsers.push(current);
+  return current;
+}
+
+function getCurrentUser(id) {
+  return users.find((user) => user.id === id);
+}
 
 // const index = require("./src/index");
 
@@ -31,8 +44,28 @@ io.on("connection", (client) => {
     console.log("Received emit!!!");
   });
 
-  client.on("login", (data) => {
-    console.log("Username received ==>", data);
+  client.on("home", (data) => {
+    console.log("Username received for home ==>", data);
+    console.log("All current username ==>", allUsers);
+  });
+
+  client.on("login", (current_user) => {
+    console.log("Username received for login ==>", current_user);
+    const current = allAssignement(client.id, current_user);
+    client.join(current.current_user);
+    console.log(allUsers);
+  });
+
+  // Listen for chatMessage
+  client.on("newMessage", (msg) => {
+    // const user = getCurrentUser(client.id);
+    // console.log("Result of current user ==>", user);
+    // console.log("Nickname sent to newMessage ==>", client.id);
+    console.log("New message emited ==>", msg);
+    io.emit("newMessage", {
+      pseudo: "Thyrse",
+      message: msg,
+    });
   });
 });
 

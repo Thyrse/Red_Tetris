@@ -5,6 +5,7 @@ import React, { useState, useEffect, useContext, useCallback } from "react";
 import { Link, useHistory } from "react-router-dom";
 import arrowRight from "../img/arrow_right.png";
 import arrowRightWhite from "../img/arrow_right_white.png";
+import socketIOClient from "socket.io-client";
 
 /**
  * Component that displays the patient page,
@@ -13,6 +14,40 @@ import arrowRightWhite from "../img/arrow_right_white.png";
  * drawers and modal
  */
 const Chat = () => {
+  const [message, setMessage] = useState();
+  const [chatContent, setChatContent] = useState([]);
+  const socket = socketIOClient.connect("http://localhost:4000");
+
+  const outputMessage = (pseudo, message) => {
+    const yolo = [...chatContent];
+    yolo.push({
+      pseudo: "Thyrse",
+      msg: message,
+    });
+    setChatContent(yolo);
+    console.log("Pseudo ==>", pseudo);
+    console.log("Message ==>", message);
+  };
+
+  console.log("Chat content ==>", chatContent);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    socket.emit("newMessage", message);
+  };
+
+  const handleChange = (e) => {
+    setMessage(e.target.value);
+  };
+
+  console.log("Message state ==>", message);
+  useEffect(() => {
+    console.log("Passing here ==>", socket);
+    socket.emit("home", "Salut les michtos");
+    socket.on("newMessage", function (data) {
+      outputMessage(data.pseudo, data.message);
+    });
+  });
   return (
     <>
       <div className="col-12 col-lg-6 chat-container">
@@ -24,13 +59,16 @@ const Chat = () => {
             <div className="row">
               <div className="col-12 pt-2 chat-messages" id="zone_chat">
                 <div className="row">
-                  <div className="col-12 text-right my-1 chat-messages__message">
-                    <span>Thyrse</span>
-                    <p className="secondary-font">
-                      Lorem ipsum dolor sit amet consectetur.
-                    </p>
-                  </div>
-                  <div className="col-12 text-left my-1 chat-messages__message">
+                  {chatContent &&
+                    chatContent.length > 0 &&
+                    chatContent.map((content) => (
+                      <div className="col-12 text-right my-1 chat-messages__message">
+                        <span>{content.pseudo}</span>
+                        <p className="secondary-font">{content.msg}</p>
+                      </div>
+                    ))}
+
+                  {/* <div className="col-12 text-left my-1 chat-messages__message">
                     <span>Ziphlot</span>
                     <p className="secondary-font">
                       Lorem ipsum dolor sit amet consectetur.
@@ -47,11 +85,11 @@ const Chat = () => {
                     <p className="secondary-font">
                       Lorem ipsum dolor sit amet consectetur.
                     </p>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
-            <form action="" method="post" id="formulaire_chat">
+            <form action="" id="formulaire_chat" onSubmit={handleSubmit}>
               <div className="row msg-foot border-top">
                 <div className="col-md-9 col-lg-10 msg-new secondary-font">
                   <input
@@ -63,6 +101,7 @@ const Chat = () => {
                     size="50"
                     spellCheck="false"
                     autoFocus
+                    onChange={(e) => handleChange(e)}
                   />
                   <input type="hidden" name="roomie" />
                 </div>

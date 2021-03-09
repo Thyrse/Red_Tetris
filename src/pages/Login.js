@@ -14,12 +14,15 @@ import socketIOClient from "socket.io-client";
 const Login = () => {
   const socket = socketIOClient.connect("http://localhost:4000");
   const [username, setUsername] = useState();
+  const history = useHistory();
 
   const handleChange = (e) => {
     setUsername(e.target.value);
   };
-  const handleSubmit = () => {
-    socket.emit("login", username);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    socket.emit("login", username.toUpperCase());
+    history.push("/home");
   };
 
   console.log("USERNAME ==>", username);
