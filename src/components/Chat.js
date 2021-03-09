@@ -19,12 +19,12 @@ const Chat = () => {
   const socket = socketIOClient.connect("http://localhost:4000");
 
   const outputMessage = (pseudo, message) => {
-    const yolo = [...chatContent];
-    yolo.push({
-      pseudo: "Thyrse",
-      msg: message,
-    });
-    setChatContent(yolo);
+    // const yolo = [...chatContent];
+    // yolo.push({
+    //   pseudo: "Thyrse",
+    //   msg: message,
+    // });
+    setChatContent([...chatContent, { pseudo: "Thyrse", msg: message }]);
     console.log("Pseudo ==>", pseudo);
     console.log("Message ==>", message);
   };
@@ -43,10 +43,10 @@ const Chat = () => {
   console.log("Message state ==>", message);
   useEffect(() => {
     console.log("Passing here ==>", socket);
-    socket.emit("home", "Salut les michtos");
-    socket.on("newMessage", function (data) {
-      outputMessage(data.pseudo, data.message);
-    });
+    // socket.emit("home", "Salut les michtos");
+  });
+  socket.on("newMessage", function (data) {
+    outputMessage(data.pseudo, data.message);
   });
   return (
     <>
@@ -61,8 +61,11 @@ const Chat = () => {
                 <div className="row">
                   {chatContent &&
                     chatContent.length > 0 &&
-                    chatContent.map((content) => (
-                      <div className="col-12 text-right my-1 chat-messages__message">
+                    chatContent.map((content, index) => (
+                      <div
+                        key={index}
+                        className="col-12 text-right my-1 chat-messages__message"
+                      >
                         <span>{content.pseudo}</span>
                         <p className="secondary-font">{content.msg}</p>
                       </div>
