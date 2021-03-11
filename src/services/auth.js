@@ -2,6 +2,10 @@
  * @var {boolean} authState Permet de savoir si on est authentifié ou pas
  */
 let authState = false;
+
+export function setupAuthState() {
+  authState = true;
+}
 /**
  * @var {object} authData Les données d'authentification (incluant SID, user et workspace)
  */
@@ -28,21 +32,13 @@ export const loadAuthDataFromStorage = () => {
 };
 
 /**
- * Retourne le statut d'authentification
- *
- * @returns {boolean}
- */
-export const isAuthenticated = () => {
-  return authState;
-};
-/**
  * Permet d'enregistrer les données d'authentification dans le storage
  *
  * @param {object} data Les données d'authentification (comprenant user, workspace et SID !)
  */
 export const saveAuthDataInStorage = (data) => {
   // console.log("saveAuthDataInStorage", data);
-  window.sessionStorage.setItem("authData", JSON.stringify(data));
+  window.sessionStorage.setItem("userData", JSON.stringify(data));
 };
 
 /**
@@ -51,7 +47,33 @@ export const saveAuthDataInStorage = (data) => {
  * @param {object} data Les données d'authentificaiton (comprenant user, workspace et SID !)
  */
 export const authenticate = async (data) => {
+  console.log("DATA RECEIVED BY AUTHENTICATE ==>", data);
+  console.log("AUTH STATE BEFORE UPDATE ==>", authState);
   authState = true;
+  console.log("AUTH STATE AFTER UPDATE ==>", authState);
   authData = data;
   saveAuthDataInStorage(data);
+};
+
+/**
+ * Retourne le statut d'authentification
+ *
+ * @returns {boolean}
+ */
+export const isAuthenticated = () => {
+  return authState;
+};
+
+/**
+ * Permet de mettre à jour des données dans le storage
+ *
+ * @param {object} props Les données à mettre à jour
+ */
+export const updateStorageData = (props) => {
+  // On fusionne le authData actuel et les nouvelles données
+  authData = { ...authData, ...props };
+
+  // On stock authData dans le storage
+  saveAuthDataInStorage(authData);
+  // console.log("UPDATE_STORAGE", props);
 };

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import socketIOClient from "socket.io-client";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
@@ -43,6 +43,8 @@ const Shell = () => {
   useEffect(() => {
     // connectSocketClient();
   }, []);
+
+  console.log("CONTEXT ==>", useContext(AuthContext));
 
   const authState = isAuthenticated();
 
