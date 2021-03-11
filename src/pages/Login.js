@@ -4,6 +4,8 @@ import React, { useState, useEffect, useContext, useCallback } from "react";
 // REACT ROUTER
 import { Link, useHistory } from "react-router-dom";
 import socketIOClient from "socket.io-client";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserData } from "../redux/auth/actions";
 
 /**
  * Component that displays the patient page,
@@ -15,13 +17,19 @@ const Login = () => {
   const socket = socketIOClient.connect("http://localhost:4000");
   const [username, setUsername] = useState();
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     setUsername(e.target.value);
   };
+  console.log("SOCKET ==>", socket);
   const handleSubmit = (e) => {
     e.preventDefault();
     socket.emit("login", username.toUpperCase());
+    dispatch(
+      setUserData({ username: username.toUpperCase(), socketID: socket.id })
+    );
+    // dispatch(setUserData(username.toUpperCase()));
     history.push("/home");
   };
 

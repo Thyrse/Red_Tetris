@@ -1,9 +1,6 @@
 import React, { useEffect } from "react";
 import socketIOClient from "socket.io-client";
 import ReactDOM from "react-dom";
-import logger from "redux-logger";
-import thunk from "redux-thunk";
-import { createStore, applyMiddleware } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import store from "./redux";
 // import {storeStateMiddleWare} from './middleware/storeStateMiddleWare'
@@ -11,6 +8,8 @@ import store from "./redux";
 import App from "./pages/App";
 // import {alert} from './actions/alert'
 import { BrowserRouter } from "react-router-dom";
+import { AuthContext } from "./contexts";
+import { isAuthenticated, setupAuthentication } from "./services/auth";
 // const express = require("express");
 // const router = express.Router();
 
@@ -38,21 +37,31 @@ const socket = socketIOClient("http://localhost:4000");
 
 // TD CODE
 // Mise en place de l'authentification (en cas de réactualisation de la page)
-// setupAuthentication();
+setupAuthentication();
 
 const Shell = () => {
   useEffect(() => {
     // connectSocketClient();
   }, []);
 
+  const authState = isAuthenticated();
+
+  console.log("AUTH STATE IN INDEX ==>", authState);
+
+  let authContextValue = {
+    isAuthenticated: authState,
+  };
+
   return (
-    <div>
-      <BrowserRouter>
-        <Provider store={store}>
-          <App />
-        </Provider>
-      </BrowserRouter>
-    </div>
+    <>
+      <AuthContext.Provider value={authContextValue}>
+        <BrowserRouter>
+          <Provider store={store}>
+            <App />
+          </Provider>
+        </BrowserRouter>
+      </AuthContext.Provider>
+    </>
   );
 };
 

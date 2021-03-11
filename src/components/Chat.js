@@ -19,11 +19,6 @@ const Chat = () => {
   const socket = socketIOClient.connect("http://localhost:4000");
 
   const outputMessage = (pseudo, message) => {
-    // const yolo = [...chatContent];
-    // yolo.push({
-    //   pseudo: "Thyrse",
-    //   msg: message,
-    // });
     const yolo = chatContent;
     yolo.push({ pseudo: "Thyrse", msg: message });
     setChatContent(yolo);
