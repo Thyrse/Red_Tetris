@@ -24,9 +24,12 @@ const Chat = () => {
     //   pseudo: "Thyrse",
     //   msg: message,
     // });
-    setChatContent([...chatContent, { pseudo: "Thyrse", msg: message }]);
+    const yolo = chatContent;
+    yolo.push({ pseudo: "Thyrse", msg: message });
+    setChatContent(yolo);
     console.log("Pseudo ==>", pseudo);
     console.log("Message ==>", message);
+    setMessage("");
   };
 
   console.log("Chat content ==>", chatContent);
@@ -44,10 +47,11 @@ const Chat = () => {
   useEffect(() => {
     console.log("Passing here ==>", socket);
     // socket.emit("home", "Salut les michtos");
-  });
-  socket.on("newMessage", function (data) {
-    outputMessage(data.pseudo, data.message);
-  });
+    socket.on("newMessage", function (data) {
+      outputMessage(data.pseudo, data.message);
+    });
+  }, []);
+
   return (
     <>
       <div className="col-12 col-lg-6 chat-container">
@@ -105,6 +109,7 @@ const Chat = () => {
                     spellCheck="false"
                     autoFocus
                     onChange={(e) => handleChange(e)}
+                    value={message || ""}
                   />
                   <input type="hidden" name="roomie" />
                 </div>
