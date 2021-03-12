@@ -6,6 +6,7 @@ import store from "./redux";
 // import {storeStateMiddleWare} from './middleware/storeStateMiddleWare'
 // import reducer from './reducers'
 import App from "./pages/App";
+// import * as serviceWorker from "./serviceWorker";
 // import {alert} from './actions/alert'
 import { BrowserRouter } from "react-router-dom";
 import { AuthContext } from "./contexts";
@@ -37,23 +38,25 @@ const socket = socketIOClient("http://localhost:4000");
 
 // TD CODE
 // Mise en place de l'authentification (en cas de réactualisation de la page)
-setupAuthentication();
+// setupAuthentication();
 
 const Shell = () => {
   useEffect(() => {
     // connectSocketClient();
+    console.log("LOOPING USE_EFFECT");
   }, []);
 
   console.log("CONTEXT ==>", useContext(AuthContext));
 
   const authState = isAuthenticated();
-
   console.log("AUTH STATE IN INDEX ==>", authState);
 
   let authContextValue = {
     isAuthenticated: authState,
   };
 
+  console.log("AUTH CONTEXT VALUE ==>", authContextValue);
+  // authContext.isAuthenticated;
   return (
     <>
       <AuthContext.Provider value={authContextValue}>

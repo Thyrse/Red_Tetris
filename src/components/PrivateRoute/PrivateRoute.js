@@ -10,16 +10,14 @@ import { AuthContext } from "../../contexts";
 const PrivateRoute = ({ path, component, children, render, other }) => {
   // On récupère le contexte d'authentification duquel on extrait uniquement ce qui nous intéresse :
   // Est-ce que la personne est authentifiée ou pas
-  // const { isAuthenticated } = useContext(AuthContext);
   // Si elle est authentifiée, on affiche le composant demandé, sinon on redirige vers le login
-  console.log("CONTEXT IN PRIVATE ROUTE ==>", useContext(AuthContext));
-  const { isAuthenticated } = useContext(AuthContext);
-  return isAuthenticated ? (
+
+  // const { isAuthenticated } = useContext(AuthContext);
+  // console.log("IS AUTHENTICATED IN PRIVATE ROUTE ==>", isAuthenticated);
+  return (
     <Route path={path} component={component} render={render} {...other}>
       {children}
     </Route>
-  ) : (
-    <Redirect to="/" />
   );
 };
 

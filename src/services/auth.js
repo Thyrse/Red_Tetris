@@ -37,7 +37,7 @@ export const loadAuthDataFromStorage = () => {
  * @param {object} data Les données d'authentification (comprenant user, workspace et SID !)
  */
 export const saveAuthDataInStorage = (data) => {
-  // console.log("saveAuthDataInStorage", data);
+  console.log("saveAuthDataInStorage", data);
   window.sessionStorage.setItem("userData", JSON.stringify(data));
 };
 
@@ -46,7 +46,7 @@ export const saveAuthDataInStorage = (data) => {
  *
  * @param {object} data Les données d'authentificaiton (comprenant user, workspace et SID !)
  */
-export const authenticate = async (data) => {
+export const authenticate = (data) => {
   console.log("DATA RECEIVED BY AUTHENTICATE ==>", data);
   console.log("AUTH STATE BEFORE UPDATE ==>", authState);
   authState = true;

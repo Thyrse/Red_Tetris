@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useDispatch } from "react-redux";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import MomentUtils from "@date-io/moment";
@@ -9,10 +9,11 @@ import Login from "./Login";
 import Home from "./Home";
 import Game from "./Game";
 import "../styles/tetris.scss";
+import { AuthContext } from "../contexts";
 
 const App = ({ message }) => {
   // const location = useLocation();
-  // const authContext = useContext(AuthContext);
+  const authContext = useContext(AuthContext);
   // const withNavbar = location.pathname !== "/";
   // const snackbar = useSnackbar();
   // const dispatch = useDispatch();

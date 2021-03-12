@@ -23,17 +23,17 @@ const Login = () => {
   const handleChange = (e) => {
     setUsername(e.target.value);
   };
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     socket.emit("login", username.toUpperCase());
-    await authenticate({
+    authenticate({
       username: username.toUpperCase(),
       socketID: socket.id,
     });
     dispatch(
       setUserData({ username: username.toUpperCase(), socketID: socket.id })
     );
-    updateStorageData();
+    // updateStorageData();
     // dispatch(setUserData(username.toUpperCase()));
     history.push("/home");
   };
