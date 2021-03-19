@@ -7,6 +7,7 @@ import socketIOClient from "socket.io-client";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserData } from "../redux/auth/actions";
 import { authenticate, updateStorageData } from "../services/auth";
+import { setUsersList } from "../redux/usersList/action";
 
 /**
  * Component that displays the patient page,
@@ -25,7 +26,7 @@ const Login = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    socket.emit("login", username.toUpperCase());
+    socket.emit("LOGIN", username.toUpperCase());
     authenticate({
       username: username.toUpperCase(),
       socketID: socket.id,
@@ -33,6 +34,13 @@ const Login = () => {
     dispatch(
       setUserData({ username: username.toUpperCase(), socketID: socket.id })
     );
+    socket.emit("NEW_USER", username.toUpperCase());
+    // dispatch(
+    //   setUsersList({ username: username.toUpperCase(), socketID: socket.id })
+    // );
+    // dispatch(
+    //   setUsersList({ username: username.toUpperCase(), socketID: socket.id })
+    // );
     // updateStorageData();
     // dispatch(setUserData(username.toUpperCase()));
     history.push("/home");

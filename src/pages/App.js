@@ -8,16 +8,24 @@ import { Layout } from "../Layout";
 import Login from "./Login";
 import Home from "./Home";
 import Game from "./Game";
+import socketIOClient from "socket.io-client";
 import "../styles/tetris.scss";
 import { AuthContext } from "../contexts";
+import { setUsersList } from "../redux/usersList/action";
 
 const App = ({ message }) => {
   // const location = useLocation();
   const authContext = useContext(AuthContext);
+  const socket = socketIOClient.connect("http://localhost:4000");
   // const withNavbar = location.pathname !== "/";
   // const snackbar = useSnackbar();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   // const [id, setId] = useState();
+
+  socket.on("NEW_USER", function (data) {
+    console.log("DATA RECEIVED IN APP.JS ==>", data);
+    dispatch(setUsersList(data));
+  });
 
   return (
     <>

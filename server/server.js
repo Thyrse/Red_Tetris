@@ -1,3 +1,4 @@
+// import { NEW_MESSAGE, LOGIN } from "./socketActions";
 const express = require("express");
 const app = express();
 const http = require("http").Server(app);
@@ -15,6 +16,37 @@ app.use(cors());
 const port = 4000;
 const allUsers = [];
 const users = [];
+
+class Game {
+  constructor() {
+    this._room = [];
+    this._players = [];
+  }
+
+  get rooms() {
+    return this._rooms;
+  }
+  get players() {
+    return this._players;
+  }
+
+  addRomm(room) {
+    this._room.push(room);
+  }
+
+  addPlayer(player) {
+    this._players.push(player);
+    return player;
+  }
+
+  findRoom(roomName) {
+    return this._room.find((room) => roomName.name === roomName);
+  }
+
+  findPlayer(playerId) {
+    return this._players.find((player) => player.id === playerId);
+  }
+}
 
 function allAssignement(id, nickname) {
   const current = { id, nickname };
@@ -35,6 +67,8 @@ function getCurrentUser(id) {
 
 // io.listen(port)
 
+const yolo = new Game();
+
 io.on("connection", (client) => {
   console.log("CONNECTED TO SOCKETIO");
   // const player = new Player(client);
@@ -49,23 +83,37 @@ io.on("connection", (client) => {
     console.log("All current username ==>", allUsers);
   });
 
-  client.on("login", (current_user) => {
+  client.on("LOGIN", (current_user) => {
     console.log("Username received for login ==>", current_user);
     const current = allAssignement(client.id, current_user);
     client.join(current.current_user);
     console.log(allUsers);
+    yolo.addPlayer(current_user);
+    io.emit("NEW_USER", yolo.players);
   });
 
   // Listen for chatMessage
-  client.on("newMessage", (msg) => {
+  client.on("NEW_MESSAGE", (msg) => {
     // const user = getCurrentUser(client.id);
     // console.log("Result of current user ==>", user);
     // console.log("Nickname sent to newMessage ==>", client.id);
     console.log("New message emited ==>", msg);
-    io.emit("newMessage", {
+    io.emit("NEW_MESSAGE", {
       pseudo: "Thyrse",
       message: msg,
     });
+  });
+
+  client.on("NEW_USER", (msg) => {
+    // const user = getCurrentUser(client.id);
+    // console.log("Result of current user ==>", user);
+    // console.log("Nickname sent to newMessage ==>", client.id);
+    // addPlayer(msg)
+    console.log("New message emited ==>", msg);
+    // io.emit("NEW_USER", {
+    //   pseudo: "Yolo",
+    //   message: "Message texte en dur",
+    // });
   });
 });
 

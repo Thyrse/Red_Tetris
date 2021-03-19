@@ -19,6 +19,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.19.2",
+    "babel-preset-react": "^6.24.1",
     "bootstrap": "^4.4.1",
     "camelcase": "^6.2.0",
     "clsx": "^1.1.0",
@@ -71,7 +72,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "serve": "nodemon server.js",
+    "serve": "nodemon ./server/server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

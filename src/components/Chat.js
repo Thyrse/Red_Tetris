@@ -31,7 +31,7 @@ const Chat = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    socket.emit("newMessage", message);
+    socket.emit("NEW_MESSAGE", message);
   };
 
   const handleChange = (e) => {
@@ -42,7 +42,7 @@ const Chat = () => {
   useEffect(() => {
     console.log("Passing here ==>", socket);
     // socket.emit("home", "Salut les michtos");
-    socket.on("newMessage", function (data) {
+    socket.on("NEW_MESSAGE", function (data) {
       outputMessage(data.pseudo, data.message);
     });
   }, []);
