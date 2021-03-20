@@ -12,6 +12,7 @@ import socketIOClient from "socket.io-client";
 import "../styles/tetris.scss";
 import { AuthContext } from "../contexts";
 import { setUsersList } from "../redux/usersList/action";
+import { setRooms } from "../redux/rooms/action";
 
 const App = ({ message }) => {
   // const location = useLocation();
@@ -25,6 +26,11 @@ const App = ({ message }) => {
   socket.on("NEW_USER", function (data) {
     console.log("DATA RECEIVED IN APP.JS ==>", data);
     dispatch(setUsersList(data));
+  });
+
+  socket.on("ADD_ROOM", function (data) {
+    console.log("DATA ROOMS RECEIVED IN APP.JS ==>", data);
+    dispatch(setRooms(data));
   });
 
   return (

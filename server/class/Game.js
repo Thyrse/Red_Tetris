@@ -11,8 +11,9 @@ class Game {
     return this._players;
   }
 
-  addRomm(room) {
+  addRoom(room) {
     this._room.push(room);
+    return room;
   }
 
   addPlayer(player) {

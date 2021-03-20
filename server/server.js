@@ -1,4 +1,5 @@
 // import { NEW_MESSAGE, LOGIN } from "./socketActions";
+// import Game from "./class/Game";
 const express = require("express");
 const app = express();
 const http = require("http").Server(app);
@@ -9,7 +10,6 @@ const io = require("socket.io")(http, {
   },
 });
 const cors = require("cors");
-
 app.use(cors());
 
 // const port = 8000;
@@ -19,7 +19,7 @@ const users = [];
 
 class Game {
   constructor() {
-    this._room = [];
+    this._rooms = [];
     this._players = [];
   }
 
@@ -30,8 +30,9 @@ class Game {
     return this._players;
   }
 
-  addRomm(room) {
-    this._room.push(room);
+  addRoom(room) {
+    this._rooms.push(room);
+    return room;
   }
 
   addPlayer(player) {
@@ -74,10 +75,6 @@ io.on("connection", (client) => {
   // const player = new Player(client);
   // client.send({rooms: roomList });
   // here you can start emitting events to the client
-  client.on("yolo", (data) => {
-    console.log("Received emit!!!");
-  });
-
   client.on("home", (data) => {
     console.log("Username received for home ==>", data);
     console.log("All current username ==>", allUsers);
@@ -93,31 +90,28 @@ io.on("connection", (client) => {
   });
 
   // Listen for chatMessage
-  client.on("NEW_MESSAGE", (msg) => {
+  client.on("NEW_MESSAGE", (data) => {
     // const user = getCurrentUser(client.id);
     // console.log("Result of current user ==>", user);
     // console.log("Nickname sent to newMessage ==>", client.id);
-    console.log("New message emited ==>", msg);
+    console.log("New message emited ==>", data);
     io.emit("NEW_MESSAGE", {
-      pseudo: "Thyrse",
-      message: msg,
+      username: data.username,
+      message: data.message,
     });
   });
 
-  client.on("NEW_USER", (msg) => {
+  // Listen for chatMessage
+  client.on("CREATE_ROOM", (data) => {
     // const user = getCurrentUser(client.id);
     // console.log("Result of current user ==>", user);
     // console.log("Nickname sent to newMessage ==>", client.id);
-    // addPlayer(msg)
-    console.log("New message emited ==>", msg);
-    // io.emit("NEW_USER", {
-    //   pseudo: "Yolo",
-    //   message: "Message texte en dur",
-    // });
+    console.log("ROOM DATAS EMITTED ==>", data);
+    yolo.addRoom(data);
+    console.log("ROOMS LIST FROM CLASS ==>", yolo.rooms);
+    io.emit("ADD_ROOM", yolo.rooms);
   });
 });
-
-io.emit("Yolo");
 
 http.listen(port, () => {
   console.log("LISTENING ON PORT ==>", port);

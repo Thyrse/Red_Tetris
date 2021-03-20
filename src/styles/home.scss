@@ -39,12 +39,12 @@
 
 .chat-container {
   &__box {
-  background-color: $dark-light;
-  &-title {
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    color: $whiter;
-  }
+    background-color: $dark-light;
+    &-title {
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+      color: $whiter;
+    }
   }
   .chat-messages {
     background: url("../img/green_background.png") no-repeat center;
@@ -59,8 +59,18 @@
         cursor: pointer;
         background-color: darken($dark-light, 2.5);
         transition: 0.3s;
-
       }
+    }
+  }
+
+  .chat-users {
+    height: 35em;
+    overflow-y: auto;
+    overflow-x: hidden;
+    color: $whiter;
+    ul {
+      padding: 0 !important;
+      list-style: none;
     }
   }
 

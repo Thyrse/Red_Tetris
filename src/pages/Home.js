@@ -7,7 +7,7 @@ import arrowRight from "../img/arrow_right.png";
 import arrowRightWhite from "../img/arrow_right_white.png";
 import Chat from "../components/Chat";
 import socketIOClient from "socket.io-client";
-// import { yoloEmit } from "../../public/yolo";
+import { useSelector } from "react-redux";
 
 /**
  * Component that displays the patient page,
@@ -17,10 +17,24 @@ import socketIOClient from "socket.io-client";
  */
 const Home = () => {
   const socket = socketIOClient.connect("http://localhost:4000");
+  const [room, setRoom] = useState();
+  const roomsList = useSelector((state) => state.roomsList.roomsList);
+
+  console.log("ROOM VALUE ==>", room);
+  console.log("ROOMS LIST ==>", roomsList);
   useEffect(() => {
     console.log("Passing here ==>", socket);
     socket.emit("home", "Salut les michtos");
   });
+
+  const handleChange = (e) => {
+    setRoom(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    socket.emit("CREATE_ROOM", room);
+  };
   return (
     <>
       <div className="container-fluid">
@@ -31,14 +45,15 @@ const Home = () => {
                 <h3>Rooms</h3>
               </div>
               <div className="p-3">
-                <form action="">
+                <form action="" onSubmit={handleSubmit}>
                   <div className="room-container__create">
                     <input
                       type="text"
-                      name="username"
-                      id="username"
+                      name="roomName"
+                      id="roomName"
                       className="form-control"
                       placeholder="Enter room name..."
+                      onChange={(e) => handleChange(e)}
                     />
                     <button className="btn btn-img btn-outline-arrow">
                       <img src={arrowRightWhite} alt="Validation button" />
@@ -47,7 +62,25 @@ const Home = () => {
                 </form>
               </div>
               <div className="container-fluid room-container__list">
-                <div className="row text-center room-item">
+                {roomsList &&
+                  roomsList.length > 0 &&
+                  roomsList.map((room) => (
+                    <div className="row text-center room-item">
+                      <div className="col-8">
+                        <span>{room}</span>
+                      </div>
+                      <div className="room-join col-2">
+                        <span>3 / 4</span>
+                      </div>
+                      <div className="col-2">
+                        <button className="btn btn-img">
+                          <img src={arrowRightWhite} alt="Validation button" />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+
+                {/* <div className="row text-center room-item">
                   <div className="col-8">
                     <span>Room name</span>
                   </div>
@@ -85,20 +118,7 @@ const Home = () => {
                       <img src={arrowRightWhite} alt="Validation button" />
                     </button>
                   </div>
-                </div>
-                <div className="row text-center room-item">
-                  <div className="col-8">
-                    <span>Room name</span>
-                  </div>
-                  <div className="room-join col-2">
-                    <span>3 / 4</span>
-                  </div>
-                  <div className="col-2">
-                    <button className="btn btn-img">
-                      <img src={arrowRightWhite} alt="Validation button" />
-                    </button>
-                  </div>
-                </div>
+                </div> */}
                 {/* <div className="room-item">
                   <div>
                     <span>Room name</span>
