@@ -20,16 +20,16 @@ const Game = () => {
         <div className="game__pan bg-success p-3">
           <div className="bg-warning game-table">
             <div className="game-table__line">
-              <div className="game-table__cell"></div>
-              <div className="game-table__cell"></div>
-              <div className="game-table__cell"></div>
-              <div className="game-table__cell"></div>
-              <div className="game-table__cell"></div>
-              <div className="game-table__cell"></div>
-              <div className="game-table__cell"></div>
-              <div className="game-table__cell"></div>
-              <div className="game-table__cell"></div>
-              <div className="game-table__cell"></div>
+              <div className="game-table__cell piece_one"></div>
+              <div className="game-table__cell piece_two"></div>
+              <div className="game-table__cell piece_three"></div>
+              <div className="game-table__cell piece_four"></div>
+              <div className="game-table__cell piece_five"></div>
+              <div className="game-table__cell piece_six"></div>
+              <div className="game-table__cell piece_seven"></div>
+              <div className="game-table__cell piece_one"></div>
+              <div className="game-table__cell piece_five"></div>
+              <div className="game-table__cell piece_three"></div>
             </div>
             <div className="game-table__line">
               <div className="game-table__cell"></div>

@@ -17,8 +17,10 @@ import { useSelector } from "react-redux";
  */
 const Home = () => {
   const socket = socketIOClient.connect("http://localhost:4000");
+  const history = useHistory();
   const [room, setRoom] = useState();
   const roomsList = useSelector((state) => state.roomsList.roomsList);
+  const currentUser = useSelector((state) => state.userData.userDatas);
 
   console.log("ROOM VALUE ==>", room);
   console.log("ROOMS LIST ==>", roomsList);
@@ -73,7 +75,14 @@ const Home = () => {
                         <span>3 / 4</span>
                       </div>
                       <div className="col-2">
-                        <button className="btn btn-img">
+                        <button
+                          onClick={() =>
+                            history.push(
+                              `/game#${room}[${currentUser.username}]`
+                            )
+                          }
+                          className="btn btn-img"
+                        >
                           <img src={arrowRightWhite} alt="Validation button" />
                         </button>
                       </div>

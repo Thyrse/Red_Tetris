@@ -52,6 +52,7 @@ const Login = () => {
         <div className="login p-3 shadow rounded text-center text-white">
           <div>
             <h3>Connect to play!</h3>
+            {window.location.hash && <h1>Salut les michtos</h1>}
           </div>
           <form onSubmit={handleSubmit}>
             <div className="m-3">
@@ -61,7 +62,7 @@ const Login = () => {
                 name="username"
                 id="username"
                 className="form-control"
-                placeholder="Tefourge, Scao..."
+                placeholder="Thyrse, Ziphlot..."
                 onChange={(e) => handleChange(e)}
               />
             </div>
