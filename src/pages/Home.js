@@ -36,7 +36,8 @@ const Home = ({ socket }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    socket.emit("CREATE_ROOM", room);
+    socket.emit("CREATE_ROOM", { name: room, owner: currentUser.socketID });
+    setRoom("");
   };
   return (
     <>
@@ -57,6 +58,7 @@ const Home = ({ socket }) => {
                       className="form-control"
                       placeholder="Enter room name..."
                       onChange={(e) => handleChange(e)}
+                      value={room || ""}
                     />
                     <button className="btn btn-img btn-outline-arrow">
                       <img src={arrowRightWhite} alt="Validation button" />
@@ -70,10 +72,12 @@ const Home = ({ socket }) => {
                   roomsList.map((room) => (
                     <div className="row text-center room-item">
                       <div className="col-8">
-                        <span>{room}</span>
+                        <span>{room.name}</span>
                       </div>
                       <div className="room-join col-2">
-                        <span>3 / 4</span>
+                        <span>
+                          {room.members.length}/{room.size}
+                        </span>
                       </div>
                       <div className="col-2">
                         <button

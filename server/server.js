@@ -19,12 +19,20 @@ app.use(cors());
 
 const port = 4000;
 const allUsers = [];
+const allRooms = [];
 const users = [];
 
-function allAssignement(id, nickname) {
-  const current = { id, nickname };
+function allAssignement(id, username) {
+  const current = { id, username, inGame: false };
 
   allUsers.push(current);
+  return current;
+}
+
+function allAssignementRooms(name, owner) {
+  const current = { name, owner, members: [], size: 5 };
+
+  allRooms.push(current);
   return current;
 }
 
@@ -62,7 +70,7 @@ io.on("connection", function (client) {
   client.on("NEW_MESSAGE", (data) => {
     // const user = getCurrentUser(client.id);
     // console.log("Result of current user ==>", user);
-    // console.log("Nickname sent to newMessage ==>", client.id);
+    // console.log("Username sent to newMessage ==>", client.id);
     console.log("New message emited ==>", data);
     io.emit("NEW_MESSAGE", {
       username: data.username,
@@ -74,9 +82,10 @@ io.on("connection", function (client) {
   client.on("CREATE_ROOM", (data) => {
     // const user = getCurrentUser(client.id);
     // console.log("Result of current user ==>", user);
-    // console.log("Nickname sent to newMessage ==>", client.id);
+    // console.log("Username sent to newMessage ==>", client.id);
     console.log("ROOM DATAS EMITTED ==>", data);
-    gameClass.addRoom(data);
+    allAssignementRooms(data.name, data.owner);
+    gameClass.addRoom(allRooms);
     console.log("ROOMS LIST FROM CLASS ==>", gameClass.rooms);
     io.emit("ADD_ROOM", gameClass.rooms);
   });
