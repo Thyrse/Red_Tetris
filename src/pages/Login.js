@@ -15,11 +15,13 @@ import { setUsersList } from "../redux/usersList/action";
  * as well as the components for display and editing,
  * drawers and modal
  */
-const Login = () => {
-  const socket = socketIOClient.connect("http://localhost:4000");
+const Login = ({ socket }) => {
+  // const socket = socketIOClient.connect("http://localhost:4000");
   const [username, setUsername] = useState();
   const history = useHistory();
   const dispatch = useDispatch();
+
+  console.log("Socket on Login ==>", socket);
 
   const handleChange = (e) => {
     setUsername(e.target.value);

@@ -15,13 +15,14 @@ import { useSelector } from "react-redux";
  * as well as the components for display and editing,
  * drawers and modal
  */
-const Home = () => {
-  const socket = socketIOClient.connect("http://localhost:4000");
+const Home = ({ socket }) => {
+  // const socket = socketIOClient.connect("http://localhost:4000");
   const history = useHistory();
   const [room, setRoom] = useState();
   const roomsList = useSelector((state) => state.roomsList.roomsList);
   const currentUser = useSelector((state) => state.userData.userDatas);
 
+  console.log("Socket on Home ==>", socket);
   console.log("ROOM VALUE ==>", room);
   console.log("ROOMS LIST ==>", roomsList);
   useEffect(() => {
@@ -144,7 +145,7 @@ const Home = () => {
               </div>
             </div>
           </div>
-          <Chat />
+          <Chat socket={socket} />
         </div>
       </div>
     </>

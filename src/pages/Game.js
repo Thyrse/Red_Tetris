@@ -13,7 +13,8 @@ import Chat from "../components/Chat";
  * as well as the components for display and editing,
  * drawers and modal
  */
-const Game = () => {
+const Game = ({ socket }) => {
+  console.log("Socket on Game ==>", socket);
   return (
     <>
       <div className="game">
@@ -282,7 +283,7 @@ const Game = () => {
             </div>
           </div>
         </div>
-        <Chat />
+        <Chat socket={socket} />
       </div>
     </>
   );
