@@ -29,11 +29,9 @@ class Game {
     return this._players.find((player) => player.id === playerId);
   }
 
-  toObject() {
-    return;
-  }
+  // toObject() {
+  //   return;
+  // }
 }
 
-// const instance = new Game();
-
-export default Game;
+module.exports = Game

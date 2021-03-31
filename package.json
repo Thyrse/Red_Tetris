@@ -23,8 +23,10 @@
     "bootstrap": "^4.4.1",
     "camelcase": "^6.2.0",
     "clsx": "^1.1.0",
+    "concurrently": "^6.0.0",
     "core-js": "^3.6.5",
     "date-fns": "^2.16.1",
+    "dotenv": "^8.2.0",
     "emoji-mart": "^3.0.0",
     "express": "^4.17.1",
     "formdata-polyfill": "^3.0.19",
@@ -72,13 +74,14 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "serve": "nodemon ./server/server.js",
+    "api": "nodemon ./server/server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "build:dev": "env-cmd -f .env.local npm run build",
     "build:prod": "env-cmd -f .env.production npm run build --nomap",
-    "build:preprod": "env-cmd -f .env.production.local npm run build"
+    "build:preprod": "env-cmd -f .env.production.local npm run build",
+    "dev": "concurrently --kill-others-on-fail \"npm run start\" \"npm run api\""
   },
   "eslintConfig": {
     "extends": "react-app"

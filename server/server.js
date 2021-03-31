@@ -1,55 +1,25 @@
 // import { NEW_MESSAGE, LOGIN } from "./socketActions";
-// import Game from "./class/Game";
-
-// 
 const express = require("express");
 const app = express();
+
+require('dotenv').config()
+const cors = require("cors");
 const http = require("http").Server(app);
+
 const io = require("socket.io")(http, {
   cors: {
     origin: "http://localhost:3000",
     methods: ["GET", "POST"],
   },
 });
-const cors = require("cors");
+
+const Game = require('./class/Game');
+
 app.use(cors());
 
-// const port = 8000;
 const port = 4000;
 const allUsers = [];
 const users = [];
-
-class Game {
-  constructor() {
-    this._rooms = [];
-    this._players = [];
-  }
-
-  get rooms() {
-    return this._rooms;
-  }
-  get players() {
-    return this._players;
-  }
-
-  addRoom(room) {
-    this._rooms.push(room);
-    return room;
-  }
-
-  addPlayer(player) {
-    this._players.push(player);
-    return player;
-  }
-
-  findRoom(roomName) {
-    return this._room.find((room) => roomName.name === roomName);
-  }
-
-  findPlayer(playerId) {
-    return this._players.find((player) => player.id === playerId);
-  }
-}
 
 function allAssignement(id, nickname) {
   const current = { id, nickname };
@@ -63,11 +33,8 @@ function getCurrentUser(id) {
 }
 
 // const index = require("./src/index");
-
 // app.use(index);
-
 // const io = socketIo(server);
-
 // io.listen(port)
 
 const yolo = new Game();
@@ -115,10 +82,8 @@ io.on("connection", (client) => {
   });
 });
 
-http.listen(port, () => {
-  console.log("LISTENING ON PORT ==>", port);
-});
+console.log(process.env.PORT + "     " + port)
 
-// server.listen(4000, function () {
-//   console.log("Server listening on port: 4000");
-// });
+http.listen(port, () => {
+  console.log("\x1b[33m" + "LISTENING ON PORT ==> " + port +"\x1b[0m");
+});
