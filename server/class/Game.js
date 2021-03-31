@@ -1,6 +1,6 @@
 class Game {
   constructor() {
-    this._room = [];
+    this._rooms = [];
     this._players = [];
   }
 
@@ -12,7 +12,7 @@ class Game {
   }
 
   addRoom(room) {
-    this._room.push(room);
+    this._rooms.push(room);
     return room;
   }
 
@@ -34,4 +34,4 @@ class Game {
   // }
 }
 
-module.exports = Game
+module.exports = Game;
