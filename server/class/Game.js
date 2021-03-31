@@ -1,7 +1,7 @@
 class Game {
   constructor() {
     this._rooms = [];
-    this._players = [];
+    this._players = null;
   }
 
   get rooms() {
@@ -17,7 +17,8 @@ class Game {
   }
 
   addPlayer(player) {
-    this._players.push(player);
+    console.log("PLAYER PASSED TO CLASS ==>", player);
+    this._players = player;
     return player;
   }
 

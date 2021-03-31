@@ -2,7 +2,7 @@
 const express = require("express");
 const app = express();
 
-require('dotenv').config()
+require("dotenv").config();
 const cors = require("cors");
 const http = require("http").Server(app);
 
@@ -13,7 +13,7 @@ const io = require("socket.io")(http, {
   },
 });
 
-const Game = require('./class/Game');
+const Game = require("./class/Game");
 
 app.use(cors());
 
@@ -37,7 +37,7 @@ function getCurrentUser(id) {
 // const io = socketIo(server);
 // io.listen(port)
 
-const yolo = new Game();
+const gameClass = new Game();
 
 io.on("connection", function (client) {
   console.log("CONNECTED TO SOCKETIO ==>", client.id);
@@ -53,9 +53,9 @@ io.on("connection", function (client) {
     console.log("Username received for login ==>", current_user);
     const current = allAssignement(client.id, current_user);
     client.join(current.current_user);
-    console.log(allUsers);
-    yolo.addPlayer(current_user);
-    io.emit("NEW_USER", yolo.players);
+    console.log("ALL USERS ==>", allUsers);
+    gameClass.addPlayer(allUsers);
+    io.emit("NEW_USER", gameClass.players);
   });
 
   // Listen for chatMessage
@@ -76,14 +76,14 @@ io.on("connection", function (client) {
     // console.log("Result of current user ==>", user);
     // console.log("Nickname sent to newMessage ==>", client.id);
     console.log("ROOM DATAS EMITTED ==>", data);
-    yolo.addRoom(data);
-    console.log("ROOMS LIST FROM CLASS ==>", yolo.rooms);
-    io.emit("ADD_ROOM", yolo.rooms);
+    gameClass.addRoom(data);
+    console.log("ROOMS LIST FROM CLASS ==>", gameClass.rooms);
+    io.emit("ADD_ROOM", gameClass.rooms);
   });
 });
 
-console.log(process.env.PORT + "     " + port)
+console.log(process.env.PORT + "     " + port);
 
 http.listen(port, () => {
-  console.log("\x1b[33m" + "LISTENING ON PORT ==> " + port +"\x1b[0m");
+  console.log("\x1b[33m" + "LISTENING ON PORT ==> " + port + "\x1b[0m");
 });
