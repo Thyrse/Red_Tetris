@@ -2,7 +2,6 @@
 const express = require("express");
 const app = express();
 
-require('dotenv').config()
 const cors = require("cors");
 const http = require("http").Server(app);
 
@@ -81,8 +80,6 @@ io.on("connection", function (client) {
     io.emit("ADD_ROOM", yolo.rooms);
   });
 });
-
-console.log(process.env.PORT + "     " + port)
 
 http.listen(port, () => {
   console.log("\x1b[33m" + "LISTENING ON PORT ==> " + port +"\x1b[0m");
