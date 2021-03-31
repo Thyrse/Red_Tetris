@@ -37,9 +37,19 @@ const App = ({ message }) => {
     <>
       <Layout>
         <Switch>
-          <Route exact path="/" render={() => <Login />}></Route>
-          <PrivateRoute path="/home" render={() => <Home />}></PrivateRoute>
-          <PrivateRoute path="/game" render={() => <Game />}></PrivateRoute>
+          <Route
+            exact
+            path="/"
+            render={() => <Login socket={socket} />}
+          ></Route>
+          <PrivateRoute
+            path="/home"
+            render={() => <Home socket={socket} />}
+          ></PrivateRoute>
+          <PrivateRoute
+            path="/game"
+            render={() => <Game socket={socket} />}
+          ></PrivateRoute>
         </Switch>
       </Layout>
     </>

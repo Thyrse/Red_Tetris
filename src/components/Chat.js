@@ -14,13 +14,14 @@ import { useSelector } from "react-redux";
  * as well as the components for display and editing,
  * drawers and modal
  */
-const Chat = () => {
+const Chat = ({ socket }) => {
   const [message, setMessage] = useState();
   const [chatContent, setChatContent] = useState([]);
-  const socket = socketIOClient.connect("http://localhost:4000");
+  // const socket = socketIOClient.connect("http://localhost:4000");
   const usersList = useSelector((state) => state.listUsers.usersList);
   const currentUser = useSelector((state) => state.userData.userDatas);
 
+  console.log("Socket on Chat ==>", socket);
   console.log("VALUE OF currentUser ==>", currentUser);
 
   const outputMessage = (pseudo, message) => {

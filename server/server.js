@@ -39,8 +39,8 @@ function getCurrentUser(id) {
 
 const yolo = new Game();
 
-io.on("connection", (client) => {
-  console.log("CONNECTED TO SOCKETIO");
+io.on("connection", function (client) {
+  console.log("CONNECTED TO SOCKETIO ==>", client.id);
   // const player = new Player(client);
   // client.send({rooms: roomList });
   // here you can start emitting events to the client
