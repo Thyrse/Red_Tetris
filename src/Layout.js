@@ -3,9 +3,10 @@
 import React, { useState, useEffect, useContext, useCallback } from "react";
 // REACT ROUTER
 import { Link, useHistory } from "react-router-dom";
-import logo from './img/logo_test.png'
-import disconnect from './img/power_button.png'
-
+import logo from "./img/logo_test.png";
+import disconnect from "./img/power_button.png";
+import { useSelector, useDispatch } from "react-redux";
+import { setDisconnectUser } from "./redux/auth/actions";
 
 /**
  * Component that displays the patient page,
@@ -14,20 +15,30 @@ import disconnect from './img/power_button.png'
  * drawers and modal
  */
 export const Layout = (props) => {
+  const currentUser = useSelector((state) => state.userData.userDatas);
+  const dispatch = useDispatch();
+  const handleDisconnect = () => {
+    dispatch(setDisconnectUser());
+  };
+
   return (
     <>
-        <header className="header p-3 shadow-top__light">
-            <div className="header__username">
-                <span>Thyrse</span>
-            </div>
-            <div className="header__logo">
-                <img alt='Logo Red Tetris'src={logo} />
-            </div>
-            <div className="header__disconnect">
-                <img alt='Deconnexion'src={disconnect} />
-            </div>
-        </header>
-        {props.children}
+      <header className="header p-3 shadow-top__light">
+        <div className="header__username">
+          <span>{currentUser && currentUser.username}</span>
+        </div>
+        <div className="header__logo">
+          <img alt="Logo Red Tetris" src={logo} />
+        </div>
+        <div className="header__disconnect">
+          <img
+            alt="Deconnexion"
+            src={disconnect}
+            onClick={(e) => handleDisconnect(e)}
+          />
+        </div>
+      </header>
+      {props.children}
     </>
   );
 };

@@ -1,4 +1,4 @@
-import { setUserData, setUserDataError } from "./actions";
+import { setUserData, setDisconnectUser, setUserDataError } from "./actions";
 
 // THUNK
 

@@ -15,6 +15,10 @@ export const userSlice = createSlice({
       // nom de l'action à utiliser pour executer le reducer/slice mais aussi nom qui s'ajoute dans au premier nom des redux dev tools exemple (authUser/setUserData)
       state.userDatas = payload;
     },
+    setDisconnectUser: (state) => {
+      // nom de l'action à utiliser pour executer le reducer/slice mais aussi nom qui s'ajoute dans au premier nom des redux dev tools exemple (authUser/setUserData)
+      state.userDatas = null;
+    },
     setUserDataError: (state, { payload }) => {
       // nom de l'action à utiliser pour executer le reducer/slice mais aussi nom qui s'ajoute dans au premier nom des redux dev tools exemple (authUser/setUserDataError)
       state.error = payload;
