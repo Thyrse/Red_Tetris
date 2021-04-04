@@ -33,6 +33,9 @@
         border-left: 3px solid $whiter;
         border-right: 3px solid $whiter;
       }
+      .room-button {
+        word-break: break-all;
+      }
     }
   }
 }

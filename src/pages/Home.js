@@ -39,6 +39,11 @@ const Home = ({ socket }) => {
     socket.emit("CREATE_ROOM", { name: room, owner: currentUser.socketID });
     setRoom("");
   };
+
+  const handleJoin = (datas) => {
+    socket.emit("JOIN_ROOM", { datas: datas, currentUser: currentUser });
+    history.push(`/game#${datas.name}[${currentUser.username}]`);
+  };
   return (
     <>
       <div className="container-fluid">
@@ -79,73 +84,23 @@ const Home = ({ socket }) => {
                           {room.members.length}/{room.size}
                         </span>
                       </div>
-                      <div className="col-2">
-                        <button
-                          onClick={() =>
-                            history.push(
-                              `/game#${room.name}[${currentUser.username}]`
-                            )
-                          }
-                          className="btn btn-img"
-                        >
-                          <img src={arrowRightWhite} alt="Validation button" />
-                        </button>
+                      <div className="room-button col-2">
+                        {room.members.length >= room.size ? (
+                          <span>UNAVAILABLE</span>
+                        ) : (
+                          <button
+                            onClick={() => handleJoin(room)}
+                            className="btn btn-img"
+                          >
+                            <img
+                              src={arrowRightWhite}
+                              alt="Validation button"
+                            />
+                          </button>
+                        )}
                       </div>
                     </div>
                   ))}
-
-                {/* <div className="row text-center room-item">
-                  <div className="col-8">
-                    <span>Room name</span>
-                  </div>
-                  <div className="room-join col-2">
-                    <span>3 / 4</span>
-                  </div>
-                  <div className="col-2">
-                    <button className="btn btn-img">
-                      <img src={arrowRightWhite} alt="Validation button" />
-                    </button>
-                  </div>
-                </div>
-                <div className="row text-center room-item">
-                  <div className="col-8">
-                    <span>Room name</span>
-                  </div>
-                  <div className="room-join col-2">
-                    <span>3 / 4</span>
-                  </div>
-                  <div className="col-2">
-                    <button className="btn btn-img">
-                      <img src={arrowRightWhite} alt="Validation button" />
-                    </button>
-                  </div>
-                </div>
-                <div className="row text-center room-item">
-                  <div className="col-8">
-                    <span>Room name</span>
-                  </div>
-                  <div className="room-join col-2">
-                    <span>3 / 4</span>
-                  </div>
-                  <div className="col-2">
-                    <button className="btn btn-img">
-                      <img src={arrowRightWhite} alt="Validation button" />
-                    </button>
-                  </div>
-                </div> */}
-                {/* <div className="room-item">
-                  <div>
-                    <span>Room name</span>
-                  </div>
-                  <div className="room-join">
-                    <span>3 / 4</span>
-                  </div>
-                  <div>
-                    <button className="btn btn-img btn-outline-arrow">
-                      <img src={arrowRight} alt="Validation button" />
-                    </button>
-                  </div>
-                </div> */}
               </div>
             </div>
           </div>

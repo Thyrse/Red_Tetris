@@ -22,20 +22,14 @@ const App = ({ message }) => {
   // const snackbar = useSnackbar();
   const dispatch = useDispatch();
   // const [id, setId] = useState();
-
-  socket.on("NEW_USER", function (data) {
-    console.log("DATA RECEIVED IN APP.JS ==>", data);
-    dispatch(setUsersList(data));
-  });
-
-  socket.on("ADD_ROOM", function (data) {
-    console.log("DATA ROOMS RECEIVED IN APP.JS ==>", data);
-    dispatch(setRooms(data));
-  });
-
   socket.on("REFRESH_USERSLIST", function (data) {
     console.log("DATA REFRESH ==>", data);
     dispatch(setUsersList(data));
+  });
+
+  socket.on("REFRESH_ROOMS", function (data) {
+    console.log("DATA REFRESH ==>", data);
+    dispatch(setRooms(data));
   });
 
   return (

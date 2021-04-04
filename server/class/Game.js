@@ -11,12 +11,12 @@ class Game {
     return this._players;
   }
 
-  addRoom(room) {
+  updateRooms(room) {
     this._rooms = room;
     return room;
   }
 
-  addPlayer(player) {
+  updatePlayers(player) {
     this._players = player;
     return player;
   }

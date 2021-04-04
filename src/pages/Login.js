@@ -41,7 +41,7 @@ const Login = ({ socket }) => {
         ownedRooms: [],
       })
     );
-    socket.emit("NEW_USER", username.toUpperCase());
+    socket.emit("REFRESH_USERSLIST", username.toUpperCase());
     // dispatch(
     //   setUsersList({ username: username.toUpperCase(), socketID: socket.id })
     // );

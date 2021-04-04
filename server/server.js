@@ -5,6 +5,7 @@ const app = express();
 require("dotenv").config();
 const cors = require("cors");
 const http = require("http").Server(app);
+const { v1: uuidv1 } = require("uuid");
 
 const io = require("socket.io")(http, {
   cors: {
@@ -30,7 +31,7 @@ function allAssignement(id, username) {
 }
 
 function allAssignementRooms(name, owner) {
-  const current = { name, owner, members: [], size: 5 };
+  const current = { id: uuidv1(), name, owner, members: [], size: 5 };
 
   allRooms.push(current);
   return current;
@@ -47,6 +48,15 @@ function userLeave(id) {
     return allUsers.splice(index, 1)[0];
   }
   console.log("AllUsers ==>", allUsers);
+}
+
+function userJoinRoom(roomID, user) {
+  const index = allRooms.findIndex((user) => user.id === roomID);
+  const userToJoin = { id: user.socketID, username: user.username };
+  if (index !== -1) {
+    allRooms[index].members.push(userToJoin);
+    return allRooms;
+  }
 }
 
 // const index = require("./src/index");
@@ -72,8 +82,8 @@ io.on("connection", function (client) {
     const current = allAssignement(client.id, current_user);
     client.join(current.current_user);
     // console.log("ALL USERS ==>", allUsers);
-    gameClass.addPlayer(allUsers);
-    io.emit("NEW_USER", gameClass.players);
+    gameClass.updatePlayers(allUsers);
+    io.emit("REFRESH_USERSLIST", gameClass.players);
   });
 
   // Listen for new message in chat
@@ -87,14 +97,16 @@ io.on("connection", function (client) {
 
   // Listen for creating room
   client.on("CREATE_ROOM", (data) => {
-    // const user = getCurrentUser(client.id);
-    // console.log("Result of current user ==>", user);
-    // console.log("Username sent to newMessage ==>", client.id);
-    // console.log("ROOM DATAS EMITTED ==>", data);
     allAssignementRooms(data.name, data.owner);
-    gameClass.addRoom(allRooms);
-    // console.log("ROOMS LIST FROM CLASS ==>", gameClass.rooms);
-    io.emit("ADD_ROOM", gameClass.rooms);
+    gameClass.updateRooms(allRooms);
+    io.emit("REFRESH_ROOMS", gameClass.rooms);
+  });
+
+  // Listen for joining room
+  client.on("JOIN_ROOM", (data) => {
+    userJoinRoom(data.datas.id, data.currentUser);
+    gameClass.updateRooms(allRooms);
+    io.emit("REFRESH_ROOMS", gameClass.rooms);
   });
 
   // Listen for manual disconnect
@@ -102,13 +114,15 @@ io.on("connection", function (client) {
     console.log("DISCONNECT DATAS EMITTED ==>", data);
     console.log("DISCONNECT ALLUSERS before ==>", allUsers);
     userLeave(data);
-    io.emit("REFRESH_USERSLIST", allUsers);
+    gameClass.updatePlayers(allUsers);
+    io.emit("REFRESH_USERSLIST", gameClass.players);
   });
   // Listen for disconnect on refresh (or any other case that is triggered automatically by socket.io)
   client.on("disconnect", () => {
     console.log("AN USER HAS BEEN DISCONNECTED ==>", client.id);
     userLeave(client.id);
-    io.emit("REFRESH_USERSLIST", allUsers);
+    gameClass.updatePlayers(allUsers);
+    io.emit("REFRESH_USERSLIST", gameClass.players);
   });
 });
 
