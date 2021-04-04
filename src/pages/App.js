@@ -33,9 +33,14 @@ const App = ({ message }) => {
     dispatch(setRooms(data));
   });
 
+  socket.on("REFRESH_USERSLIST", function (data) {
+    console.log("DATA REFRESH ==>", data);
+    dispatch(setUsersList(data));
+  });
+
   return (
     <>
-      <Layout>
+      <Layout socket={socket}>
         <Switch>
           <Route
             exact

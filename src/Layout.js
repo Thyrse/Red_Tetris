@@ -17,9 +17,14 @@ import { setDisconnectUser } from "./redux/auth/actions";
 export const Layout = (props) => {
   const currentUser = useSelector((state) => state.userData.userDatas);
   const dispatch = useDispatch();
+  const history = useHistory();
   const handleDisconnect = () => {
+    props.socket.emit("DISCONNECT", currentUser?.socketID);
     dispatch(setDisconnectUser());
+    history.push("/");
   };
+  const currentSocket = props.socket;
+  console.log("SOCKET IN LAYOUT ==>", currentSocket);
 
   return (
     <>
@@ -31,11 +36,13 @@ export const Layout = (props) => {
           <img alt="Logo Red Tetris" src={logo} />
         </div>
         <div className="header__disconnect">
-          <img
-            alt="Deconnexion"
-            src={disconnect}
-            onClick={(e) => handleDisconnect(e)}
-          />
+          {currentUser && (
+            <img
+              alt="Deconnexion"
+              src={disconnect}
+              onClick={(e) => handleDisconnect(e)}
+            />
+          )}
         </div>
       </header>
       {props.children}

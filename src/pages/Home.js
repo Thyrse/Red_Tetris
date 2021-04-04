@@ -83,7 +83,7 @@ const Home = ({ socket }) => {
                         <button
                           onClick={() =>
                             history.push(
-                              `/game#${room}[${currentUser.username}]`
+                              `/game#${room.name}[${currentUser.username}]`
                             )
                           }
                           className="btn btn-img"

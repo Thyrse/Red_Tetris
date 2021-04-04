@@ -40,6 +40,15 @@ function getCurrentUser(id) {
   return users.find((user) => user.id === id);
 }
 
+function userLeave(id) {
+  const index = allUsers.findIndex((user) => user.id === id);
+
+  if (index !== -1) {
+    return allUsers.splice(index, 1)[0];
+  }
+  console.log("AllUsers ==>", allUsers);
+}
+
 // const index = require("./src/index");
 // app.use(index);
 // const io = socketIo(server);
@@ -52,42 +61,54 @@ io.on("connection", function (client) {
   // const player = new Player(client);
   // client.send({rooms: roomList });
   // here you can start emitting events to the client
-  client.on("home", (data) => {
-    console.log("Username received for home ==>", data);
-    console.log("All current username ==>", allUsers);
-  });
+  // client.on("home", (data) => {
+  //   console.log("Username received for home ==>", data);
+  //   console.log("All current username ==>", allUsers);
+  // });
 
+  // Listen for user login
   client.on("LOGIN", (current_user) => {
-    console.log("Username received for login ==>", current_user);
+    // console.log("Username received for login ==>", current_user);
     const current = allAssignement(client.id, current_user);
     client.join(current.current_user);
-    console.log("ALL USERS ==>", allUsers);
+    // console.log("ALL USERS ==>", allUsers);
     gameClass.addPlayer(allUsers);
     io.emit("NEW_USER", gameClass.players);
   });
 
-  // Listen for chatMessage
+  // Listen for new message in chat
   client.on("NEW_MESSAGE", (data) => {
-    // const user = getCurrentUser(client.id);
-    // console.log("Result of current user ==>", user);
-    // console.log("Username sent to newMessage ==>", client.id);
-    console.log("New message emited ==>", data);
+    // console.log("New message emited ==>", data);
     io.emit("NEW_MESSAGE", {
       username: data.username,
       message: data.message,
     });
   });
 
-  // Listen for chatMessage
+  // Listen for creating room
   client.on("CREATE_ROOM", (data) => {
     // const user = getCurrentUser(client.id);
     // console.log("Result of current user ==>", user);
     // console.log("Username sent to newMessage ==>", client.id);
-    console.log("ROOM DATAS EMITTED ==>", data);
+    // console.log("ROOM DATAS EMITTED ==>", data);
     allAssignementRooms(data.name, data.owner);
     gameClass.addRoom(allRooms);
-    console.log("ROOMS LIST FROM CLASS ==>", gameClass.rooms);
+    // console.log("ROOMS LIST FROM CLASS ==>", gameClass.rooms);
     io.emit("ADD_ROOM", gameClass.rooms);
+  });
+
+  // Listen for manual disconnect
+  client.on("DISCONNECT", (data) => {
+    console.log("DISCONNECT DATAS EMITTED ==>", data);
+    console.log("DISCONNECT ALLUSERS before ==>", allUsers);
+    userLeave(data);
+    io.emit("REFRESH_USERSLIST", allUsers);
+  });
+  // Listen for disconnect on refresh (or any other case that is triggered automatically by socket.io)
+  client.on("disconnect", () => {
+    console.log("AN USER HAS BEEN DISCONNECTED ==>", client.id);
+    userLeave(client.id);
+    io.emit("REFRESH_USERSLIST", allUsers);
   });
 });
 
