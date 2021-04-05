@@ -14,7 +14,11 @@ const Grid = ({ grid, tetromino }) => {
                     (line, y) => {
                         return line.map(
                             (col, x) => {
-                                return <span key={x + "_" + y} className={(x === 0 ? "first" : "")}>
+
+                                return <span key={x + "_" + y} className={
+                                    ((x === 0) ? "first" : "") + " " + 
+                                    ((tetromino !== null && tetromino.mergeData.indexOf(y + "_" + x) !== -1) ? 'color' : "")
+                                }>
                                     { 
                                     (tetromino !== null) ?
                                         (tetromino.mergeData.indexOf(y + "_" + x) !== -1) ? 

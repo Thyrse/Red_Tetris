@@ -16,12 +16,21 @@ class Board extends React.Component{
         this.initGame()
 
         window.addEventListener("keyup", (e) => {
-            console.log(e.key) 
+            // console.log(e.key) 
             // 37 left - 39 right - 40 down
+            // if(e.key === 'y'){
+            //     alert('The sky is your starting point!')
+            // }
+            // else if (e.key === 'n') {
+            //     alert('The sky is your limit👀')
+            // }
             switch (e.key) {
-                // case e.key[ArrowLeft] === "ArrowLeft" : this.pieceMoveRight()
-                    // break;
-                    // https://www.youtube.com/watch?v=OclMGj9OefM     3:16
+                case 'ArrowLeft' : this.pieceMovePosX(-1)
+                    break;
+                case 'ArrowRight' : this.pieceMovePosX(1)
+                    break;
+                case 'ArrowDown' : this.pieceMovePosDown(1)
+                    break;
             }
         })
 	}
@@ -58,48 +67,82 @@ class Board extends React.Component{
         tetromino.grid = Tetromino[0];
         tetromino.mergeData = []
 
-       
-
         // if (tetromino.grid[0][0] === 0) { 
 		// 	tetromino.posY--
 		// }
 
-        let result = this.tetrominoIsPosition(tetromino);
+        let resultCordinate = this.tetrominoIsPosition(tetromino);
 
-        if (result) {
+        if (resultCordinate !== false) {
+            tetromino.mergeData = resultCordinate;
+
             this.setState({tetromino})
         }
         // console.log(tetromino);
     }
 
 	tetrominoIsPosition = (tetromino) => {
+        let coordinate = [];
+
         for (let y = 0; y < tetromino.grid.length; y++) {
             // console.log("YYY", y)
             for (let x = 0; x < tetromino.grid[0].length; x++) {
                 // console.log("XXX", x)
                 if (tetromino.grid[y][x] > 0) {
                     // console.log("CHILE" + grid[y])
-                    // console.log(grid[y + tetromino.posY][x + tetromino.posX])
+                    // console.log(this.state.grid[y + tetromino.posY][x + tetromino.posX])
+                    if (this.state.grid[y + tetromino.posY] === undefined) {
+                        return false
+                    }
+                    if (this.state.grid[y + tetromino.posY][x + tetromino.posX] === undefined) {
+                        return false
+                    }
                     if (this.state.grid[y + tetromino.posY][x + tetromino.posX] > 0) {
                         return false
                     }
-                    tetromino.mergeData.push(y + "_" + x);
+                    coordinate.push((y + tetromino.posY) + "_" + (x + tetromino.posX));
                 }
             }
         }
-        return true;
+        return coordinate;
     }
 
-    pieceMoveRight = () => {
+    pieceMovePosX = (moveX) => {
         let tetromino = { ...this.state.tetromino }
 
         if (tetromino === null) {
             return false
         }
 
-        console.log("caca");
+        tetromino.posX += moveX;
+        
+        let resultCordinate = this.tetrominoIsPosition(tetromino)
 
-        console.log(tetromino);
+        if (resultCordinate !== false) {
+            tetromino.mergeData = resultCordinate;
+            this.setState({ tetromino })
+            console.log("---> ",resultCordinate)
+        }
+        // console.log(tetromino);
+    }
+
+    pieceMovePosDown = (moveDown) => {
+        let tetromino = { ...this.state.tetromino }
+
+        if (tetromino === null) {
+            return false
+        }
+
+        tetromino.posY += moveDown;
+        
+        let resultCordinate = this.tetrominoIsPosition(tetromino)
+
+        if (resultCordinate !== false) {
+            tetromino.mergeData = resultCordinate;
+            this.setState({ tetromino })
+            console.log("---> ",resultCordinate)
+        }
+        // console.log(tetromino);
     }
 
 	render() { 
