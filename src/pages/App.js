@@ -14,6 +14,8 @@ import { AuthContext } from "../contexts";
 import { setUsersList } from "../redux/usersList/action";
 import { setRooms } from "../redux/rooms/action";
 
+import Board from "../pages/Board"
+
 const App = ({ message }) => {
   // const location = useLocation();
   const authContext = useContext(AuthContext);
@@ -37,6 +39,7 @@ const App = ({ message }) => {
     <>
       <Layout>
         <Switch>
+          <Route exact path="/board" render={() => <Board />}/>
           <Route
             exact
             path="/"

@@ -49,8 +49,6 @@ const Chat = ({ socket }) => {
 
   console.log("Message state ==>", message);
   useEffect(() => {
-    console.log("Passing here ==>", socket);
-    // socket.emit("home", "Salut les michtos");
     socket.on("NEW_MESSAGE", function (data) {
       outputMessage(data.username, data.message);
     });
@@ -84,7 +82,7 @@ const Chat = ({ socket }) => {
                 <ul>
                   {usersList &&
                     usersList.length > 0 &&
-                    usersList.map((user) => <li>{user}</li>)}
+                    usersList.map((user) => <li>{user.username}</li>)}
                 </ul>
               </div>
             </div>

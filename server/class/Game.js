@@ -1,7 +1,7 @@
 class Game {
   constructor() {
     this._rooms = [];
-    this._players = [];
+    this._players = null;
   }
 
   get rooms() {
@@ -12,12 +12,12 @@ class Game {
   }
 
   addRoom(room) {
-    this._rooms.push(room);
+    this._rooms = room;
     return room;
   }
 
   addPlayer(player) {
-    this._players.push(player);
+    this._players = player;
     return player;
   }
 
@@ -28,10 +28,6 @@ class Game {
   findPlayer(playerId) {
     return this._players.find((player) => player.id === playerId);
   }
-
-  // toObject() {
-  //   return;
-  // }
 }
 
 module.exports = Game;

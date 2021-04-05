@@ -12,18 +12,26 @@ const io = require("socket.io")(http, {
   },
 });
 
-const Game = require('./class/Game');
+const Game = require("./class/Game");
 
 app.use(cors());
 
 const port = 4000;
 const allUsers = [];
+const allRooms = [];
 const users = [];
 
-function allAssignement(id, nickname) {
-  const current = { id, nickname };
+function allAssignement(id, username) {
+  const current = { id, username, inGame: false };
 
   allUsers.push(current);
+  return current;
+}
+
+function allAssignementRooms(name, owner) {
+  const current = { name, owner, members: [], size: 5 };
+
+  allRooms.push(current);
   return current;
 }
 
@@ -36,7 +44,7 @@ function getCurrentUser(id) {
 // const io = socketIo(server);
 // io.listen(port)
 
-const yolo = new Game();
+const gameClass = new Game();
 
 io.on("connection", function (client) {
   console.log("CONNECTED TO SOCKETIO ==>", client.id);
@@ -52,16 +60,16 @@ io.on("connection", function (client) {
     console.log("Username received for login ==>", current_user);
     const current = allAssignement(client.id, current_user);
     client.join(current.current_user);
-    console.log(allUsers);
-    yolo.addPlayer(current_user);
-    io.emit("NEW_USER", yolo.players);
+    console.log("ALL USERS ==>", allUsers);
+    gameClass.addPlayer(allUsers);
+    io.emit("NEW_USER", gameClass.players);
   });
 
   // Listen for chatMessage
   client.on("NEW_MESSAGE", (data) => {
     // const user = getCurrentUser(client.id);
     // console.log("Result of current user ==>", user);
-    // console.log("Nickname sent to newMessage ==>", client.id);
+    // console.log("Username sent to newMessage ==>", client.id);
     console.log("New message emited ==>", data);
     io.emit("NEW_MESSAGE", {
       username: data.username,
@@ -73,14 +81,15 @@ io.on("connection", function (client) {
   client.on("CREATE_ROOM", (data) => {
     // const user = getCurrentUser(client.id);
     // console.log("Result of current user ==>", user);
-    // console.log("Nickname sent to newMessage ==>", client.id);
+    // console.log("Username sent to newMessage ==>", client.id);
     console.log("ROOM DATAS EMITTED ==>", data);
-    yolo.addRoom(data);
-    console.log("ROOMS LIST FROM CLASS ==>", yolo.rooms);
-    io.emit("ADD_ROOM", yolo.rooms);
+    allAssignementRooms(data.name, data.owner);
+    gameClass.addRoom(allRooms);
+    console.log("ROOMS LIST FROM CLASS ==>", gameClass.rooms);
+    io.emit("ADD_ROOM", gameClass.rooms);
   });
 });
 
 http.listen(port, () => {
-  console.log("\x1b[33m" + "LISTENING ON PORT ==> " + port +"\x1b[0m");
+  console.log("\x1b[33m" + "LISTENING ON PORT ==> " + port + "\x1b[0m");
 });

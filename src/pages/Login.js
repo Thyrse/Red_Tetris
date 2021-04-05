@@ -34,7 +34,12 @@ const Login = ({ socket }) => {
       socketID: socket.id,
     });
     dispatch(
-      setUserData({ username: username.toUpperCase(), socketID: socket.id })
+      setUserData({
+        username: username.toUpperCase(),
+        socketID: socket.id,
+        inGame: false,
+        ownedRooms: [],
+      })
     );
     socket.emit("NEW_USER", username.toUpperCase());
     // dispatch(
