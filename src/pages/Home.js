@@ -27,7 +27,7 @@ const Home = ({ socket }) => {
   console.log("ROOMS LIST ==>", roomsList);
   useEffect(() => {
     console.log("Passing here ==>", socket);
-    socket.emit("home", "Salut les michtos");
+    socket.emit("JOIN_LOBBY");
   });
 
   const handleChange = (e) => {

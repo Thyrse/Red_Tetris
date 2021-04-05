@@ -39,6 +39,7 @@ const Login = ({ socket }) => {
         socketID: socket.id,
         inGame: false,
         ownedRooms: [],
+        room: "Lobby",
       })
     );
     socket.emit("REFRESH_USERSLIST", username.toUpperCase());

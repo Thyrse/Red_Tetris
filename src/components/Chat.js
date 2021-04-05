@@ -37,9 +37,11 @@ const Chat = ({ socket }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("PASSING SUBMIT NEW MESSAGE");
     socket.emit("NEW_MESSAGE", {
       message: message,
       username: currentUser.username,
+      room: currentUser.room,
     });
   };
 

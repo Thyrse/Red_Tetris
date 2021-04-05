@@ -24,7 +24,7 @@ const allRooms = [];
 const users = [];
 
 function allAssignement(id, username) {
-  const current = { id, username, inGame: false };
+  const current = { id, username, inGame: false, room: "Lobby" };
 
   allUsers.push(current);
   return current;
@@ -80,7 +80,8 @@ io.on("connection", function (client) {
   client.on("LOGIN", (current_user) => {
     // console.log("Username received for login ==>", current_user);
     const current = allAssignement(client.id, current_user);
-    client.join(current.current_user);
+    // client.join(current.current_user);
+    client.join("Lobby");
     // console.log("ALL USERS ==>", allUsers);
     gameClass.updatePlayers(allUsers);
     io.emit("REFRESH_USERSLIST", gameClass.players);
@@ -88,10 +89,11 @@ io.on("connection", function (client) {
 
   // Listen for new message in chat
   client.on("NEW_MESSAGE", (data) => {
-    // console.log("New message emited ==>", data);
-    io.emit("NEW_MESSAGE", {
+    console.log("New message emited ==>", data);
+    io.to(data.room).emit("NEW_MESSAGE", {
       username: data.username,
       message: data.message,
+      room: data.room,
     });
   });
 
@@ -104,9 +106,18 @@ io.on("connection", function (client) {
 
   // Listen for joining room
   client.on("JOIN_ROOM", (data) => {
+    console.log("ROOM JOINED ==>", data.datas.id);
+    client.join(data.datas.id);
     userJoinRoom(data.datas.id, data.currentUser);
     gameClass.updateRooms(allRooms);
     io.emit("REFRESH_ROOMS", gameClass.rooms);
+    io.emit("REFRESH_USER", data.datas.id);
+  });
+
+  // Listen for joining room
+  client.on("JOIN_LOBBY", () => {
+    console.log("JOINING LOBBY...");
+    client.join("Lobby");
   });
 
   // Listen for manual disconnect
