@@ -28,7 +28,7 @@ const Home = ({ socket }) => {
   useEffect(() => {
     console.log("Passing here ==>", socket);
     socket.emit("JOIN_LOBBY");
-  });
+  }, []);
 
   const handleChange = (e) => {
     setRoom(e.target.value);

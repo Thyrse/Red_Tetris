@@ -116,8 +116,10 @@ io.on("connection", function (client) {
 
   // Listen for joining room
   client.on("JOIN_LOBBY", () => {
+    const yolo = "Lobby";
     console.log("JOINING LOBBY...");
     client.join("Lobby");
+    client.emit("REFRESH_USER", yolo);
   });
 
   // Listen for manual disconnect

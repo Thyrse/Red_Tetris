@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import MomentUtils from "@date-io/moment";
@@ -25,21 +25,21 @@ const App = ({ message }) => {
   // const snackbar = useSnackbar();
   const dispatch = useDispatch();
   // const [id, setId] = useState();
-
   socket.on("REFRESH_USER", function (data) {
     console.log("REFRESH DATA RECEIVED ==>", data);
     const updateRoom = { ...currentUser };
     updateRoom.room = data;
     dispatch(setUserData(updateRoom));
   });
+  useEffect(() => {
+    socket.on("REFRESH_USERSLIST", function (data) {
+      dispatch(setUsersList(data));
+    });
 
-  socket.on("REFRESH_USERSLIST", function (data) {
-    dispatch(setUsersList(data));
-  });
-
-  socket.on("REFRESH_ROOMS", function (data) {
-    dispatch(setRooms(data));
-  });
+    socket.on("REFRESH_ROOMS", function (data) {
+      dispatch(setRooms(data));
+    });
+  }, []);
 
   return (
     <>
