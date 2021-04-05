@@ -11,7 +11,7 @@ class Board extends React.Component{
 		tetromino: null,
 	}
 
-	// preview next piece
+	// preview next piece jaja
 	componentDidMount() { 
         this.initGame()
 
