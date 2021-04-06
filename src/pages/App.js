@@ -20,18 +20,23 @@ const App = ({ message }) => {
   // const [currentUser, setCurrentUser] = useState();
   const currentUser = useSelector((state) => state.userData.userDatas);
   const authContext = useContext(AuthContext);
-  const socket = socketIOClient.connect("http://localhost:4000");
+  const [socket, setSocket] = useState(
+    socketIOClient.connect("http://localhost:4000")
+  );
   // const withNavbar = location.pathname !== "/";
   // const snackbar = useSnackbar();
   const dispatch = useDispatch();
   // const [id, setId] = useState();
-  socket.on("REFRESH_USER", function (data) {
-    console.log("REFRESH DATA RECEIVED ==>", data);
-    const updateRoom = { ...currentUser };
-    updateRoom.room = data;
-    dispatch(setUserData(updateRoom));
-  });
+  // socket.on("REFRESH_USER", function (data) {
+  //   console.log("REFRESH DATA RECEIVED ==>", data);
+  //   const updateRoom = { ...currentUser };
+  //   console.log("UPDATE ROOM FROM REFRESH USER before ==>", updateRoom);
+  //   updateRoom.room = data;
+  //   console.log("UPDATE ROOM FROM REFRESH USER after ==>", updateRoom);
+  //   // dispatch(setUserData(updateRoom));
+  // });
   useEffect(() => {
+    setSocket(socketIOClient.connect("http://localhost:4000"));
     socket.on("REFRESH_USERSLIST", function (data) {
       dispatch(setUsersList(data));
     });

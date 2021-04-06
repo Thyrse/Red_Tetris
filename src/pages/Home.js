@@ -7,7 +7,8 @@ import arrowRight from "../img/arrow_right.png";
 import arrowRightWhite from "../img/arrow_right_white.png";
 import Chat from "../components/Chat";
 import socketIOClient from "socket.io-client";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserData } from "../redux/auth/actions";
 
 /**
  * Component that displays the patient page,
@@ -17,6 +18,7 @@ import { useSelector } from "react-redux";
  */
 const Home = ({ socket }) => {
   // const socket = socketIOClient.connect("http://localhost:4000");
+  const dispatch = useDispatch();
   const history = useHistory();
   const [room, setRoom] = useState();
   const roomsList = useSelector((state) => state.roomsList.roomsList);
@@ -26,8 +28,10 @@ const Home = ({ socket }) => {
   console.log("ROOM VALUE ==>", room);
   console.log("ROOMS LIST ==>", roomsList);
   useEffect(() => {
-    console.log("Passing here ==>", socket);
-    socket.emit("JOIN_LOBBY");
+    socket.emit("JOIN_LOBBY", currentUser);
+    const updateRoom = { ...currentUser };
+    updateRoom.room = "Lobby";
+    dispatch(setUserData(updateRoom));
   }, []);
 
   const handleChange = (e) => {
@@ -41,6 +45,9 @@ const Home = ({ socket }) => {
   };
 
   const handleJoin = (datas) => {
+    const updateRoom = { ...currentUser };
+    updateRoom.room = datas.id;
+    dispatch(setUserData(updateRoom));
     socket.emit("JOIN_ROOM", { datas: datas, currentUser: currentUser });
     history.push(`/game#${datas.name}[${currentUser.username}]`);
   };

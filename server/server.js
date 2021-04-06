@@ -107,19 +107,23 @@ io.on("connection", function (client) {
   // Listen for joining room
   client.on("JOIN_ROOM", (data) => {
     console.log("ROOM JOINED ==>", data.datas.id);
+    client.leave("Lobby");
     client.join(data.datas.id);
+    console.log(client.rooms);
     userJoinRoom(data.datas.id, data.currentUser);
     gameClass.updateRooms(allRooms);
     io.emit("REFRESH_ROOMS", gameClass.rooms);
-    io.emit("REFRESH_USER", data.datas.id);
+    // io.emit("REFRESH_USER", data.datas.id);
   });
 
   // Listen for joining room
-  client.on("JOIN_LOBBY", () => {
-    const yolo = "Lobby";
-    console.log("JOINING LOBBY...");
+  client.on("JOIN_LOBBY", (data) => {
+    if (data && data.room && data.room !== "Lobby") {
+      client.leave(data.room);
+    }
+    const roomName = "Lobby";
     client.join("Lobby");
-    client.emit("REFRESH_USER", yolo);
+    client.emit("REFRESH_USER", roomName);
   });
 
   // Listen for manual disconnect
