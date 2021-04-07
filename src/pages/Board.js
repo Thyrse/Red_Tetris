@@ -187,12 +187,16 @@ class Board extends React.Component{
 
     convertLevelToTime = () => { 	
         if (this.state.level === 1) {
-            return (10000000000)
+            return (1000)
         } else if (this.state.level === 2) {
             return 500
         }
 		// let interval = this.baseIntervalTimer - (this.state.level - 1) * 35
 		// return (interval < 100) ? 100 : interval
+	}
+
+    generateNextPieceIndex() { 
+		return (Math.floor( Math.random() * Tetromino.length ));
 	}
 
 	makeTetromino = () => {
@@ -204,7 +208,8 @@ class Board extends React.Component{
         let indexTetromino = this.state.nextPiece;
         tetromino.color= indexTetromino + 1;
         
-        tetromino.grid = Tetromino[Math.floor(Math.random() * Tetromino.length)];
+        tetromino.grid = Tetromino[indexTetromino];
+        // tetromino.grid = Tetromino[Math.floor(Math.random() * Tetromino.length)];
         // value 0 cordinate = 0 offset y to -1 init spwn
         if (tetromino.grid[0][0] === 0) {
             tetromino.posY--;
@@ -228,8 +233,9 @@ class Board extends React.Component{
             this.setState({ 
                 tetromino, 
                 nextPiece: this.generateNextPieceIndex() 
-            }, 
-            () => {console.log("a")});
+            });
+            // () => {console.log("a")}
+            
         } else {
             clearInterval(this.timer);
 
@@ -239,9 +245,7 @@ class Board extends React.Component{
         // console.log(tetromino);
     }
 
-    generateNextPieceIndex() { 
-		return Math.floor( Math.random() * Tetromino.length )
-	}
+    
 
     mergePieceToGrid = () => {
         const piece = this.state.tetromino;
