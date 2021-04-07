@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUserData } from "../redux/auth/actions";
 import { authenticate, updateStorageData } from "../services/auth";
 import { setUsersList } from "../redux/usersList/action";
+import { Tooltip, Zoom } from "@material-ui/core";
 
 /**
  * Component that displays the patient page,
@@ -17,7 +18,7 @@ import { setUsersList } from "../redux/usersList/action";
  */
 const Login = ({ socket }) => {
   // const socket = socketIOClient.connect("http://localhost:4000");
-  const [username, setUsername] = useState();
+  const [username, setUsername] = useState("");
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -54,13 +55,13 @@ const Login = ({ socket }) => {
     history.push("/home");
   };
 
+  const validUsername = username.match(/^[a-zA-Z]{1,10}$/);
   return (
     <>
       <div className="d-flex justify-content-center">
         <div className="login p-3 shadow rounded text-center text-white">
           <div>
             <h3>Connect to play!</h3>
-            {window.location.hash && <h1>Salut les michtos</h1>}
           </div>
           <form onSubmit={handleSubmit}>
             <div className="m-3">
@@ -75,9 +76,20 @@ const Login = ({ socket }) => {
               />
             </div>
             <div className="d-flex justify-content-center">
-              <button type="submit" className="btn btn-white">
-                Play
-              </button>
+              <Tooltip
+                TransitionComponent={Zoom}
+                title="Your username must contain between 1 and 10 alphanumeric characters."
+              >
+                <span className="p-2">
+                  <button
+                    type="submit"
+                    className="btn btn-white"
+                    disabled={!validUsername}
+                  >
+                    Play
+                  </button>
+                </span>
+              </Tooltip>
             </div>
           </form>
         </div>
