@@ -1,25 +1,83 @@
 import React from "react";
 import Grid from "./Grid";
 import Tetromino from "./tetrominos";
+import NextTetromino from "./NextTetromino";
 
 class Board extends React.Component{
 
 	state = {
 		grid: null,
-		gridHeight: 6,
+		gridHeight: 16,
 		gridWidth: 8,
 		tetromino: null,
         linesCompletes: 0,
         level: 1,
-        gameOver: false
+        gameOver: false,
+        nextPiece: null
 	}
 
-    // https://www.youtube.com/watch?v=361zUVOyRig keys 9
+    // keys 9
 	// preview next piece jaja
 	componentDidMount() { 
         this.initGame()
 
+        let pressedKey = [];
+        let pressedMultipleKey = false;
+
+        window.addEventListener("keydown", (e) => {
+            if(pressedKey.indexOf(e.key) === -1) {
+                pressedKey.push(e.key);
+            }
+
+            // console.log(pressedKey)
+            if (pressedKey.length > 1) {
+                // console.log("2 touches")
+                pressedKey.forEach(
+                    (key, index) => {
+                        // this.executeKeyCode(key)
+                        if ( pressedMultipleKey === false && index === 0) {
+                            pressedMultipleKey = true
+                        } else { 
+                            this.executeKeyCode(key)
+                        }
+                    }
+                )
+            } else { 
+                this.executeKeyCode(pressedKey[0])
+                // console.log("1 touches")
+            }
+            // if (this.pressedKey.length > 1) {
+            //     this.pressedKey.forEach(
+            //         (keyCode, index) => {
+            //             if ( this.multiple_pressedKey === false && index === 0) {
+            //                 this.multiple_pressedKey = true
+            //             } else { 
+            //                 this.executeKeyCode(keyCode)
+            //             }
+            //         }
+            //     )
+            // } else { 
+            //     this.executeKeyCode(this.pressedKey[0])
+            // }
+        });
+
+
         window.addEventListener("keyup", (e) => {
+            pressedMultipleKey = false
+            // let index = this.key_pressed.indexOf(e.key)
+            // if (index !== -1) { 
+            //     this.key_pressed.splice(index, 1)
+            // }
+
+
+            // this.multiple_key_pressed = false
+            let index = pressedKey.indexOf(e.key)
+            if (index !== -1) { 
+                pressedKey.splice(index, 1)
+            }
+
+
+
             // console.log(e.key) 
             // 37 left - 39 right - 40 down
             // if(e.key === 'y'){
@@ -28,19 +86,22 @@ class Board extends React.Component{
             // else if (e.key === 'n') {
             //     alert('The sky is your limit👀')
             // }
-            switch (e.key) {
-                case 'ArrowLeft' : this.pieceMovePosX(-1)
-                    break;
-                case 'ArrowRight' : this.pieceMovePosX(1)
-                    break;
-                case 'ArrowDown' : this.pieceMovePosDown(1)
-                    break;
-                case 'z' : this.rotatePiece("right")
-                break;
-                case 'x' : this.rotatePiece("left")
-                break;
-                default: break;
-            }
+            
+            // switch (e.key) {
+            //     case 'ArrowLeft' : this.pieceMovePosX(-1)
+            //         break;
+            //     case 'ArrowRight' : this.pieceMovePosX(1)
+            //         break;
+            //     case 'ArrowDown' : this.pieceMovePosDown(1)
+            //         break;
+            //     case 'ArrowUp' : this.rotatePiece("right")
+            //         break;
+            //     case 'z' : this.rotatePiece("right")
+            //     break;
+            //     case 'x' : this.rotatePiece("left")
+            //         break;
+            //     default: break;
+            // }
         });
 
 
@@ -49,7 +110,8 @@ class Board extends React.Component{
 
     initGame = () => {
 		this.setState({
-			grid: this.buildGrid()
+			grid: this.buildGrid(),
+            nextPiece: this.generateNextPieceIndex()
         }, () => {
             this.makeTetromino()
             
@@ -57,6 +119,37 @@ class Board extends React.Component{
         })
 	}
 
+
+    executeKeyCode = (key) => {
+        switch (key) {
+            case 'ArrowLeft' : this.pieceMovePosX(-1)
+                break;
+            case 'ArrowRight' : this.pieceMovePosX(1)
+                break;
+            case 'ArrowDown' : this.pieceMovePosDown(1)
+                break;
+            case 'ArrowUp' : this.rotatePiece("right")
+                break;
+            case 'z' : this.rotatePiece("right")
+                break;
+            case 'x' : this.rotatePiece("left")
+                break;
+            default: break;
+        }
+		// switch (key) { 
+		// 	case this.state.options.touch["right"]: this.pieceMoveToXAxis(1)
+		// 		break
+		// 	case this.state.options.touch["left"]: this.pieceMoveToXAxis(-1)
+		// 		break
+		// 	case this.state.options.touch["bottom"]: this.pieceMoveToYAxis(1)
+		// 		break
+		// 	case this.state.options.touch["rotateRight"]: this.rotatePiece("right")
+		// 		break
+		// 	case this.state.options.touch["rotateLeft"]: this.rotatePiece("left")
+		// 		break
+		// 	default: break
+		// }
+	}
 
     gameOver = () => {
 		//mettre fin au jeu
@@ -89,12 +182,12 @@ class Board extends React.Component{
     launchTimer = () => {
 		this.timer = setInterval(() => {
 			this.pieceMovePosDown(1)
-		}, this.convertLvlToTime())
+		}, this.convertLevelToTime())
 	}
 
-    convertLvlToTime = () => { 	
+    convertLevelToTime = () => { 	
         if (this.state.level === 1) {
-            return (1000)
+            return (10000000000)
         } else if (this.state.level === 2) {
             return 500
         }
@@ -107,7 +200,8 @@ class Board extends React.Component{
         // tetromino.posX = 0;
         tetromino.posY = 0;
 
-        let indexTetromino = Math.floor(Math.random() * Tetromino.length);
+        // let indexTetromino = Math.floor(Math.random() * Tetromino.length);
+        let indexTetromino = this.state.nextPiece;
         tetromino.color= indexTetromino + 1;
         
         tetromino.grid = Tetromino[Math.floor(Math.random() * Tetromino.length)];
@@ -116,7 +210,7 @@ class Board extends React.Component{
             tetromino.posY--;
         }
 
-        tetromino.posX = Math.floor((this.state.gridWidth - tetromino.grid[0].length) / 2); // premier piece x
+        tetromino.posX = Math.floor((this.state.gridWidth - tetromino.grid[0].length) / 2); // premier piece x center piece
 
 
         tetromino.mergeData = [];
@@ -127,11 +221,15 @@ class Board extends React.Component{
 		// }
 
         let resultCordinate = this.tetrominoIsPosition(tetromino);
-        console.log(resultCordinate);
+        // console.log(resultCordinate);
         if (resultCordinate !== false) {
             tetromino.mergeData = resultCordinate;
 
-            this.setState({ tetromino });
+            this.setState({ 
+                tetromino, 
+                nextPiece: this.generateNextPieceIndex() 
+            }, 
+            () => {console.log("a")});
         } else {
             clearInterval(this.timer);
 
@@ -140,6 +238,10 @@ class Board extends React.Component{
         }
         // console.log(tetromino);
     }
+
+    generateNextPieceIndex() { 
+		return Math.floor( Math.random() * Tetromino.length )
+	}
 
     mergePieceToGrid = () => {
         const piece = this.state.tetromino;
@@ -173,7 +275,7 @@ class Board extends React.Component{
     }
 
 	tetrominoIsPosition = (tetromino) => {
-        let coordinate = [];
+        let cordinate = [];
 
         for (let y = 0; y < tetromino.grid.length; y++) {
             // console.log("YYY", y)
@@ -191,11 +293,11 @@ class Board extends React.Component{
                     if (this.state.grid[y + tetromino.posY][x + tetromino.posX] > 0) {
                         return false
                     }
-                    coordinate.push((y + tetromino.posY) + "_" + (x + tetromino.posX));
+                    cordinate.push((y + tetromino.posY) + "_" + (x + tetromino.posX));
                 }
             }
         }
-        return coordinate;
+        return cordinate;
     }
 
     pieceMovePosX = (moveX) => {
@@ -365,6 +467,9 @@ class Board extends React.Component{
                     <div className="game__pan bg-success p-3" style={{display: "flex", flexDirection: "column"}}>
                         <p className={"score"}>score: { this.state.linesCompletes }</p>
                         <p className={"level"}>level: { this.state.level }</p>
+                        {  this.state.nextPiece !== null &&
+                            <NextTetromino grid={Tetromino[this.state.nextPiece]}/>
+                        }
                         { this.state.gameOver ?
                             <p style={{color: "red", position: "absolute", top: 230, left: 45, fontSize: 30}}>GAME OVER</p>
                         :

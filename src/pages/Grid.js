@@ -3,8 +3,18 @@ import React, { useState, useEffect, useContext, useCallback } from "react";
 import "./test.css"
 
 const Grid = ({ grid, tetromino }) => {
+    
+    let mirrorTetromino = []
+    if (tetromino) {
+        mirrorTetromino = getMirrorTetromino(grid, tetromino)
+        // let mirrorTetromino = getMirrorTetromino(grid, tetromino, 7)
 
+        // console.log(mirrorTetromino)
+
+    }
     // console.log(tetromino)
+
+
 	return (
 		<div className="gridContainer">
 			{ 
@@ -28,6 +38,11 @@ const Grid = ({ grid, tetromino }) => {
                                         value = tetromino.color
                                     }
                                 }
+
+                                if (mirrorTetromino.indexOf(y + "_" + x) !== -1) {
+                                    tetrominosSetting.push("mirror");
+                                }
+
                                 if (grid[y][x] > 0) {
                                     tetrominosSetting.push("color");
                                     value = grid[y][x]
@@ -48,5 +63,43 @@ const Grid = ({ grid, tetromino }) => {
 		</div>
 	);
 };
+
+function getMirrorTetromino(grid, tetromino) {
+
+    let previousCordinate = [];
+    let cordinate = [];
+
+        for (let mirrorY = tetromino.posY; mirrorY < grid.length; mirrorY++) {
+
+            previousCordinate = cordinate;
+            cordinate = [];
+
+            for (let y = 0; y < tetromino.grid.length; y++) {
+                // console.log("YYY")
+                for (let x = 0; x < tetromino.grid[0].length; x++) {
+                    // console.log("XXX", x)
+                    if (tetromino.grid[y][x] > 0) {
+                        // console.log("CHILE" + grid[y]) 16:00 #11
+                        // console.log(this.state.grid[y + tetromino.posY][x + tetromino.posX])
+                        if (grid[y + mirrorY] === undefined) {
+                            // console.log("YXXXYY")
+
+                            return previousCordinate;
+                        }
+                        
+                        
+                        if (grid[y + mirrorY][x + tetromino.posX] > 0) {
+                            return previousCordinate;
+                        }
+
+                        cordinate.push((y + mirrorY) + "_" + (x + tetromino.posX));
+                    }
+                }
+            }
+        }
+
+        
+        return cordinate;
+}
 
 export default Grid;
