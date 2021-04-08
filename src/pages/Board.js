@@ -7,7 +7,7 @@ class Board extends React.Component{
 
 	state = {
 		grid: null,
-		gridHeight: 16,
+		gridHeight: 14,
 		gridWidth: 8,
 		tetromino: null,
         linesCompletes: 0,
@@ -111,7 +111,7 @@ class Board extends React.Component{
     initGame = () => {
 		this.setState({
 			grid: this.buildGrid(),
-            nextPiece: this.generateNextPieceIndex()
+            nextPiece: this.generateNextPiece()
         }, () => {
             this.makeTetromino()
             
@@ -155,6 +155,7 @@ class Board extends React.Component{
 		//mettre fin au jeu
 		clearInterval(this.timer)
 		//set status lost game
+        
 		this.setState({ gameOver: true })
 
 		//debind event
@@ -187,22 +188,25 @@ class Board extends React.Component{
 
     convertLevelToTime = () => { 	
         if (this.state.level === 1) {
-            return (1000)
+            return (1000000)
         } else if (this.state.level === 2) {
-            return 500
+            return 500000
         }
 		// let interval = this.baseIntervalTimer - (this.state.level - 1) * 35
 		// return (interval < 100) ? 100 : interval
 	}
 
-    generateNextPieceIndex() { 
+    generateNextPiece() { 
 		return (Math.floor( Math.random() * Tetromino.length ));
 	}
 
+    //  finish
 	makeTetromino = () => {
+
+        //  finish por aca esta el problema de la ultima Y creo
         let tetromino = {};
         // tetromino.posX = 0;
-        tetromino.posY = 0;
+        tetromino.posY = 0; // ?????????
 
         // let indexTetromino = Math.floor(Math.random() * Tetromino.length);
         let indexTetromino = this.state.nextPiece;
@@ -232,7 +236,7 @@ class Board extends React.Component{
 
             this.setState({ 
                 tetromino, 
-                nextPiece: this.generateNextPieceIndex() 
+                nextPiece: this.generateNextPiece() 
             });
             // () => {console.log("a")}
             
@@ -246,27 +250,39 @@ class Board extends React.Component{
     }
 
     
-
-    mergePieceToGrid = () => {
+    // check score system
+    mergeTetrominoToGrid = () => {
         const piece = this.state.tetromino;
         const gridState = this.state.grid;
         let level = this.state.level;
         let levelChanged = false;
-        let linesCompletes = this.state.linesCompletes;
+        let linesCompletes = this.state.linesCompletes; // level score for lines completes
 
         piece.mergeData.forEach(element => {
             const [y, x] = element.split("_");
             gridState[y][x] = this.state.tetromino.color;
         });
 
-        let { cleanGrid, nbrLineCompleted } = this.cleanGrid(gridState);
-        linesCompletes += nbrLineCompleted
+        let { cleanGrid, numberLinesReady } = this.cleanGrid(gridState);
+        linesCompletes += numberLinesReady
 
         // new level reset interval
-        if (linesCompletes > 1) {
+        if (numberLinesReady > 0) {
+            // console.log("LEVEL 2")
             level = 2;
             clearInterval(this.timer);
             levelChanged = true;
+
+            //update score
+			// score += parseInt(Math.pow(nbrLineCompleted, 2) * lvl * this.convertLvlToTime())
+			
+			//changement of lvl
+			// if (nbrCleanLine >= this.state.linePerLvl) { 
+			// 	nbrCleanLine = 0
+			// 	lvl++
+			// 	lvlChanged = true
+			// 	clearInterval(this.timer)
+			// }
         }
         
         this.setState({ grid: cleanGrid, piece: null, linesCompletes: linesCompletes, level }, () => {
@@ -278,9 +294,11 @@ class Board extends React.Component{
         });
     }
 
+    // terminado
 	tetrominoIsPosition = (tetromino) => {
         let cordinate = [];
 
+        // y por aca tambien
         for (let y = 0; y < tetromino.grid.length; y++) {
             // console.log("YYY", y)
             for (let x = 0; x < tetromino.grid[0].length; x++) {
@@ -304,6 +322,7 @@ class Board extends React.Component{
         return cordinate;
     }
 
+    // terminado
     pieceMovePosX = (moveX) => {
         let tetromino = { ...this.state.tetromino }
 
@@ -322,7 +341,8 @@ class Board extends React.Component{
         }
         // console.log(tetromino);
     }
-
+    
+    // terminado
     pieceMovePosDown = (moveDown) => {
         let tetromino = { ...this.state.tetromino }
 
@@ -339,11 +359,12 @@ class Board extends React.Component{
             this.setState({ tetromino })
             // console.log("---> ",resultCordinate)
         } else {
-            this.mergePieceToGrid();
+            this.mergeTetrominoToGrid();
         }
         // console.log(tetromino);
     }
 
+    // check this function totation not final
     rotatePiece = (rotation) => {
         let tetromino = { ...this.state.tetromino }
 
@@ -353,9 +374,13 @@ class Board extends React.Component{
 
         let newGrid = []
 
+
         if (rotation === "right") {
+            console.log("que wa ",tetromino.grid[0].length)
             for (let x = tetromino.grid[0].length - 1; x > -1; x--) {
+            // for (let x = 0; x < tetromino.grid[0].length; x++) {
                 let line = [];
+                // for (let y = tetromino.grid.length - 1; y > -1; y--) {
                 for (let y = 0; y < tetromino.grid.length; y++) {
                     // console.log(y + "_" + x + "  >" + tetromino.grid[y][x]);
                     line.push(tetromino.grid[y][x])
@@ -423,11 +448,11 @@ class Board extends React.Component{
 
     }
 
-
+    // complete
     cleanGrid = (grid) => {
 
 		let cleanGrid = []
-		let nbrLineCompleted = 0
+		let numberLinesReady = 0
 
 		for (let y = 0; y < this.state.gridHeight; y++) {
 
@@ -444,19 +469,30 @@ class Board extends React.Component{
 
 		}
 
-		nbrLineCompleted = this.state.gridHeight - cleanGrid.length
+		numberLinesReady = this.state.gridHeight - cleanGrid.length
 
-		for (let i = 0; i < nbrLineCompleted; i++) { 
-			cleanGrid.unshift( this.makeCleanLine(this.state.gridWidth) )
+		for (let i = 0; i < numberLinesReady; i++) { 
+            console.log("1---->" + this.state.gridWidth)
+            console.log("2---->" + this.cleaningLine(this.state.gridWidth))
+			cleanGrid.unshift( this.cleaningLine(this.state.gridWidth) )
 		}
 
         // console.log(cleanGrid);
 
-		return { cleanGrid, nbrLineCompleted }
+		return { cleanGrid, numberLinesReady }
 
 	}
 
-    makeCleanLine(width) { 
+    // finish
+    cleaningLine(width) { 
+		let line = []
+		for (let x = 0; x < width; x++) {
+			line.push(0)
+		}
+		return line
+	}
+
+    cleaningLines(width) { 
 		let line = []
 		for (let x = 0; x < width; x++) {
 			line.push(0)
@@ -483,6 +519,7 @@ class Board extends React.Component{
                             <Grid 
                                 grid={this.state.grid} 
                                 tetromino={this.state.tetromino}
+                                gameover={this.state.gameOver}
                             />
                         }	
                     </div>

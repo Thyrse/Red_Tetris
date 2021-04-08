@@ -14,6 +14,16 @@
 }
 .gridContainer span.first {
     clear: both;
+    /* background-color: red; */
+}
+
+.gridContainer span.finish {
+    background-color: orange;
+    transition: background-color 2s ease-in;
+}
+
+.gridContainer span.last:not(.finish) {
+    background-color: aqua;
 }
 
 .gridContainer span.mirror:not(.color) {
@@ -24,6 +34,8 @@
 
 .nextTetromino {
     position: absolute;
-    right: 450px; 
+    right: 200px; 
 
 }
+
+/* .gridContainer span.first { */

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, useCallback } from "react";
 // REACT ROUTER
 import "./test.css"
 
-const Grid = ({ grid, tetromino }) => {
+const Grid = ({ grid, tetromino, gameover }) => {
     
     let mirrorTetromino = []
     if (tetromino) {
@@ -19,7 +19,6 @@ const Grid = ({ grid, tetromino }) => {
 		<div className="gridContainer">
 			{ 
                 // grid ?
-                // console.log("acato==> " + grid) 
                 grid.map(
                     (line, y) => {
                         return line.map(
@@ -31,6 +30,17 @@ const Grid = ({ grid, tetromino }) => {
                                 if (x === 0) {
                                     tetrominosSetting.push("first");
                                 }
+
+                                
+                                if (gameover) {
+                                    if (y === 0 && x === 3) {
+                                        tetrominosSetting.push("last");    
+                                    }
+                                    // else {
+                                        // tetrominosSetting.push("finish");
+                                    // }
+                                }
+
                                 if (tetromino !== null) {
                                     if (tetromino.mergeData.indexOf(y + "_" + x) !== -1) {
                                         tetrominosSetting.push("color");
@@ -49,9 +59,9 @@ const Grid = ({ grid, tetromino }) => {
                                 }
 
                                 return (
-                                    <span key={x + "_" + y} className={tetrominosSetting.join(" ")}>
-                                        { value }
-                                    </span>
+                                    <span key={x + "_" + y} className={tetrominosSetting.join(" ")}/>
+                                    //     { value }
+                                    // </span>
                                 )
                             }
                         )

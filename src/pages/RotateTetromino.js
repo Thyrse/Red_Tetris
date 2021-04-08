@@ -1,7 +1,7 @@
 import React from "react";
 
-const RotateTetromino = (rotation) => {
-    let tetromino = { ...this.state.tetromino }
+const RotateTetromino = (rotation, tetrominos) => {
+    let tetromino = { tetrominos }
 
     if (tetromino === null) {
         return false
