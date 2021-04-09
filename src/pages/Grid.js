@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, useCallback } from "react";
 // REACT ROUTER
-import "./test.css"
+import "../styles/tetris.css";
 
 const Grid = ({ grid, tetromino, gameover }) => {
     
@@ -33,12 +33,14 @@ const Grid = ({ grid, tetromino, gameover }) => {
 
                                 
                                 if (gameover) {
-                                    if (y === 0 && x === 3) {
-                                        tetrominosSetting.push("last");    
-                                    }
-                                    // else {
-                                        // tetrominosSetting.push("finish");
+                                    // if (y === 0 && x === 3) {
+                                    //     tetrominosSetting.push("last");    
                                     // }
+                                        tetrominosSetting.push("finish");
+                                }
+
+                                if (y === 0) {
+                                    tetrominosSetting.push("colory");
                                 }
 
                                 if (tetromino !== null) {

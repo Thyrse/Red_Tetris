@@ -1,7 +1,12 @@
 import React from "react";
 import Grid from "./Grid";
-import Tetromino from "./tetrominos";
+
 import NextTetromino from "./NextTetromino";
+
+import BuildGrid from "../utils/BuildGrid";
+import CleanGrids from "../utils/CompletesLines";
+
+import Tetromino from "./Tetrominos";
 
 class Board extends React.Component{
 
@@ -13,7 +18,8 @@ class Board extends React.Component{
         linesCompletes: 0,
         level: 1,
         gameOver: false,
-        nextPiece: null
+        nextPiece: null,
+        timer: 0
 	}
 
     // keys 9
@@ -107,18 +113,16 @@ class Board extends React.Component{
 
 	}
 
-
     initGame = () => {
 		this.setState({
-			grid: this.buildGrid(),
+			grid: BuildGrid(this.state.gridHeight, this.state.gridWidth),
             nextPiece: this.generateNextPiece()
         }, () => {
             this.makeTetromino()
-            
+            this.handleGameTime()
             this.launchTimer()
         })
 	}
-
 
     executeKeyCode = (key) => {
         switch (key) {
@@ -136,19 +140,6 @@ class Board extends React.Component{
                 break;
             default: break;
         }
-		// switch (key) { 
-		// 	case this.state.options.touch["right"]: this.pieceMoveToXAxis(1)
-		// 		break
-		// 	case this.state.options.touch["left"]: this.pieceMoveToXAxis(-1)
-		// 		break
-		// 	case this.state.options.touch["bottom"]: this.pieceMoveToYAxis(1)
-		// 		break
-		// 	case this.state.options.touch["rotateRight"]: this.rotatePiece("right")
-		// 		break
-		// 	case this.state.options.touch["rotateLeft"]: this.rotatePiece("left")
-		// 		break
-		// 	default: break
-		// }
 	}
 
     gameOver = () => {
@@ -159,24 +150,23 @@ class Board extends React.Component{
 		this.setState({ gameOver: true })
 
 		//debind event
-		// window.removeEventListener("keyup", this.keyupActions)
-		// window.removeEventListener("keydown", this.keydownActions)
+		// window.removeEventListener("keyup", this.keyupActions);
+		// window.removeEventListener("keydown", this.keydownActions);
 	}
 	//GRID FUNCTIONS
-	buildGrid = () => {
-		let grid = []
+	//  = () => {
+	// 	let grid = []
 
-		for (let y = 0; y < this.state.gridHeight; y++) {
-			let line = []
-			for (let x = 0; x < this.state.gridWidth; x++) {
-				line.push(0);
-			}
-			grid.push(line)
-		}
-
-        // grid[0][0] = 1;
-		return grid;
-	}
+	// 	for (let y = 0; y < this.state.gridHeight; y++) {
+	// 		let line = []
+	// 		for (let x = 0; x < this.state.gridWidth; x++) {
+	// 			line.push(0);
+	// 		}
+	// 		grid.push(line)
+	// 	}
+    //     // grid[0][0] = 1;
+	// 	return grid;
+	// }
 
     // level timer
     
@@ -188,9 +178,9 @@ class Board extends React.Component{
 
     convertLevelToTime = () => { 	
         if (this.state.level === 1) {
-            return (1000000)
+            return (1000)
         } else if (this.state.level === 2) {
-            return 500000
+            return 500
         }
 		// let interval = this.baseIntervalTimer - (this.state.level - 1) * 35
 		// return (interval < 100) ? 100 : interval
@@ -242,7 +232,7 @@ class Board extends React.Component{
             
         } else {
             clearInterval(this.timer);
-
+            clearInterval(this.gameTimer);
             this.gameOver()
             // fingame over
         }
@@ -263,7 +253,7 @@ class Board extends React.Component{
             gridState[y][x] = this.state.tetromino.color;
         });
 
-        let { cleanGrid, numberLinesReady } = this.cleanGrid(gridState);
+        let { cleanGrid, numberLinesReady } = CleanGrids(gridState, this.state.gridHeight, this.state.gridWidth);
         linesCompletes += numberLinesReady
 
         // new level reset interval
@@ -449,79 +439,41 @@ class Board extends React.Component{
     }
 
     // complete
-    cleanGrid = (grid) => {
-
-		let cleanGrid = []
-		let numberLinesReady = 0
-
-		for (let y = 0; y < this.state.gridHeight; y++) {
-
-			let lineCompleted = true
-			for (let x = 0; x < this.state.gridWidth; x++) {
-				if (grid[y][x] === 0) { 
-					lineCompleted = false
-				}
-			}
-
-			if (lineCompleted === false) {
-				cleanGrid.push(grid[y])
-			}
-
-		}
-
-		numberLinesReady = this.state.gridHeight - cleanGrid.length
-
-		for (let i = 0; i < numberLinesReady; i++) { 
-            console.log("1---->" + this.state.gridWidth)
-            console.log("2---->" + this.cleaningLine(this.state.gridWidth))
-			cleanGrid.unshift( this.cleaningLine(this.state.gridWidth) )
-		}
-
-        // console.log(cleanGrid);
-
-		return { cleanGrid, numberLinesReady }
-
-	}
-
-    // finish
-    cleaningLine(width) { 
-		let line = []
-		for (let x = 0; x < width; x++) {
-			line.push(0)
-		}
-		return line
-	}
-
-    cleaningLines(width) { 
-		let line = []
-		for (let x = 0; x < width; x++) {
-			line.push(0)
-		}
-		return line
-	}
+    handleGameTime() {
+        this.gameTimer = setInterval(() => {
+            this.setState({ timer: this.state.timer + 1 });
+        //   setTimer((timer) => timer + 1)
+        }, 1000)
+    }
 
 	render() { 
 		return (
             <>
                 <div className="game">
-                    <div className="game__pan bg-success p-3" style={{display: "flex", flexDirection: "column"}}>
-                        <p className={"score"}>score: { this.state.linesCompletes }</p>
-                        <p className={"level"}>level: { this.state.level }</p>
-                        {  this.state.nextPiece !== null &&
-                            <NextTetromino grid={Tetromino[this.state.nextPiece]}/>
-                        }
-                        { this.state.gameOver ?
-                            <p style={{color: "red", position: "absolute", top: 230, left: 45, fontSize: 30}}>GAME OVER</p>
-                        :
-                            ""
-                        }
-                        { this.state.grid !== null && 
-                            <Grid 
-                                grid={this.state.grid} 
-                                tetromino={this.state.tetromino}
-                                gameover={this.state.gameOver}
-                            />
-                        }	
+                    <div className="game__pan bg-success" style={{display: "flex"}}>
+                        <div>
+                            { this.state.grid !== null && 
+                                <Grid 
+                                    grid={this.state.grid} 
+                                    tetromino={this.state.tetromino}
+                                    gameover={this.state.gameOver}
+                                />
+                            }
+                        </div>
+                        <div style={{marginLeft: 20, marginTop: 30}}>
+                            <p className={"score"}>score: { this.state.linesCompletes }</p>
+                            <p className={""}>timer: { this.state.timer }</p>
+                            <p className={""}>Lines: { this.state.linesCompletes }</p>
+                            <p className={"level"}>level: { this.state.level }</p>
+                            {  this.state.nextPiece !== null &&
+                                <NextTetromino grid={Tetromino[this.state.nextPiece]}/>
+                            }
+                            { this.state.gameOver ?
+                                <p style={{color: "red", position: "absolute", top: 250, left: 10, fontSize: 35}}>GAME OVER</p>
+                            :
+                                ""
+                            }
+                        </div>
                     </div>
                 </div>
             </>

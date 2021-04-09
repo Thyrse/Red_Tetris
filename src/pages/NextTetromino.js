@@ -1,5 +1,5 @@
 import React from 'react'
-import "./test.css"
+import "../styles/tetris.css"
 
 function NextTetromino({ grid }) {
 	return (
