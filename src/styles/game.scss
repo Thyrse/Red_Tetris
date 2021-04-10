@@ -1,39 +1,69 @@
 .game {
   display: flex;
   flex: 1 1 0%;
+  justify-content: center;
+  flex-wrap: wrap;
   &__pan {
     display: flex;
-    flex: 2 1 0%;
     .game-table {
       height: 85vh;
       width: 40vh;
       display: flex;
-      flex-direction: column;
       position: relative;
-      &__line {
-        display: flex;
-        flex: 1 1 0%;
-      }
+      flex-wrap: wrap;
+      background: linear-gradient(
+        32deg,
+        rgba(36, 37, 37, 1) 13%,
+        rgba(53, 56, 65, 1) 55%,
+        rgba(224, 224, 224, 1) 100%
+      );
+      // &__line {
+      //   display: flex;
+      //   flex: 1 1 0%;
+      // }
       &__cell {
         display: flex;
         flex: 1 1 10%;
-        border: 2px solid pink;
+        border: 1px solid $white;
+        padding: 4px;
+      }
+      .mirror {
+        background-color: $whiter;
+      }
+      &__over {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        background: $darker-op;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: $tetris;
+        text-align: center;
+        font-size: $size-ultra;
       }
     }
     .game-stats {
       display: flex;
-      border: 2px solid pink;
+      border: 2px solid $white;
       align-items: center;
       height: 85vh;
       flex-direction: column;
       width: 20vh;
+      background-color: $main-dark;
       &__next {
         display: flex;
         flex-direction: column;
         height: 20vh;
         width: 100%;
         align-items: center;
-        border-bottom: 5px solid pink;
+        border-bottom: 5px solid $white;
+      }
+      &__infos {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        color: $whiter;
       }
       &__block {
         display: flex;
@@ -47,7 +77,7 @@
         .next-cell {
           display: flex;
           flex: 1 1 10%;
-          border: 2px solid pink;
+          border: 2px solid $white;
         }
       }
     }

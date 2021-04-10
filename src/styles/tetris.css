@@ -1,47 +1,46 @@
 .gridContainer {
-
 }
-.gridContainer span {
-    width: 30px;
-    height: 30px;
-    display: block;
-    float: left;
-    border: 1px solid black;
+.gridContainer div {
+  width: 30px;
+  height: 30px;
+  display: block;
+  float: left;
+  border: 1px solid black;
 }
-.gridContainer span.color {
-    background-color: aqua;
-    color: white;
+.gridContainer div.color {
+  background-color: aqua;
+  color: white;
 }
-.gridContainer span.first {
-    clear: both;
-    /* background-color: red; */
-}
-
-.gridContainer span.finish {
-    background-color: orange;
-    transition: background-color 2s ease-in;
+.gridContainer div.first {
+  clear: both;
+  /* background-color: red; */
 }
 
-.gridContainer span.last:not(.finish) {
-    /* background-color: aqua; */
+.gridContainer div.finish {
+  background-color: orange;
+  transition: 2s ease-in;
 }
 
-.gridContainer span.mirror:not(.color) {
-    background-color: rgba(0,0,0,0.3);
+.gridContainer div.last:not(.finish) {
+  /* background-color: aqua; */
+}
+
+.gridContainer div.mirror:not(.color) {
+  background-color: rgba(0, 0, 0, 0.3);
 }
 
 /* ----- */
 
 .nextTetromino {
-    /* position: absolute;
+  /* position: absolute;
     right: 200px;  */
 }
 
-.gridContainer span.colory {
-    /* display: "block"; */
-    background-color: #28a745;
-    border: 0px solid black;
-    /* transition: background-color 2s ease-in; */
+.gridContainer div.colory {
+  /* display: "block"; */
+  background-color: #28a745;
+  border: 0px solid black;
+  /* transition: background-color 2s ease-in; */
 }
 
-/* .gridContainer span.first { */
+/* .gridContainer div.first { */

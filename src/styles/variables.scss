@@ -14,6 +14,7 @@ $osm: 0.25 !default;
 $omd: 0.5 !default;
 $obg: 0.75 !default;
 $oxl: 1 !default;
+$darker-op: rgba(36, 37, 37, 0.7) !default;
 
 // BUTTONS COLORS
 
@@ -25,13 +26,14 @@ $primary: #014b9a !default;
 $primary-border: #4e6ca5 !default;
 $info: #369dd3 !default;
 $info-border: #27698c !default;
-$hypertube-border: #bf383d !default;
+$tetris-border: #bf383d !default;
 $white-text: #212529 !default;
 
 // TEXT SIZES
 
 $size-md: 13px !default;
 $size-bg: 15px !default;
+$size-ultra: 4em !default;
 $title3: 1.4em !default;
 
 // FOOTER
