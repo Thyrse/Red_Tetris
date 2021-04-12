@@ -1,4 +1,5 @@
 import React from "react";
+
 import Grid from "./Grid";
 
 import NextTetromino from "./NextTetromino";
@@ -7,6 +8,7 @@ import BuildGrid from "../utils/BuildGrid";
 import CleanGrids from "../utils/CompletesLines";
 
 import Tetromino from "./Tetrominos";
+import "../styles/grid.scss";
 
 class Board extends React.Component{
 
@@ -22,6 +24,8 @@ class Board extends React.Component{
         timer: 0
 	}
 
+
+    //27level lines
     // keys 9
 	// preview next piece jaja
 	componentDidMount() { 
@@ -178,9 +182,9 @@ class Board extends React.Component{
 
     convertLevelToTime = () => { 	
         if (this.state.level === 1) {
-            return (1000)
+            return (10000000)
         } else if (this.state.level === 2) {
-            return 500
+            return 50000000
         }
 		// let interval = this.baseIntervalTimer - (this.state.level - 1) * 35
 		// return (interval < 100) ? 100 : interval
@@ -460,14 +464,18 @@ class Board extends React.Component{
                                 />
                             }
                         </div>
-                        <div style={{marginLeft: 20, marginTop: 30}}>
+                        <div className="gameComponents" style={{marginLeft: 20, marginTop: 30 }}>
+                            {  this.state.nextPiece !== null &&
+                                    <NextTetromino 
+                                        grid={Tetromino[this.state.nextPiece]}
+                                        color={this.state.nextPiece + 1}
+                                    />
+                            }
                             <p className={"score"}>score: { this.state.linesCompletes }</p>
                             <p className={""}>timer: { this.state.timer }</p>
                             <p className={""}>Lines: { this.state.linesCompletes }</p>
                             <p className={"level"}>level: { this.state.level }</p>
-                            {  this.state.nextPiece !== null &&
-                                <NextTetromino grid={Tetromino[this.state.nextPiece]}/>
-                            }
+                            
                             { this.state.gameOver ?
                                 <p style={{color: "red", position: "absolute", top: 250, left: 10, fontSize: 35}}>GAME OVER</p>
                             :

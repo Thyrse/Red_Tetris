@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, useCallback } from "react";
 // REACT ROUTER
-import "../styles/tetris.css";
+import "../styles/grid.scss";
 
 const Grid = ({ grid, tetromino, gameover }) => {
     
@@ -45,9 +45,9 @@ const Grid = ({ grid, tetromino, gameover }) => {
 
                                 if (tetromino !== null) {
                                     if (tetromino.mergeData.indexOf(y + "_" + x) !== -1) {
-                                        tetrominosSetting.push("color");
+                                        tetrominosSetting.push("color" + tetromino.color);
                                         // tetromino.mergeData[0].split
-                                        value = tetromino.color
+                                        // value = tetromino.color
                                     }
                                 }
 
@@ -56,8 +56,8 @@ const Grid = ({ grid, tetromino, gameover }) => {
                                 }
 
                                 if (grid[y][x] > 0) {
-                                    tetrominosSetting.push("color");
-                                    value = grid[y][x]
+                                    tetrominosSetting.push("color" + grid[y][x]); //jugar invisible
+                                    // value = 
                                 }
 
                                 return (
