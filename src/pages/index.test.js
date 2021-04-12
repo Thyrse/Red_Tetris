@@ -4,6 +4,7 @@ import toJson from "enzyme-to-json";
 import Login from "./Login";
 import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
+import { Provider } from "react-redux";
 
 const middlewares = [thunk];
 
@@ -18,7 +19,11 @@ const store = mockStore(initialState);
 
 describe("<Login />", () => {
   test("Login redering upon arrival", () => {
-    const wrapper = shallow(<Login store={store} />);
+    const wrapper = shallow(
+      <Provider store={store}>
+        <Login />
+      </Provider>
+    );
 
     expect(toJson(wrapper)).toMatchSnapshot();
   });
