@@ -33,6 +33,7 @@
     "fuse.js": "^5.2.3",
     "https": "^1.0.0",
     "immer": "^8.0.0",
+    "jest": "^24.9.0",
     "js-sha256": "^0.9.0",
     "jszip": "^3.4.0",
     "libphonenumber-js": "^1.7.52",
@@ -76,12 +77,13 @@
     "start": "react-scripts start",
     "api": "nodemon ./server/server.js",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest",
     "eject": "react-scripts eject",
     "build:dev": "env-cmd -f .env.local npm run build",
     "build:prod": "env-cmd -f .env.production npm run build --nomap",
     "build:preprod": "env-cmd -f .env.production.local npm run build",
-    "dev": "concurrently --kill-others-on-fail \"npm run start\" \"npm run api\""
+    "dev": "concurrently --kill-others-on-fail \"npm run start\" \"npm run api\"",
+    "coverage": "jest"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -99,8 +101,24 @@
       "last 1 safari version"
     ]
   },
+  "jest": {
+    "verbose": true,
+    "collectCoverage": true,
+    "setupFilesAfterEnv": [
+      "<rootDir>/tests/setup/setupTests.js"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/tests/setup/"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tests/__mocks__/fileMock.js",
+      "\\.(css|scss)$": "<rootDir>/tests/__mocks__/styleMock.js"
+    }
+  },
   "devDependencies": {
     "@types/bootstrap": "^5.0.1",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.6",
     "node-sass": "^4.14.1"
   }
 }
