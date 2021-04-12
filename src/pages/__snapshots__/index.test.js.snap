@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Login /> Login redering upon arrival 1`] = `
+<Fragment>
+  <div
+    className="d-flex justify-content-center"
+  >
+    <div
+      className="login p-3 shadow rounded text-center text-white"
+    >
+      <div>
+        <h3>
+          Connect to play!
+        </h3>
+      </div>
+      <form
+        onSubmit={[Function]}
+      >
+        <div
+          className="m-3"
+        >
+          <label>
+            Username:
+          </label>
+          <input
+            className="form-control"
+            id="username"
+            name="username"
+            onChange={[Function]}
+            placeholder="Thyrse, Ziphlot..."
+            type="text"
+          />
+        </div>
+        <div
+          className="d-flex justify-content-center"
+        >
+          <button
+            className="btn btn-white"
+            type="submit"
+          >
+            Play
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</Fragment>
+`;
