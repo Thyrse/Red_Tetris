@@ -32,95 +32,80 @@ class Board extends React.Component{
 	// preview next piece jaja
 	componentDidMount() { 
         this.initGame()
-
-        let pressedKey = [];
-        let pressedMultipleKey = false;
-
-        window.addEventListener("keydown", (e) => {
-            if(pressedKey.indexOf(e.key) === -1) {
-                pressedKey.push(e.key);
-            }
-
-            // console.log(pressedKey)
-            if (pressedKey.length > 1) {
-                // console.log("2 touches")
-                pressedKey.forEach(
-                    (key, index) => {
-                        // this.executeKeyCode(key)
-                        if ( pressedMultipleKey === false && index === 0) {
-                            pressedMultipleKey = true
-                        } else { 
-                            this.executeKeyCode(key)
-                        }
-                    }
-                )
-            } else { 
-                this.executeKeyCode(pressedKey[0])
-                // console.log("1 touches")
-            }
-            // if (this.pressedKey.length > 1) {
-            //     this.pressedKey.forEach(
-            //         (keyCode, index) => {
-            //             if ( this.multiple_pressedKey === false && index === 0) {
-            //                 this.multiple_pressedKey = true
-            //             } else { 
-            //                 this.executeKeyCode(keyCode)
-            //             }
-            //         }
-            //     )
-            // } else { 
-            //     this.executeKeyCode(this.pressedKey[0])
-            // }
-        });
-
-
-        window.addEventListener("keyup", (e) => {
-            pressedMultipleKey = false
-            // let index = this.key_pressed.indexOf(e.key)
-            // if (index !== -1) { 
-            //     this.key_pressed.splice(index, 1)
-            // }
-
-
-            // this.multiple_key_pressed = false
-            let index = pressedKey.indexOf(e.key)
-            if (index !== -1) { 
-                pressedKey.splice(index, 1)
-            }
-
-
-
-            // console.log(e.key) 
-            // 37 left - 39 right - 40 down
-            // if(e.key === 'y'){
-            //     alert('The sky is your starting point!')
-            // }
-            // else if (e.key === 'n') {
-            //     alert('The sky is your limit👀')
-            // }
-            
-            // switch (e.key) {
-            //     case 'ArrowLeft' : this.pieceMovePosX(-1)
-            //         break;
-            //     case 'ArrowRight' : this.pieceMovePosX(1)
-            //         break;
-            //     case 'ArrowDown' : this.pieceMovePosDown(1)
-            //         break;
-            //     case 'ArrowUp' : this.rotatePiece("right")
-            //         break;
-            //     case 'z' : this.rotatePiece("right")
-            //     break;
-            //     case 'x' : this.rotatePiece("left")
-            //         break;
-            //     default: break;
-            // }
-        });
-
-
 	}
 
+    // componentWillUnmount() {
+		
+	// }
+    keyboardUp = (e) => {
+        this.pressedMultipleKey = false
+        // let index = this.key_pressed.indexOf(e.key)
+        // if (index !== -1) { 
+        //     this.key_pressed.splice(index, 1)
+        // }
+
+
+        // this.multiple_key_pressed = false
+        let index = this.pressedKey.indexOf(e.key)
+        if (index !== -1) { 
+            this.pressedKey.splice(index, 1)
+        }
+    }
+
+    keyboardDown = (e) => {
+        // let this.pressedKey = [];
+        // let this.pressedMultipleKey = false;
+
+        if(this.pressedKey.indexOf(e.key) === -1) {
+            this.pressedKey.push(e.key);
+        }
+
+        // console.log(this.pressedKey)
+        if (this.pressedKey.length > 1) {
+            // console.log("2 touches")
+            this.pressedKey.forEach(
+                (key, index) => {
+                    // this.executeKeyCode(key)
+                    if ( this.pressedMultipleKey === false && index === 0) {
+                        this.pressedMultipleKey = true
+                    } else { 
+                        this.executeKeyCode(key)
+                    }
+                }
+            )
+        } else { 
+            this.executeKeyCode(this.pressedKey[0])
+            // console.log("1 touches")
+        }
+        // if (this.pressedKey.length > 1) {
+        //     this.pressedKey.forEach(
+        //         (keyCode, index) => {
+        //             if ( this.multiple_pressedKey === false && index === 0) {
+        //                 this.multiple_pressedKey = true
+        //             } else { 
+        //                 this.executeKeyCode(keyCode)
+        //             }
+        //         }
+        //     )
+        // } else { 
+        //     this.executeKeyCode(this.pressedKey[0])
+        // }
+    }
+
     initGame = () => {
+        console.log("game-start")
+
+        this.baseIntervalTimer = 1500;
+		// this.globalTimer = 0
+        this.pressedKey = [];
+        this.pressedMultipleKey = false;
+        
+
+        window.addEventListener("keydown", this.keyboardDown);
+        window.addEventListener("keyup", this.keyboardUp);
+
 		this.setState({
+            gameOver: false,
 			grid: BuildGrid(this.state.gridHeight, this.state.gridWidth),
             nextPiece: this.generateNextPiece()
         }, () => {
@@ -129,6 +114,16 @@ class Board extends React.Component{
             this.launchTimer()
         })
 	}
+
+    restart = () => {
+        this.setState({ 
+            linesCompletes: 0,
+            level: 1, 
+            score: 0,
+            timer: 0
+        })
+        this.initGame();
+    }
 
     executeKeyCode = (key) => {
         switch (key) {
@@ -155,6 +150,11 @@ class Board extends React.Component{
         
 		this.setState({ gameOver: true })
 
+        if (this.state.gameOver) {
+            console.log("game-over")
+            window.removeEventListener("keyup", this.keyboardUp);
+		    window.removeEventListener("keydown", this.keyboardDown);
+        }
 		//debind event
 		// window.removeEventListener("keyup", this.keyupActions);
 		// window.removeEventListener("keydown", this.keydownActions);
@@ -183,13 +183,15 @@ class Board extends React.Component{
 	}
 
     convertLevelToTime = () => { 	
-        // return baseIntervalTimer 11:11 <------------------
+		let interval = this.baseIntervalTimer / this.state.level;
+        // console.log("vitesse:" + interval);
+		return (interval < 100) ? 100 : interval
 
-        if (this.state.level === 1) {
-            return (10000000)
-        } else if (this.state.level === 2) {
-            return 50000000
-        }
+        // if (this.state.level === 1) {
+        //     return (10000000)
+        // } else if (this.state.level === 2) {
+        //     return 50000000
+        // }
 		// let interval = this.baseIntervalTimer - (this.state.level - 1) * 35
 		// return (interval < 100) ? 100 : interval
 	}
@@ -268,10 +270,11 @@ class Board extends React.Component{
         // new level reset interval
         if (numberLinesReady > 0) {
             score += ((numberLinesReady * numberLinesReady) * 10);
+            // score += parseInt(Math.pow(numberLinesReady, 2) * level * this.convertLevelToTime())
             // console.log("LEVEL 2")
 
-            if (numberLinesReady >= this.state.lineslevelUp) {
-                numberLinesReady = 0;
+            if (linesCompletes > this.state.lineslevelUp) {
+                linesCompletes = 0;
                 level++;
                 levelChanged = true;
                 clearInterval(this.timer);
@@ -279,7 +282,7 @@ class Board extends React.Component{
             
             // level = 2;
             //update score
-			// score += parseInt(Math.pow(nbrLineCompleted, 2) * lvl * this.convertLvlToTime())
+            // score += parseInt(Math.pow(nbrLineCompleted, 2) * lvl * this.convertLvlToTime())
 			
 			//changement of lvl
 			// if (nbrCleanLine >= this.state.linePerLvl) { 
@@ -381,7 +384,7 @@ class Board extends React.Component{
 
 
         if (rotation === "right") {
-            console.log("que wa ",tetromino.grid[0].length)
+            // console.log("que wa ",tetromino.grid[0].length)
             for (let x = tetromino.grid[0].length - 1; x > -1; x--) {
             // for (let x = 0; x < tetromino.grid[0].length; x++) {
                 let line = [];
@@ -465,8 +468,8 @@ class Board extends React.Component{
 		return (
             <>
                 <div className="game__pan p-3 bg" style={{display: "flex", background: "#353841"}}>
-                    <div className="game__pan bg" >
-                        <div>
+                    <div className="game__pan bg">
+                        <div style={{paddingTop: "10px"}}>
                             { this.state.grid !== null && 
                                 <Grid 
                                     grid={this.state.grid} 
@@ -475,9 +478,10 @@ class Board extends React.Component{
                                 />
                             }
                         </div>
-                        <div className="gameComponents" style={{marginLeft: 20, marginTop: 15, color: "white", display: "flex",
+                        <div className="gameComponents" style={{marginLeft: 20, color: "white", display: "flex",
                             flexDirection: "column",
-                            alignItems: "flex-start", justifyContent: "space-between"}}>
+                            alignItems: "flex-start", justifyContent: "space-between",
+                            paddingTop: "10px", paddingBottom: "5px"}}>
                                 
                             <div>
                                 <div className={"level"} style={{display: "flex",
@@ -492,6 +496,17 @@ class Board extends React.Component{
                                         />
                                 }
                             </div>
+                            { this.state.gameOver ?
+                                <div >
+                                    <p className={"gameover"}>GAME</p>
+                                    <p className={"gameover"}>OVER</p>
+                                    <button style={{background: "white", width: "150px", textAlign: "center", marginBottom: "5px"}} onClick={() => this.initGame()}>Continue ?</button>
+                                    <button style={{background: "white", width: "150px", textAlign: "center", }} onClick={() => this.restart()}>Play again</button>
+
+                                </div>
+                            :
+                                ""
+                            }
                             <div>
                                 <div className={"score"} style={{display: "flex",
                                     alignItems: "flex-start", justifyContent: "space-between", background: "#fc037f", width: "150px"}}>
@@ -510,11 +525,7 @@ class Board extends React.Component{
                                     <p className={""}>{ this.state.timer }</p>
                                 </div>
                             </div>
-                            { this.state.gameOver ?
-                                <p style={{color: "red", position: "absolute", top: 250, left: 10, fontSize: 35}}>GAME OVER</p>
-                            :
-                                ""
-                            }
+                            
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,5 @@
-$squareWidth: 20px;
-$squareHeight: 20px;
+$squareWidth: 35px;
+$squareHeight: 35px;
 
 .gridContainer {
     display: inline-block;
@@ -11,11 +11,10 @@ $squareHeight: 20px;
         linear-gradient(45deg, grey 25%, transparent 25%);	
     background-size: 2em 2em;
     background-color: #e4e4e4;
-    // border: 1px solid black;
-
+    // border: 5px  #15111a !important;
+    // padding-inline: 3px;
     // box-shadow: 0 0 10px -5px #15111a;
-
-	span {
+	span:not(.colory) {
 		display: block;
 		float: left;
 		width: $squareWidth;
@@ -83,7 +82,7 @@ $tetrominoColors: (
     // box-shadow: 0 0 10px -5px ;
     background: none;
     // margin-bottom: 50px;
-
+    border: none;
     span {
         // background: red;
             // display: block;
@@ -91,7 +90,6 @@ $tetrominoColors: (
             width: $squareWidth;
             height:$squareHeight;
             // position: relative;
-            // border: none;
     }
 }
 
@@ -101,7 +99,10 @@ $tetrominoColors: (
     align-items: center;
     // justify-content: space-evenly;
     background: #15111a;
-    height: 100px;
+    border-bottom: 5px solid grey !important;
+    // border: 5px outset #15111a 
+    // padding-inline: 3px;
+    height: 120px + $squareWidth;
 }
 
 .tetrominoTitle {
@@ -119,13 +120,13 @@ $tetrominoColors: (
     //     linear-gradient(45deg, grey 25%, transparent 25%);	
     // background-size: 2em 2em;
     // background-color: #adadad;
-    padding: 5px;
-    width: 200px;
+    // padding: 5px;
+    width: 150px;
 }
 
 .bg {
     background-color: #353841 !important;
-    padding-bottom: 10px;
+    // padding-bottom: 10px;
 }
 
 // "1" #2003fc, "2" #fc0303, "3" #03fc3d, "4" #03ebfc, "5" #fc037f, "6" #b503fc, "7" #f0fc03
@@ -138,6 +139,7 @@ $tetrominoColors: (
 .time {
     border: 5px outset #2003fc !important;
     padding-inline: 3px;
+    margin-bottom: 1px;
 }
 
 .line {
@@ -148,4 +150,13 @@ $tetrominoColors: (
 .level {
     border: 5px outset #b503fc !important;
     padding-inline: 3px;
+}
+
+.gameover {
+    color: red;
+    // position: absolute;
+    // top: 250px;
+    // left: 20px + $squareWidth + $squareHeight; 
+    font-size: 40px;
+    text-align: center;
 }
