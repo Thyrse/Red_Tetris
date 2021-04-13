@@ -6,7 +6,7 @@ import NextTetromino from "./NextTetromino";
 import BuildGrid from "../utils/BuildGrid";
 import CleanGrids from "../utils/CompletesLines";
 
-import Tetromino from "./tetrominos";
+import Tetromino from "./Tetrominos";
 
 class Board extends React.Component {
   state = {
