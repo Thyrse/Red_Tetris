@@ -127,3 +127,25 @@ $tetrominoColors: (
     background-color: #353841 !important;
     padding-bottom: 10px;
 }
+
+// "1" #2003fc, "2" #fc0303, "3" #03fc3d, "4" #03ebfc, "5" #fc037f, "6" #b503fc, "7" #f0fc03
+
+.score {
+    border: 5px outset #fc037f !important;
+    padding-inline: 3px;
+}
+
+.time {
+    border: 5px outset #2003fc !important;
+    padding-inline: 3px;
+}
+
+.line {
+    border: 5px outset #03fc3d !important;
+    padding-inline: 3px;
+}
+
+.level {
+    border: 5px outset #b503fc !important;
+    padding-inline: 3px;
+}

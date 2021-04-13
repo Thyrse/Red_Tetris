@@ -480,10 +480,10 @@ class Board extends React.Component{
                             alignItems: "flex-start", justifyContent: "space-between"}}>
                                 
                             <div>
-                                <div style={{display: "flex",
+                                <div className={"level"} style={{display: "flex",
                                         alignItems: "flex-start", justifyContent: "space-between", background: "#b503fc", width: "150px"}}>
-                                    <p className={"level"}>Level</p>
-                                    <p className={"level"}>{ this.state.level }</p>
+                                    <p>Level</p>
+                                    <p>{ this.state.level }</p>
                                 </div>
                                 {  this.state.nextPiece !== null &&
                                         <NextTetromino 
@@ -493,18 +493,19 @@ class Board extends React.Component{
                                 }
                             </div>
                             <div>
-                                <div style={{display: "flex",
+                                <div className={"score"} style={{display: "flex",
                                     alignItems: "flex-start", justifyContent: "space-between", background: "#fc037f", width: "150px"}}>
-                                    <p className={"score"}>Score</p>
+                                    <p className={""}>Score</p>
                                     <p className={""}>{ this.state.score }</p>
                                 </div>
-                                <div style={{display: "flex",
+                                <div className={"line"} style={{display: "flex",
                                     alignItems: "flex-start", justifyContent: "space-between", background: "#03fc3d", width: "150px"}}>
                                     <p className={""}>Lines</p>
                                     <p className={""}>{ this.state.linesCompletes}/{this.state.lineslevelUp}</p>
                                 </div>
-                                <div style={{display: "flex",
-                                    alignItems: "flex-start", justifyContent: "space-between", background: "#2003fc", width: "150px"}}>
+                                <div className={"time"} style={{display: "flex",
+                                    alignItems: "flex-start", justifyContent: "space-between", background: "#2003fc", width: "150px",
+                                    border: `5px outset #fc0303 !important`}}>
                                     <p className={""}>Timer</p>
                                     <p className={""}>{ this.state.timer }</p>
                                 </div>
