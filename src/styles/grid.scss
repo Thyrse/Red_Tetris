@@ -1,0 +1,129 @@
+$squareWidth: 20px;
+$squareHeight: 20px;
+
+.gridContainer {
+    display: inline-block;
+    // background: grey;
+    background: 
+        linear-gradient(135deg, grey 25%, transparent 25%) -50px 0,
+        linear-gradient(225deg, grey 25%, transparent 25%) -50px 0,
+        linear-gradient(315deg, grey 25%, transparent 25%),
+        linear-gradient(45deg, grey 25%, transparent 25%);	
+    background-size: 2em 2em;
+    background-color: #e4e4e4;
+    // border: 1px solid black;
+
+    // box-shadow: 0 0 10px -5px #15111a;
+
+	span {
+		display: block;
+		float: left;
+		width: $squareWidth;
+		height:$squareHeight;
+		// position: relative;
+        // border: 5px ridge grey;
+        &before {
+            border: 1px solid black;
+        }
+	}
+}
+
+// #gridContainer 
+// .gridContainer span.color {
+//     background-color: aqua;
+//     color: white;
+// }
+.gridContainer span.first {
+    clear: both;
+    /* background-color: red; */
+}
+
+.gridContainer span.finish:not(.color) {
+    // background-color: orange;
+    // transition: background-color 2s ease-in;
+}
+
+// #gridContainer span.last:not(.finish) {
+// }
+
+.gridContainer span.mirror {
+    background-color: rgba(36, 36, 36, 0.5);
+}
+
+
+// .nextTetromino {
+
+// }
+
+.gridContainer span.colory:not(.color) {
+    background-color: #353841;
+    border: 0px solid black;
+}
+
+$tetrominoColors: (
+  "1" #2003fc, "2" #fc0303, "3" #03fc3d, "4" #03ebfc, "5" #fc037f, "6" #b503fc, "7" #f0fc03
+);
+
+@each $color in $tetrominoColors {
+    .gridContainer span.color#{nth($color, 1)} {
+        background-color: nth($color, 2);
+        border: 5px outset nth($color, 2);
+        
+    }
+
+    // check for square tetromino margin
+    #tetrominoContainer .color#{7} {
+        position: relative;
+        top: 20px
+    }
+}
+
+#tetrominoContainer {
+    // position: absolute;
+    // box-shadow: 0 0 10px -5px ;
+    background: none;
+    // margin-bottom: 50px;
+
+    span {
+        // background: red;
+            // display: block;
+            // float: left;
+            width: $squareWidth;
+            height:$squareHeight;
+            // position: relative;
+            // border: none;
+    }
+}
+
+.tetrominoWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // justify-content: space-evenly;
+    background: #15111a;
+    height: 100px;
+}
+
+.tetrominoTitle {
+    margin-bottom: 10px;
+    #tetrominoContainer .color#{7} {
+        margin: 10px
+    }
+}
+
+.gameComponents {
+    // background: 
+    //     linear-gradient(135deg, grey 25%, transparent 25%) -50px 0,
+    //     linear-gradient(225deg, grey 25%, transparent 25%) -50px 0,
+    //     linear-gradient(315deg, grey 25%, transparent 25%),
+    //     linear-gradient(45deg, grey 25%, transparent 25%);	
+    // background-size: 2em 2em;
+    // background-color: #adadad;
+    padding: 5px;
+    width: 200px;
+}
+
+.bg {
+    background-color: #353841 !important;
+    padding-bottom: 10px;
+}
