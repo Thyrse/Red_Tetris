@@ -17,9 +17,10 @@ import { setUsersList } from "../redux/usersList/action";
  */
 const Login = ({ socket }) => {
   // const socket = socketIOClient.connect("http://localhost:4000");
-  const [username, setUsername] = useState();
+  const [username, setUsername] = useState("");
   const history = useHistory();
   const dispatch = useDispatch();
+  const [error, setError] = useState(0);
 
   console.log("Socket on Login ==>", socket);
 
@@ -28,30 +29,23 @@ const Login = ({ socket }) => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    socket.emit("LOGIN", username.toUpperCase());
-    authenticate({
-      username: username.toUpperCase(),
-      socketID: socket.id,
-    });
-    dispatch(
-      setUserData({
-        username: username.toUpperCase(),
-        socketID: socket.id,
-        inGame: false,
-        ownedRooms: [],
-        room: "Lobby",
-      })
-    );
-    socket.emit("REFRESH_USERSLIST", username.toUpperCase());
+    setError(null);
+    // socket.emit("LOGIN", username.toUpperCase());
+    // authenticate({
+    //   username: username.toUpperCase(),
+    //   socketID: socket.id,
+    // });
     // dispatch(
-    //   setUsersList({ username: username.toUpperCase(), socketID: socket.id })
+    //   setUserData({
+    //     username: username.toUpperCase(),
+    //     socketID: socket.id,
+    //     inGame: false,
+    //     ownedRooms: [],
+    //     room: "Lobby",
+    //   })
     // );
-    // dispatch(
-    //   setUsersList({ username: username.toUpperCase(), socketID: socket.id })
-    // );
-    // updateStorageData();
-    // dispatch(setUserData(username.toUpperCase()));
-    history.push("/home");
+    // socket.emit("REFRESH_USERSLIST", username.toUpperCase());
+    // history.push("/home");
   };
 
   return (
@@ -60,18 +54,19 @@ const Login = ({ socket }) => {
         <div className="login p-3 shadow rounded text-center text-white">
           <div>
             <h3>Connect to play!</h3>
-            {window.location.hash && <h1>Salut les michtos</h1>}
           </div>
-          <form onSubmit={handleSubmit}>
+          <form className="form-login" onSubmit={handleSubmit}>
             <div className="m-3">
               <label>Username:</label>
               <input
                 type="text"
                 name="username"
                 id="username"
+                error={error}
                 className="form-control"
                 placeholder="Thyrse, Ziphlot..."
                 onChange={(e) => handleChange(e)}
+                value={username || ""}
               />
             </div>
             <div className="d-flex justify-content-center">
