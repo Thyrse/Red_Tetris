@@ -1,5 +1,5 @@
-$squareWidth: 20px;
-$squareHeight: 20px;
+$squareWidth: 30px;
+$squareHeight: 30px;
 
 .gridContainer {
     display: inline-block;
@@ -33,7 +33,7 @@ $squareHeight: 20px;
 }
 
 .gridContainer span.finish:not(.color) {
-    // background-color: orange;
+    // background-color: black;
     // transition: background-color 2s ease-in;
 }
 
@@ -151,6 +151,17 @@ $tetrominoColors: (
     padding-bottom: 5px;
 }
 
+.gameoverContainer {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    left: 50px;
+    top: 250px;
+    // background-color: black;
+    // padding: 30px
+}
+
 .gameButtonGameover{
     background: white; 
     width: 150px; 
@@ -162,7 +173,7 @@ $tetrominoColors: (
 }
 
 .gameover {
-    color: red;
-    font-size: 40px;
+    color: black;
+    font-size: 80px;
     text-align: center;
 }

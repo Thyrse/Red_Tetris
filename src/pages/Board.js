@@ -369,8 +369,8 @@ class Board extends React.Component{
                                         />
                                 }
                             </div>
-                            { this.state.gameOver ?
-                                <div >
+                            { !this.state.gameOver ?
+                                <div className={"gameoverContainer"}>
                                     <p className={"gameover"}>GAME</p>
                                     <p className={"gameover"}>OVER</p>
                                     <button className={"gameButtonGameover"} onClick={() => this.initGame()}>Continue ?</button>
