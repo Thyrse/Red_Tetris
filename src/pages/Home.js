@@ -9,6 +9,7 @@ import Chat from "../components/Chat";
 import socketIOClient from "socket.io-client";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserData } from "../redux/auth/actions";
+import { Tooltip, Zoom } from "@material-ui/core";
 
 /**
  * Component that displays the patient page,
@@ -20,7 +21,7 @@ const Home = ({ socket }) => {
   // const socket = socketIOClient.connect("http://localhost:4000");
   const dispatch = useDispatch();
   const history = useHistory();
-  const [room, setRoom] = useState();
+  const [room, setRoom] = useState("");
   const roomsList = useSelector((state) => state.roomsList.roomsList);
   const currentUser = useSelector((state) => state.userData.userDatas);
 
@@ -51,6 +52,8 @@ const Home = ({ socket }) => {
     socket.emit("JOIN_ROOM", { datas: datas, currentUser: currentUser });
     history.push(`/game#${datas.name}[${currentUser.username}]`);
   };
+
+  const validRoomName = room.match(/^[a-zA-Z]{1,10}$/);
   return (
     <>
       <div className="container-fluid">
@@ -72,9 +75,19 @@ const Home = ({ socket }) => {
                       onChange={(e) => handleChange(e)}
                       value={room || ""}
                     />
-                    <button className="btn btn-img btn-outline-arrow">
-                      <img src={arrowRightWhite} alt="Validation button" />
-                    </button>
+                    <Tooltip
+                      TransitionComponent={Zoom}
+                      title="Room must contain between 1 and 10 alphanumeric characters."
+                    >
+                      <span className="p-1">
+                        <button
+                          className="btn btn-img btn-outline-arrow"
+                          disabled={!validRoomName}
+                        >
+                          <img src={arrowRightWhite} alt="Validation button" />
+                        </button>
+                      </span>
+                    </Tooltip>
                   </div>
                 </form>
               </div>

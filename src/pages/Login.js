@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUserData } from "../redux/auth/actions";
 import { authenticate, updateStorageData } from "../services/auth";
 import { setUsersList } from "../redux/usersList/action";
+import { Tooltip, Zoom } from "@material-ui/core";
 
 /**
  * Component that displays the patient page,
@@ -48,6 +49,7 @@ const Login = ({ socket }) => {
     // history.push("/home");
   };
 
+  const validUsername = username.match(/^[a-zA-Z]{1,10}$/);
   return (
     <>
       <div className="d-flex justify-content-center">
@@ -70,9 +72,20 @@ const Login = ({ socket }) => {
               />
             </div>
             <div className="d-flex justify-content-center">
-              <button type="submit" className="btn btn-white">
-                Play
-              </button>
+              <Tooltip
+                TransitionComponent={Zoom}
+                title="Your username must contain between 1 and 10 alphanumeric characters."
+              >
+                <span className="p-2">
+                  <button
+                    type="submit"
+                    className="btn btn-white"
+                    disabled={!validUsername}
+                  >
+                    Play
+                  </button>
+                </span>
+              </Tooltip>
             </div>
           </form>
         </div>

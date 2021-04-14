@@ -15,7 +15,7 @@ import { useSelector } from "react-redux";
  * drawers and modal
  */
 const Chat = ({ socket }) => {
-  const [message, setMessage] = useState();
+  const [message, setMessage] = useState("");
   const [chatContent, setChatContent] = useState([]);
   // const socket = socketIOClient.connect("http://localhost:4000");
   const usersList = useSelector((state) => state.listUsers.usersList);
@@ -39,7 +39,7 @@ const Chat = ({ socket }) => {
     e.preventDefault();
     console.log("PASSING SUBMIT NEW MESSAGE");
     socket.emit("NEW_MESSAGE", {
-      message: message,
+      message: message.trim(),
       username: currentUser.username,
       room: currentUser.room,
     });
@@ -111,6 +111,9 @@ const Chat = ({ socket }) => {
                     className="btn btn-white msg-button"
                     type="submit"
                     id="envoi_message"
+                    disabled={
+                      !message || !message.length > 0 || message.trim() === ""
+                    }
                   >
                     Send &#8679;
                   </button>
