@@ -1,5 +1,5 @@
-$squareWidth: 35px;
-$squareHeight: 35px;
+$squareWidth: 20px;
+$squareHeight: 20px;
 
 .gridContainer {
     display: inline-block;
@@ -27,11 +27,6 @@ $squareHeight: 35px;
 	}
 }
 
-// #gridContainer 
-// .gridContainer span.color {
-//     background-color: aqua;
-//     color: white;
-// }
 .gridContainer span.first {
     clear: both;
     /* background-color: red; */
@@ -42,17 +37,9 @@ $squareHeight: 35px;
     // transition: background-color 2s ease-in;
 }
 
-// #gridContainer span.last:not(.finish) {
-// }
-
 .gridContainer span.mirror {
     background-color: rgba(36, 36, 36, 0.5);
 }
-
-
-// .nextTetromino {
-
-// }
 
 .gridContainer span.colory:not(.color) {
     background-color: #353841;
@@ -70,7 +57,6 @@ $tetrominoColors: (
         
     }
 
-    // check for square tetromino margin
     #tetrominoContainer .color#{7} {
         position: relative;
         top: 20px
@@ -78,18 +64,11 @@ $tetrominoColors: (
 }
 
 #tetrominoContainer {
-    // position: absolute;
-    // box-shadow: 0 0 10px -5px ;
     background: none;
-    // margin-bottom: 50px;
     border: none;
     span {
-        // background: red;
-            // display: block;
-            // float: left;
             width: $squareWidth;
             height:$squareHeight;
-            // position: relative;
     }
 }
 
@@ -97,11 +76,8 @@ $tetrominoColors: (
     display: flex;
     flex-direction: column;
     align-items: center;
-    // justify-content: space-evenly;
     background: #15111a;
     border-bottom: 5px solid grey !important;
-    // border: 5px outset #15111a 
-    // padding-inline: 3px;
     height: 120px + $squareWidth;
 }
 
@@ -112,51 +88,81 @@ $tetrominoColors: (
     }
 }
 
-.gameComponents {
-    // background: 
-    //     linear-gradient(135deg, grey 25%, transparent 25%) -50px 0,
-    //     linear-gradient(225deg, grey 25%, transparent 25%) -50px 0,
-    //     linear-gradient(315deg, grey 25%, transparent 25%),
-    //     linear-gradient(45deg, grey 25%, transparent 25%);	
-    // background-size: 2em 2em;
-    // background-color: #adadad;
-    // padding: 5px;
+.bg {
+    background-color: #353841 !important;
+}
+
+.gameComponentsscore {
+    border: 5px outset #fc037f !important;
+    padding-inline: 3px;
+    display: flex;
+    align-items: flex-start; 
+    justify-content: space-between; 
+    background: #fc037f; 
     width: 150px;
 }
 
-.bg {
-    background-color: #353841 !important;
-    // padding-bottom: 10px;
-}
-
-// "1" #2003fc, "2" #fc0303, "3" #03fc3d, "4" #03ebfc, "5" #fc037f, "6" #b503fc, "7" #f0fc03
-
-.score {
-    border: 5px outset #fc037f !important;
-    padding-inline: 3px;
-}
-
-.time {
+.gameComponentstime {
     border: 5px outset #2003fc !important;
     padding-inline: 3px;
     margin-bottom: 1px;
+    display: flex;
+    align-items: flex-start; 
+    justify-content: space-between; 
+    background: #2003fc; 
+    width: 150px;
 }
 
-.line {
+.gameComponentsline {
     border: 5px outset #03fc3d !important;
     padding-inline: 3px;
+    display: flex;
+    align-items: flex-start; 
+    justify-content: space-between; 
+    background: #03fc3d; 
+    width: 150px;
 }
 
-.level {
+.gameComponentslevel {
     border: 5px outset #b503fc !important;
     padding-inline: 3px;
+    display: flex;
+    align-items: flex-start; 
+    justify-content: space-between; 
+    background: #b503fc; 
+    width: 150px;
+}
+
+// Board
+
+.gameGridContainer {
+    padding-top: 10px;
+}
+
+.gameComponentsContainer {
+    width: 150px;
+    margin-left: 20px; 
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+    justify-content: space-between;
+    padding-top: 10px; 
+    padding-bottom: 5px;
+}
+
+.gameButtonGameover{
+    background: white; 
+    width: 150px; 
+    text-align: center; 
+    margin-bottom: 5px;
+    .rr {
+        margin-bottom: 5px;
+    }
 }
 
 .gameover {
     color: red;
-    // position: absolute;
-    // top: 250px;
-    // left: 20px + $squareWidth + $squareHeight; 
     font-size: 40px;
     text-align: center;
 }
