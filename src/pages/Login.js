@@ -31,22 +31,22 @@ const Login = ({ socket }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setError(null);
-    // socket.emit("LOGIN", username.toUpperCase());
-    // authenticate({
-    //   username: username.toUpperCase(),
-    //   socketID: socket.id,
-    // });
-    // dispatch(
-    //   setUserData({
-    //     username: username.toUpperCase(),
-    //     socketID: socket.id,
-    //     inGame: false,
-    //     ownedRooms: [],
-    //     room: "Lobby",
-    //   })
-    // );
-    // socket.emit("REFRESH_USERSLIST", username.toUpperCase());
-    // history.push("/home");
+    socket.emit("LOGIN", username.toUpperCase());
+    authenticate({
+      username: username.toUpperCase(),
+      socketID: socket.id,
+    });
+    dispatch(
+      setUserData({
+        username: username.toUpperCase(),
+        socketID: socket.id,
+        inGame: false,
+        ownedRooms: [],
+        room: "Lobby",
+      })
+    );
+    socket.emit("REFRESH_USERSLIST", username.toUpperCase());
+    history.push("/home");
   };
 
   const validUsername = username.match(/^[a-zA-Z]{1,10}$/);

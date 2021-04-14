@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Login rendering upon arrival 1`] = `
+<div
+  className="d-flex justify-content-center"
+>
+  <div
+    className="login p-3 shadow rounded text-center text-white"
+  >
+    <div>
+      <h3>
+        Connect to play!
+      </h3>
+    </div>
+    <form
+      className="form-login"
+      onSubmit={[Function]}
+    >
+      <div
+        className="m-3"
+      >
+        <label>
+          Username:
+        </label>
+        <input
+          className="form-control"
+          error={0}
+          id="username"
+          name="username"
+          onChange={[Function]}
+          placeholder="Thyrse, Ziphlot..."
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        className="d-flex justify-content-center"
+      >
+        <span
+          aria-describedby={null}
+          className="p-2"
+          onBlur={[Function]}
+          onFocus={[Function]}
+          onMouseLeave={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          onTouchStart={[Function]}
+          title="Your username must contain between 1 and 10 alphanumeric characters."
+        >
+          <button
+            className="btn btn-white"
+            disabled={true}
+            type="submit"
+          >
+            Play
+          </button>
+        </span>
+      </div>
+    </form>
+  </div>
+</div>
+`;
