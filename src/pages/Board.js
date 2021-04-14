@@ -369,7 +369,7 @@ class Board extends React.Component{
                                         />
                                 }
                             </div>
-                            { !this.state.gameOver ?
+                            { this.state.gameOver ?
                                 <div className={"gameoverContainer"}>
                                     <p className={"gameover"}>GAME</p>
                                     <p className={"gameover"}>OVER</p>

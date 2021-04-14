@@ -33,7 +33,7 @@ $squareHeight: 30px;
 }
 
 .gridContainer span.finish:not(.color) {
-    // background-color: black;
+    // background-color: black !important;
     // transition: background-color 2s ease-in;
 }
 
@@ -152,12 +152,12 @@ $tetrominoColors: (
 }
 
 .gameoverContainer {
-    position: absolute;
+    // position: absolute;
     display: flex;
     flex-direction: column;
     align-items: center; 
-    left: 50px;
-    top: 250px;
+    // left: 160px;
+    // top: 250px;
     // background-color: black;
     // padding: 30px
 }
@@ -173,7 +173,7 @@ $tetrominoColors: (
 }
 
 .gameover {
-    color: black;
-    font-size: 80px;
+    color: red;
+    font-size: 30px;
     text-align: center;
 }
