@@ -9,6 +9,7 @@ import { setUserData } from "../redux/auth/actions";
 import { authenticate, updateStorageData } from "../services/auth";
 import { setUsersList } from "../redux/usersList/action";
 import { Tooltip, Zoom } from "@material-ui/core";
+import { useSnackbar } from "../contexts/Snackbar";
 
 /**
  * Component that displays the patient page,
@@ -22,31 +23,40 @@ const Login = ({ socket }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [error, setError] = useState(0);
+  const snackbar = useSnackbar();
 
-  console.log("Socket on Login ==>", socket);
+  // console.log("Socket on Login ==>", socket);
 
   const handleChange = (e) => {
     setUsername(e.target.value);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    setError(null);
-    socket.emit("LOGIN", username.toUpperCase());
-    authenticate({
-      username: username.toUpperCase(),
-      socketID: socket.id,
-    });
-    dispatch(
-      setUserData({
+    if (username !== "") {
+      setError(null);
+      socket.emit("LOGIN", username.toUpperCase());
+      authenticate({
         username: username.toUpperCase(),
         socketID: socket.id,
-        inGame: false,
-        ownedRooms: [],
-        room: "Lobby",
-      })
-    );
-    socket.emit("REFRESH_USERSLIST", username.toUpperCase());
-    history.push("/home");
+      });
+      dispatch(
+        setUserData({
+          username: username.toUpperCase(),
+          socketID: socket.id,
+          inGame: false,
+          ownedRooms: [],
+          room: "Lobby",
+        })
+      );
+      socket.emit("REFRESH_USERSLIST", username.toUpperCase());
+      history.push("/home");
+    } else {
+      snackbar.set({
+        open: true,
+        text: "You must provide a valid username.",
+        severity: "snackbar-danger",
+      });
+    }
   };
 
   const validUsername = username.match(/^[a-zA-Z]{1,10}$/);

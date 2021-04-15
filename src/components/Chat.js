@@ -21,23 +21,23 @@ const Chat = ({ socket }) => {
   const usersList = useSelector((state) => state.listUsers.usersList);
   const currentUser = useSelector((state) => state.userData.userDatas);
 
-  console.log("Socket on Chat ==>", socket);
-  console.log("VALUE OF currentUser ==>", currentUser);
+  // console.log("Socket on Chat ==>", socket);
+  // console.log("VALUE OF currentUser ==>", currentUser);
 
   const outputMessage = (pseudo, message) => {
     const yolo = chatContent;
     yolo.push({ username: pseudo, msg: message });
     setChatContent(yolo);
-    console.log("Pseudo ==>", pseudo);
-    console.log("Message ==>", message);
+    // console.log("Pseudo ==>", pseudo);
+    // console.log("Message ==>", message);
     setMessage("");
   };
 
-  console.log("Chat content ==>", chatContent);
+  // console.log("Chat content ==>", chatContent);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("PASSING SUBMIT NEW MESSAGE");
+    // console.log("PASSING SUBMIT NEW MESSAGE");
     socket.emit("NEW_MESSAGE", {
       message: message.trim(),
       username: currentUser.username,
@@ -49,7 +49,7 @@ const Chat = ({ socket }) => {
     setMessage(e.target.value);
   };
 
-  console.log("Message state ==>", message);
+  // console.log("Message state ==>", message);
   useEffect(() => {
     socket.on("NEW_MESSAGE", function (data) {
       outputMessage(data.username, data.message);
@@ -84,7 +84,9 @@ const Chat = ({ socket }) => {
                 <ul>
                   {usersList &&
                     usersList.length > 0 &&
-                    usersList.map((user) => <li>{user.username}</li>)}
+                    usersList.map((user, index) => (
+                      <li key={index}>{user.username}</li>
+                    ))}
                 </ul>
               </div>
             </div>

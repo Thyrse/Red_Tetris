@@ -123,3 +123,12 @@ a {
 label {
   margin-bottom: 0;
 }
+
+// SNACKBAR
+
+.snackbar-success div {
+  background-color: $success !important;
+}
+.snackbar-danger div {
+  background-color: $danger !important;
+}

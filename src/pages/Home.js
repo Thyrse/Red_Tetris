@@ -10,6 +10,7 @@ import socketIOClient from "socket.io-client";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserData } from "../redux/auth/actions";
 import { Tooltip, Zoom } from "@material-ui/core";
+import { useSnackbar } from "../contexts/Snackbar";
 
 /**
  * Component that displays the patient page,
@@ -24,9 +25,10 @@ const Home = ({ socket }) => {
   const [room, setRoom] = useState("");
   const roomsList = useSelector((state) => state.roomsList.roomsList);
   const currentUser = useSelector((state) => state.userData.userDatas);
+  const snackbar = useSnackbar();
 
-  console.log("Socket on Home ==>", socket);
-  console.log("ROOM VALUE ==>", room);
+  // console.log("Socket on Home ==>", socket);
+  // console.log("ROOM VALUE ==>", room);
   console.log("ROOMS LIST ==>", roomsList);
   useEffect(() => {
     socket.emit("JOIN_LOBBY", currentUser);
@@ -41,8 +43,16 @@ const Home = ({ socket }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    socket.emit("CREATE_ROOM", { name: room, owner: currentUser.socketID });
-    setRoom("");
+    if (room !== "") {
+      socket.emit("CREATE_ROOM", { name: room, owner: currentUser.socketID });
+      setRoom("");
+    } else {
+      snackbar.set({
+        open: true,
+        text: "You must provide a valid username.",
+        severity: "snackbar-danger",
+      });
+    }
   };
 
   const handleJoin = (datas) => {
@@ -64,13 +74,13 @@ const Home = ({ socket }) => {
                 <h3>Rooms</h3>
               </div>
               <div className="p-3">
-                <form action="" onSubmit={handleSubmit}>
+                <form className="form-room" onSubmit={handleSubmit}>
                   <div className="room-container__create">
                     <input
                       type="text"
                       name="roomName"
                       id="roomName"
-                      className="form-control"
+                      className="form-control control-room"
                       placeholder="Enter room name..."
                       onChange={(e) => handleChange(e)}
                       value={room || ""}
@@ -101,11 +111,11 @@ const Home = ({ socket }) => {
                       </div>
                       <div className="room-join col-2">
                         <span>
-                          {room.members.length}/{room.size}
+                          {room?.members?.length}/{room?.size}
                         </span>
                       </div>
                       <div className="room-button col-2">
-                        {room.members.length >= room.size ? (
+                        {room?.members?.length >= room?.size ? (
                           <span>UNAVAILABLE</span>
                         ) : (
                           <button

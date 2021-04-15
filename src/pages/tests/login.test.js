@@ -1,7 +1,7 @@
 import React from "react";
 import { mount, shallow } from "enzyme";
 import toJson from "enzyme-to-json";
-import Login from "./Login";
+import Login from "../Login";
 import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
 import { Provider } from "react-redux";
@@ -9,8 +9,6 @@ import renderer from "react-test-renderer";
 import socketIOClient from "socket.io-client";
 
 const socket = socketIOClient.connect("http://localhost:4000");
-
-console.log("SOCKET IN UNIT TEST ==>", socket);
 
 const middlewares = [thunk];
 
@@ -71,7 +69,7 @@ it("Should throw an error on submission without username provided", () => {
   // expect(wrapper.find(".form-control").name).toBeTruthy();
 });
 
-it("Should redirect on form submission if an username is provided", () => {
+it("Should redirect to home on form submission if an username is provided", () => {
   const fakeEvent = { preventDefault: () => console.log("preventDefault") };
   const wrapper = mount(
     <Provider store={store}>
