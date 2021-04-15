@@ -25,7 +25,11 @@ class Board extends React.Component{
         gameOver: false,
         nextPiece: null,
         timer: 0,
-        score: 0
+        score: 0,
+        lifes: 0,
+        nextLifes: 0,
+        lifeGameOver: 0,
+        stayalive: 4
 	}
 
 	componentDidMount() { 
@@ -36,23 +40,27 @@ class Board extends React.Component{
         console.log("game-start");
 
         // put in options
-        this.levelTimeSpeed = 1500;
+        this.levelTimeSpeed = 15000000;
 
         this.pressedKey = [];
         this.pressedMultipleKey = false;
         
         window.addEventListener("keyup", this.keyboardUp);
         window.addEventListener("keydown", this.keyboardDown);
-
+        // console.log("this.state.stayalive" + this.state.stayalive)
+        // this.setState({ stayalive: this.state.stayalive - 1 }); 
 		this.setState({
             gameOver: false,
 			grid: BuildGrid(this.state.gridHeight, this.state.gridWidth),
-            nextPiece: this.generateNextPiece()
+            nextPiece: this.generateNextPiece(),
         }, () => {
             this.makeTetromino()
             this.handleGameTime()
             this.launchTimer()
+            
         })
+        // console.log("LIFES:" + this.state.lifes);
+
 	}
 
     keyboardUp = (e) => {
@@ -120,10 +128,12 @@ class Board extends React.Component{
 
 		//set status lost game
 		this.setState({ gameOver: true })
-
+        // this.gameTimer = setInterval(() => {
+        // }, 1000)
         //debind keyboards
         if (this.state.gameOver) {
-            console.log("game-over")
+            console.log("game-over");
+            this.lifeGameSystem();
             window.removeEventListener("keyup", this.keyboardUp);
 		    window.removeEventListener("keydown", this.keyboardDown);
         }
@@ -217,13 +227,12 @@ class Board extends React.Component{
 	tetrominoIsPosition = (tetromino) => {
         let cordinate = [];
 
-        // y por aca tambien
         for (let y = 0; y < tetromino.grid.length; y++) {
             // console.log("YYY", y)
             for (let x = 0; x < tetromino.grid[0].length; x++) {
                 // console.log("XXX", x)
                 if (tetromino.grid[y][x] > 0) {
-                    // console.log("CHILE" + grid[y])
+                    // console.log(grid[y])
                     // console.log(this.state.grid[y + tetromino.posY][x + tetromino.posX])
                     if (this.state.grid[y + tetromino.posY] === undefined) {
                         return false
@@ -288,23 +297,31 @@ class Board extends React.Component{
         let newGrid = []
         if (rotation === "right") {
             // console.log(tetromino.grid[0].length)
-            for (let x = tetromino.grid[0].length - 1; x > -1; x--) {
+            let x = tetromino.grid[0].length - 1;
+            while (x > -1) {
                 let line = [];
-                for (let y = 0; y < tetromino.grid.length; y++) {
+                let y = 0;
+                while (y < tetromino.grid.length) {
                     // console.log(y + "_" + x + "  >" + tetromino.grid[y][x]);
-                    line.push(tetromino.grid[y][x])
+                    line.push(tetromino.grid[y][x]);
+                    y++;
                 } 
                 newGrid.push(line);
+                x--;
             }
         }
         else if (rotation === "left") {
-            for (let x = 0; x < tetromino.grid[0].length; x++) {
+            let x = 0;
+            while ( x < tetromino.grid[0].length) {
                 let line = [];
-                for (let y = tetromino.grid.length - 1; y > -1; y--) {
+                let y = tetromino.grid.length - 1;
+                while (y > -1) {
                     // console.log(y + "_" + x + "  >" + tetromino.grid[y][x]);
-                    line.push(tetromino.grid[y][x])
+                    line.push(tetromino.grid[y][x]);
+                    y--;
                 } 
                 newGrid.push(line);
+                x++;
             }
         }
         tetromino.grid = newGrid;
@@ -344,6 +361,25 @@ class Board extends React.Component{
         }, 1000)
     }
 
+    lifeGameSystem() {
+        // console.log("this.state.stayalive" + this.state.stayalive)
+        this.setState({stayalive: this.state.stayalive - 1})
+
+        if (this.state.stayalive === 4) {
+            this.setState({
+                lifes: 1
+            });
+        } else if (this.state.stayalive === 3) {
+            this.setState({
+                nextLifes: 1
+            }); 
+        } else if (this.state.stayalive === 2) {
+            this.setState({
+                lifeGameOver: 1
+            }); 
+        }
+    }
+
 	render() { 
 		return (
             <>
@@ -359,7 +395,6 @@ class Board extends React.Component{
                             }
                         </div>
                         <div className="gameComponentsContainer">
-                                
                             <div>
                                 <GameOptions className={"gameComponentslevel"} title={"Level"} state={this.state.level}/>
                                 {  this.state.nextPiece !== null &&
@@ -373,13 +408,23 @@ class Board extends React.Component{
                                 <div className={"gameoverContainer"}>
                                     <p className={"gameover"}>GAME</p>
                                     <p className={"gameover"}>OVER</p>
-                                    <button className={"gameButtonGameover"} onClick={() => this.initGame()}>Continue ?</button>
+                                    { (this.state.stayalive === 4 || this.state.stayalive === 3 || this.state.stayalive === 2) ? 
+                                        <button className={"gameButtonGameover"} onClick={() => this.initGame()}>Continue ?</button>
+                                    : 
+                                        "" }
                                     <button className={"gameButtonGameover rr"} onClick={() => this.restart()}>Play again</button>
                                 </div>
                             :
                                 ""
                             }
                             <div>
+                                <div style={{marginBottom: "30px", display: "flex", flexDirection: "row", justifyContent: "space-between",width: "100px", alignItems: "center",
+                                    marginLeft: "15px"
+                                }}>
+                                    <div className={`pixelized--heart black--${this.state.lifeGameOver}`}/>
+                                    <div className={`pixelized--heart black--${this.state.nextLifes}`}/>
+                                    <div className={`pixelized--heart black--${this.state.lifes}`}/>
+                                </div>
                                 <GameOptions className={"gameComponentsscore"} title={"Score"} state={this.state.score}/>
                                 <GameOptions className={"gameComponentsline"} title={"Lines"} state={ `${this.state.linesCompletes}/${this.state.lineslevelUp}`}/>
                                 <GameOptions className={"gameComponentstime"} title={"Time"} state={this.state.timer}/>

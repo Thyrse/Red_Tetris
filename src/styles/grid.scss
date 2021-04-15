@@ -177,3 +177,122 @@ $tetrominoColors: (
     font-size: 30px;
     text-align: center;
 }
+
+.pixelized--heart {
+  display: block;
+  width: 3px;
+  height: 3px;
+  box-shadow:
+	3px 0px #F22613,
+	6px 0px #F22613,
+	12px 0px #F22613,
+	15px 0px #F22613,
+
+	0px 3px #F22613,
+	3px 3px #F22613,
+	6px 3px white,
+	9px 3px #F22613,
+	12px 3px #F22613,
+	15px 3px #F22613,
+	18px 3px #F22613,
+
+	0px 6px #F22613,
+	3px 6px white,
+	6px 6px #F22613,
+	9px 6px #F22613,
+	12px 6px #F22613,
+	15px 6px #F22613,
+	18px 6px #F22613,
+
+	3px 9px #F22613,
+	6px 9px #F22613,
+	9px 9px #F22613,
+	12px 9px #F22613,
+	15px 9px #F22613,
+
+	6px 12px #F22613,
+	9px 12px #F22613,
+	12px 12px #F22613,
+
+	9px 15px #F22613;
+
+    
+}
+
+$lifeCounter: (
+  "1" 1, "2" 2, "3" 3
+);
+
+@each $lifes in $lifeCounter {
+    .black--#{nth($lifes, 1)} {
+        box-shadow:
+        3px 0px black,
+        6px 0px black,
+        12px 0px black,
+        15px 0px black,
+
+        0px 3px black,
+        3px 3px black,
+        6px 3px white,
+        9px 3px black,
+        12px 3px black,
+        15px 3px black,
+        18px 3px black,
+
+        0px 6px black,
+        3px 6px white,
+        6px 6px black,
+        9px 6px black,
+        12px 6px black,
+        15px 6px black,
+        18px 6px black,
+
+        3px 9px black,
+        6px 9px black,
+        9px 9px black,
+        12px 9px black,
+        15px 9px black,
+
+        6px 12px black,
+        9px 12px black,
+        12px 12px black,
+
+        9px 15px black;
+    }
+}
+
+.black--1 {
+    box-shadow:
+        3px 0px black,
+        6px 0px black,
+        12px 0px black,
+        15px 0px black,
+
+        0px 3px black,
+        3px 3px black,
+        6px 3px white,
+        9px 3px black,
+        12px 3px black,
+        15px 3px black,
+        18px 3px black,
+
+        0px 6px black,
+        3px 6px white,
+        6px 6px black,
+        9px 6px black,
+        12px 6px black,
+        15px 6px black,
+        18px 6px black,
+
+        3px 9px black,
+        6px 9px black,
+        9px 9px black,
+        12px 9px black,
+        15px 9px black,
+
+        6px 12px black,
+        9px 12px black,
+        12px 12px black,
+
+        9px 15px black;
+    }   
