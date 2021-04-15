@@ -1,27 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 // intialState ( défini l'état initiale de nos slices/reducers)
-const userInitialState = {
+export const userInitialState = {
   userDatas: null,
 };
 
 // Slice/Reducer Authentication
 export const userSlice = createSlice({
-  name: "userDatas", // nom visible dans le redux dev tools
+  name: "userDatas", // name of the slice, used to target
   initialState: userInitialState, // état initiale
   reducers: {
     setUserData: (state, { payload }) => {
-      console.log("PAYLOAD RECEIVED ==>", payload);
-      // nom de l'action à utiliser pour executer le reducer/slice mais aussi nom qui s'ajoute dans au premier nom des redux dev tools exemple (authUser/setUserData)
+      // console.log("PAYLOAD RECEIVED ==>", payload);
       state.userDatas = payload;
     },
     setDisconnectUser: (state) => {
-      // nom de l'action à utiliser pour executer le reducer/slice mais aussi nom qui s'ajoute dans au premier nom des redux dev tools exemple (authUser/setUserData)
       state.userDatas = null;
-    },
-    setUserDataError: (state, { payload }) => {
-      // nom de l'action à utiliser pour executer le reducer/slice mais aussi nom qui s'ajoute dans au premier nom des redux dev tools exemple (authUser/setUserDataError)
-      state.error = payload;
     },
   },
 });
+
+export const { setUserData, setDisconnectUser } = userSlice.actions;
+
+export default userSlice.reducer;
+
+export const selectuserDatas = (state) => state.userDatas.userDatas;

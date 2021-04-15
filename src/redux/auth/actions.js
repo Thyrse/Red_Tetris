@@ -7,8 +7,4 @@ import { userSlice } from "./reducers";
 /**
  * Actions liées au reducer/slice Authentication
  */
-export const {
-  setUserData,
-  setDisconnectUser,
-  setUserDataError,
-} = userSlice.actions;
+export const { setUserData, setDisconnectUser } = userSlice.actions;

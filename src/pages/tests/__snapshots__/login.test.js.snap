@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Login rendering upon arrival 1`] = `
+exports[`Login unit test Login rendering upon arrival 1`] = `
 <div
   className="d-flex justify-content-center"
 >

@@ -1,16 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const listInitialState = {
+export const listInitialState = {
   roomsList: [],
 };
 
 export const roomsSlice = createSlice({
-  name: "roomsList",
+  name: "roomsList", // name of the slice, used to target
   initialState: listInitialState,
   reducers: {
     setRooms: (state, { payload }) => {
-      console.log("PAYLOAD ROOMS LIST ==>", payload);
+      // console.log("PAYLOAD ROOMS LIST ==>", payload);
       state.roomsList = payload;
     },
   },
 });
+
+export const { setRooms } = roomsSlice.actions;
+
+export default roomsSlice.reducer;
+
+export const selectroomsList = (state) => state.roomsList.roomsList;

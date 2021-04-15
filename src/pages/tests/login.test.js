@@ -33,65 +33,66 @@ jest.mock("react-router-dom", () => ({
 const props = {
   socket: socket,
 };
+describe("Login unit test", () => {
+  it("Login rendering upon arrival", () => {
+    const wrapper = renderer
+      .create(
+        <Provider store={store}>
+          <Login {...props} />
+        </Provider>
+      )
+      .toJSON();
+    expect(wrapper).toMatchSnapshot();
+  });
 
-it("Login rendering upon arrival", () => {
-  const wrapper = renderer
-    .create(
+  it("Should throw an error on submission without username provided", () => {
+    // const fakeEvent = { preventDefault: () => console.log("preventDefault") };
+    const wrapper = mount(
       <Provider store={store}>
         <Login {...props} />
       </Provider>
-    )
-    .toJSON();
-  expect(wrapper).toMatchSnapshot();
-});
+    );
+    // renderer
+    //   .create(
+    //     <Provider store={store}>
+    //       <Login />
+    //     </Provider>
+    //   )
+    //   .toJSON();
+    const username = "Ziphlot";
+    const event = { target: { value: username } };
+    expect(wrapper.find(".form-control").simulate("change", event));
+    expect(wrapper.find(".form-control").props().value).toBe(username);
 
-it("Should throw an error on submission without username provided", () => {
-  // const fakeEvent = { preventDefault: () => console.log("preventDefault") };
-  const wrapper = mount(
-    <Provider store={store}>
-      <Login {...props} />
-    </Provider>
-  );
-  // renderer
-  //   .create(
-  //     <Provider store={store}>
-  //       <Login />
-  //     </Provider>
-  //   )
-  //   .toJSON();
-  const username = "Ziphlot";
-  const event = { target: { value: username } };
-  expect(wrapper.find(".form-control").simulate("change", event));
-  expect(wrapper.find(".form-control").props().value).toBe(username);
+    // wrapper.find(".form-login").simulate("submit", fakeEvent);
+    // console.log(wrapper.find(".form-control").name);
+    // expect(wrapper.find(".form-control").name).toBeTruthy();
+  });
 
-  // wrapper.find(".form-login").simulate("submit", fakeEvent);
-  // console.log(wrapper.find(".form-control").name);
-  // expect(wrapper.find(".form-control").name).toBeTruthy();
-});
+  it("Should redirect to home on form submission if an username is provided", () => {
+    const fakeEvent = { preventDefault: () => console.log("preventDefault") };
+    const wrapper = mount(
+      <Provider store={store}>
+        <Login {...props} />
+      </Provider>
+    );
+    // renderer
+    //   .create(
+    //     <Provider store={store}>
+    //       <Login />
+    //     </Provider>
+    //   )
+    //   .toJSON();
+    const username = "Ziphlot";
+    const event = { target: { value: username } };
+    expect(wrapper.find(".form-control").simulate("change", event));
+    wrapper.find(".form-login").simulate("submit", fakeEvent);
+    expect(mockJest).toHaveBeenCalledWith("/home");
 
-it("Should redirect to home on form submission if an username is provided", () => {
-  const fakeEvent = { preventDefault: () => console.log("preventDefault") };
-  const wrapper = mount(
-    <Provider store={store}>
-      <Login {...props} />
-    </Provider>
-  );
-  // renderer
-  //   .create(
-  //     <Provider store={store}>
-  //       <Login />
-  //     </Provider>
-  //   )
-  //   .toJSON();
-  const username = "Ziphlot";
-  const event = { target: { value: username } };
-  expect(wrapper.find(".form-control").simulate("change", event));
-  wrapper.find(".form-login").simulate("submit", fakeEvent);
-  expect(mockJest).toHaveBeenCalledWith("/home");
-
-  // wrapper.find(".form-login").simulate("submit", fakeEvent);
-  // console.log(wrapper.find(".form-control").name);
-  // expect(wrapper.find(".form-control").name).toBeTruthy();
+    // wrapper.find(".form-login").simulate("submit", fakeEvent);
+    // console.log(wrapper.find(".form-control").name);
+    // expect(wrapper.find(".form-control").name).toBeTruthy();
+  });
 });
 
 // it("Login rendering upon arrival ENZYME", () => {

@@ -60,28 +60,29 @@ jest.mock("react-router-dom", () => ({
 const props = {
   socket: socket,
 };
+describe("Chat unit test", () => {
+  it("Chat rendering upon arrival", () => {
+    const wrapper = renderer
+      .create(
+        <Provider store={store}>
+          <Chat {...props} />
+        </Provider>
+      )
+      .toJSON();
+    expect(wrapper).toMatchSnapshot();
+  });
 
-it("Chat rendering upon arrival", () => {
-  const wrapper = renderer
-    .create(
+  it("Should send the message if its valid", () => {
+    const fakeEvent = { preventDefault: () => console.log("preventDefault") };
+    const wrapper = mount(
       <Provider store={store}>
         <Chat {...props} />
       </Provider>
-    )
-    .toJSON();
-  expect(wrapper).toMatchSnapshot();
-});
-
-it("Should send the message if its valid", () => {
-  const fakeEvent = { preventDefault: () => console.log("preventDefault") };
-  const wrapper = mount(
-    <Provider store={store}>
-      <Chat {...props} />
-    </Provider>
-  );
-  const messageText = "Message test";
-  const event = { target: { value: messageText } };
-  expect(wrapper.find(".msg-new-input").simulate("change", event));
-  wrapper.find("#formulaire_chat").simulate("submit", fakeEvent);
-  expect(wrapper.find(".msg-new-input").props().value).toBe("");
+    );
+    const messageText = "Message test";
+    const event = { target: { value: messageText } };
+    expect(wrapper.find(".msg-new-input").simulate("change", event));
+    wrapper.find("#formulaire_chat").simulate("submit", fakeEvent);
+    expect(wrapper.find(".msg-new-input").props().value).toBe("");
+  });
 });
