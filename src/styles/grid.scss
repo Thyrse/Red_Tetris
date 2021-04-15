@@ -295,4 +295,16 @@ $lifeCounter: (
         12px 12px black,
 
         9px 15px black;
-    }   
+}   
+
+.audioWrapper {
+    position: absolute;
+    top: -125px;
+    .icon {
+        background-color: transparent !important;;
+        &:hover {
+            background-color: transparent !important;;
+            color: none !important;;
+        }
+    }
+}

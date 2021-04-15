@@ -3,6 +3,7 @@ import React from "react";
 import Grid from "./Grid";
 
 import NextTetromino from "./NextTetromino";
+import AudioTetris from "./audioTetris";
 
 import BuildGrid from "../utils/BuildGrid";
 import CleanGrids from "../utils/CompletesLines";
@@ -10,6 +11,7 @@ import CleanGrids from "../utils/CompletesLines";
 import GameOptions from "../components/GameOptions"
 import Tetromino from "./Tetrominos";
 
+import tetrisgame from "../utils/tetrisgame.mp3"
 import "../styles/grid.scss";
 
 class Board extends React.Component{
@@ -29,11 +31,14 @@ class Board extends React.Component{
         lifes: 0,
         nextLifes: 0,
         lifeGameOver: 0,
-        stayalive: 4
+        stayalive: 4,
+        audioMute: false
 	}
 
-	componentDidMount() { 
-        this.initGame()
+	componentDidMount() {
+        // audioEl.muted = false;
+        this.initGame();
+        // this.playAudio();
 	}
 
     initGame = () => {
@@ -389,6 +394,25 @@ class Board extends React.Component{
         }
     }
 
+    // playAudio() {
+    //     var audio = new Audio(tetrisgame);
+    //     console.log(this.state.audioMute)
+
+
+    //     if (this.state.audioMute) {
+    //         audio.play();
+    //         console.log(audio.play())
+    //         this.setState({ audioMute: false })
+    //         // audio.volume = 0;
+    //         // audio.muted = true;
+    //     }
+    //     else if (!this.state.audioMute) {
+    //         this.setState({ audioMute: true })
+    //         audio.volume = 0;
+    //         audio.muted = true;
+    //     }
+    // }
+
 	render() { 
 		return (
             <>
@@ -433,6 +457,12 @@ class Board extends React.Component{
                                     <div className={`pixelized--heart black--${this.state.lifeGameOver}`}/>
                                     <div className={`pixelized--heart black--${this.state.nextLifes}`}/>
                                     <div className={`pixelized--heart black--${this.state.lifes}`}/>
+                                </div>
+                                <div>
+                                    <AudioTetris />
+                                    {/* <button onClick={() => this.playAudio()}>
+                                        <span>Mute Audio</span>
+                                    </button> */}
                                 </div>
                                 <GameOptions className={"gameComponentsscore"} title={"Score"} state={this.state.score}/>
                                 <GameOptions className={"gameComponentsline"} title={"Lines"} state={ `${this.state.linesCompletes}/${this.state.lineslevelUp}`}/>
