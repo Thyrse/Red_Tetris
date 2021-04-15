@@ -104,8 +104,8 @@ const Home = ({ socket }) => {
               <div className="container-fluid room-container__list">
                 {roomsList &&
                   roomsList.length > 0 &&
-                  roomsList.map((room) => (
-                    <div className="row text-center room-item">
+                  roomsList.map((room, index) => (
+                    <div key={index} className="row text-center room-item">
                       <div className="col-8">
                         <span>{room.name}</span>
                       </div>
@@ -120,7 +120,7 @@ const Home = ({ socket }) => {
                         ) : (
                           <button
                             onClick={() => handleJoin(room)}
-                            className="btn btn-img"
+                            className="btn btn-img btn-join-room"
                           >
                             <img
                               src={arrowRightWhite}

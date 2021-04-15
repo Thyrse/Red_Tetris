@@ -73,7 +73,7 @@ exports[`Homepage rendering upon arrival 1`] = `
               className="col-8"
             >
               <span>
-                salut
+                Salut
               </span>
             </div>
             <div
@@ -89,7 +89,7 @@ exports[`Homepage rendering upon arrival 1`] = `
               className="room-button col-2"
             >
               <button
-                className="btn btn-img"
+                className="btn btn-img btn-join-room"
                 onClick={[Function]}
               >
                 <img
@@ -133,7 +133,9 @@ exports[`Homepage rendering upon arrival 1`] = `
               className="col-3 chat-users shadow__light"
             >
               <ul>
-                <li />
+                <li>
+                  ZIPHLOT
+                </li>
               </ul>
             </div>
           </div>

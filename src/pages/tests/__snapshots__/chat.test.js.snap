@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Chat rendering upon arrival 1`] = `
+<div
+  className="col-12 col-lg-6 chat-container"
+>
+  <div
+    className="container-fluid row mx-auto d-flex justify-content-center m-3"
+  >
+    <div
+      className="col-12 border-dark rounded chat-container__box shadow"
+    >
+      <div
+        className="bg-head chat-container__box-title row align-items-center justify-content-center border-bottom p-3"
+      >
+        <h3>
+          Messagerie
+        </h3>
+      </div>
+      <div
+        className="row"
+      >
+        <div
+          className="col-9 pt-2 chat-messages"
+          id="zone_chat"
+        >
+          <div
+            className="row"
+          />
+        </div>
+        <div
+          className="col-3 chat-users shadow__light"
+        >
+          <ul>
+            <li>
+              ZIPHLOT
+            </li>
+          </ul>
+        </div>
+      </div>
+      <form
+        action=""
+        id="formulaire_chat"
+        onSubmit={[Function]}
+      >
+        <div
+          className="row msg-foot border-top"
+        >
+          <div
+            className="col-md-9 col-lg-10 msg-new secondary-font"
+          >
+            <input
+              autoFocus={true}
+              className="msg-new-input"
+              id="message"
+              name="message"
+              onChange={[Function]}
+              placeholder="Message..."
+              size="50"
+              spellCheck="false"
+              type="text"
+              value=""
+            />
+            <input
+              name="roomie"
+              type="hidden"
+            />
+          </div>
+          <div
+            className="col-md-3 col-lg-2 text-right"
+          >
+            <input
+              name="profile_id"
+              type="hidden"
+              value=""
+            />
+            <button
+              className="btn btn-white msg-button"
+              disabled={true}
+              id="envoi_message"
+              type="submit"
+            >
+              Send ⇧
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;

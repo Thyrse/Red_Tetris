@@ -30,7 +30,6 @@ const Chat = ({ socket }) => {
     setChatContent(yolo);
     // console.log("Pseudo ==>", pseudo);
     // console.log("Message ==>", message);
-    setMessage("");
   };
 
   // console.log("Chat content ==>", chatContent);
@@ -43,6 +42,7 @@ const Chat = ({ socket }) => {
       username: currentUser.username,
       room: currentUser.room,
     });
+    setMessage("");
   };
 
   const handleChange = (e) => {

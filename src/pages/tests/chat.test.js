@@ -1,7 +1,7 @@
 import React from "react";
 import { mount, shallow } from "enzyme";
 import toJson from "enzyme-to-json";
-import Home from "../Home";
+import Chat from "../../components/Chat";
 import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
 import { Provider } from "react-redux";
@@ -61,39 +61,27 @@ const props = {
   socket: socket,
 };
 
-it("Homepage rendering upon arrival", () => {
+it("Chat rendering upon arrival", () => {
   const wrapper = renderer
     .create(
       <Provider store={store}>
-        <Home {...props} />
+        <Chat {...props} />
       </Provider>
     )
     .toJSON();
   expect(wrapper).toMatchSnapshot();
 });
 
-it("Should validate the room creation if name valid", () => {
+it("Should send the message if its valid", () => {
   const fakeEvent = { preventDefault: () => console.log("preventDefault") };
   const wrapper = mount(
     <Provider store={store}>
-      <Home {...props} />
+      <Chat {...props} />
     </Provider>
   );
-  const roomName = "Salut";
-  const event = { target: { value: roomName } };
-  expect(wrapper.find(".control-room").simulate("change", event));
-  wrapper.find(".form-room").simulate("submit", fakeEvent);
-  expect(wrapper.find(".control-room").props().value).toBe("");
-});
-
-it("Should redirect to the game room by clicking on the corresponding room in list", () => {
-  const wrapper = mount(
-    <Provider store={store}>
-      <Home {...props} />
-    </Provider>
-  );
-  wrapper.find(".btn-join-room").simulate("click");
-  expect(mockJest).toHaveBeenCalledWith(
-    `/game#${initialState.roomsList.roomsList[0].name}[${initialState.userData.userDatas.username}]`
-  );
+  const messageText = "Message test";
+  const event = { target: { value: messageText } };
+  expect(wrapper.find(".msg-new-input").simulate("change", event));
+  wrapper.find("#formulaire_chat").simulate("submit", fakeEvent);
+  expect(wrapper.find(".msg-new-input").props().value).toBe("");
 });
