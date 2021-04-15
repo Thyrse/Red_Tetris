@@ -40,7 +40,7 @@ class Board extends React.Component{
         console.log("game-start");
 
         // put in options
-        this.levelTimeSpeed = 15000000;
+        this.levelTimeSpeed = 1500;
 
         this.pressedKey = [];
         this.pressedMultipleKey = false;
@@ -118,7 +118,11 @@ class Board extends React.Component{
             linesCompletes: 0,
             level: 1, 
             score: 0,
-            timer: 0
+            timer: 0,
+            lifes: 0,
+            nextLifes: 0,
+            lifeGameOver: 0,
+            stayalive: 4
         })
         this.initGame();
     }
@@ -131,6 +135,7 @@ class Board extends React.Component{
         // this.gameTimer = setInterval(() => {
         // }, 1000)
         //debind keyboards
+        
         if (this.state.gameOver) {
             console.log("game-over");
             this.lifeGameSystem();
@@ -226,10 +231,12 @@ class Board extends React.Component{
     // terminado
 	tetrominoIsPosition = (tetromino) => {
         let cordinate = [];
+        let y = 0; 
 
-        for (let y = 0; y < tetromino.grid.length; y++) {
-            // console.log("YYY", y)
-            for (let x = 0; x < tetromino.grid[0].length; x++) {
+        while (y < tetromino.grid.length) {
+            // console.log("YYY", y);
+            let x = 0; 
+            while (x < tetromino.grid[0].length) {
                 // console.log("XXX", x)
                 if (tetromino.grid[y][x] > 0) {
                     // console.log(grid[y])
@@ -245,7 +252,9 @@ class Board extends React.Component{
                     }
                     cordinate.push((y + tetromino.posY) + "_" + (x + tetromino.posX));
                 }
+                x++;
             }
+            y++;
         }
         return cordinate;
     }
