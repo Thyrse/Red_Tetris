@@ -2,7 +2,6 @@
 const express = require("express");
 const app = express();
 
-require("dotenv").config();
 const cors = require("cors");
 const http = require("http").Server(app);
 const { v1: uuidv1 } = require("uuid");
@@ -142,8 +141,6 @@ io.on("connection", function (client) {
     io.emit("REFRESH_USERSLIST", gameClass.players);
   });
 });
-
-console.log(process.env.PORT + "     " + port);
 
 http.listen(port, () => {
   console.log("\x1b[33m" + "LISTENING ON PORT ==> " + port + "\x1b[0m");

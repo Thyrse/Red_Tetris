@@ -15,6 +15,8 @@ import { setUsersList } from "../redux/usersList/action";
 import { setRooms } from "../redux/rooms/action";
 import { setUserData } from "../redux/auth/actions";
 
+import Board from "../pages/Board"
+
 const App = ({ message }) => {
   // const location = useLocation();
   // const [currentUser, setCurrentUser] = useState();
@@ -50,6 +52,7 @@ const App = ({ message }) => {
     <>
       <Layout socket={socket}>
         <Switch>
+          <Route exact path="/board" render={() => <Board />}/>
           <Route
             exact
             path="/"

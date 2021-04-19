@@ -1,0 +1,310 @@
+$squareWidth: 30px;
+$squareHeight: 30px;
+
+.gridContainer {
+    display: inline-block;
+    // background: grey;
+    background: 
+        linear-gradient(135deg, grey 25%, transparent 25%) -50px 0,
+        linear-gradient(225deg, grey 25%, transparent 25%) -50px 0,
+        linear-gradient(315deg, grey 25%, transparent 25%),
+        linear-gradient(45deg, grey 25%, transparent 25%);	
+    background-size: 2em 2em;
+    background-color: #e4e4e4;
+    // border: 5px  #15111a !important;
+    // padding-inline: 3px;
+    // box-shadow: 0 0 10px -5px #15111a;
+	span:not(.colory) {
+		display: block;
+		float: left;
+		width: $squareWidth;
+		height:$squareHeight;
+		// position: relative;
+        // border: 5px ridge grey;
+        &before {
+            border: 1px solid black;
+        }
+	}
+}
+
+.gridContainer span.first {
+    clear: both;
+    /* background-color: red; */
+}
+
+.gridContainer span.finish:not(.color) {
+    // background-color: black !important;
+    // transition: background-color 2s ease-in;
+}
+
+.gridContainer span.mirror {
+    background-color: rgba(36, 36, 36, 0.5);
+}
+
+.gridContainer span.colory:not(.color) {
+    background-color: #353841;
+    border: 0px solid black;
+}
+
+$tetrominoColors: (
+  "1" #2003fc, "2" #fc0303, "3" #03fc3d, "4" #03ebfc, "5" #fc037f, "6" #b503fc, "7" #f0fc03
+);
+
+@each $color in $tetrominoColors {
+    .gridContainer span.color#{nth($color, 1)} {
+        background-color: nth($color, 2);
+        border: 5px outset nth($color, 2);
+        
+    }
+
+    #tetrominoContainer .color#{7} {
+        position: relative;
+        top: 20px
+    }
+}
+
+#tetrominoContainer {
+    background: none;
+    border: none;
+    span {
+            width: $squareWidth;
+            height:$squareHeight;
+    }
+}
+
+.tetrominoWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #15111a;
+    border-bottom: 5px solid grey !important;
+    height: 120px + $squareWidth;
+}
+
+.tetrominoTitle {
+    margin-bottom: 10px;
+    #tetrominoContainer .color#{7} {
+        margin: 10px
+    }
+}
+
+.bg {
+    background-color: #353841 !important;
+}
+
+.gameComponentsscore {
+    border: 5px outset #fc037f !important;
+    padding-inline: 3px;
+    display: flex;
+    align-items: flex-start; 
+    justify-content: space-between; 
+    background: #fc037f; 
+    width: 150px;
+}
+
+.gameComponentstime {
+    border: 5px outset #2003fc !important;
+    padding-inline: 3px;
+    margin-bottom: 1px;
+    display: flex;
+    align-items: flex-start; 
+    justify-content: space-between; 
+    background: #2003fc; 
+    width: 150px;
+}
+
+.gameComponentsline {
+    border: 5px outset #03fc3d !important;
+    padding-inline: 3px;
+    display: flex;
+    align-items: flex-start; 
+    justify-content: space-between; 
+    background: #03fc3d; 
+    width: 150px;
+}
+
+.gameComponentslevel {
+    border: 5px outset #b503fc !important;
+    padding-inline: 3px;
+    display: flex;
+    align-items: flex-start; 
+    justify-content: space-between; 
+    background: #b503fc; 
+    width: 150px;
+}
+
+// Board
+
+.gameGridContainer {
+    padding-top: 10px;
+}
+
+.gameComponentsContainer {
+    width: 150px;
+    margin-left: 20px; 
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+    justify-content: space-between;
+    padding-top: 10px; 
+    padding-bottom: 5px;
+}
+
+.gameoverContainer {
+    // position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    // left: 160px;
+    // top: 250px;
+    // background-color: black;
+    // padding: 30px
+}
+
+.gameButtonGameover{
+    background: white; 
+    width: 150px; 
+    text-align: center; 
+    margin-bottom: 5px;
+    .rr {
+        margin-bottom: 5px;
+    }
+}
+
+.gameover {
+    color: red;
+    font-size: 30px;
+    text-align: center;
+}
+
+.pixelized--heart {
+  display: block;
+  width: 3px;
+  height: 3px;
+  box-shadow:
+	3px 0px #F22613,
+	6px 0px #F22613,
+	12px 0px #F22613,
+	15px 0px #F22613,
+
+	0px 3px #F22613,
+	3px 3px #F22613,
+	6px 3px white,
+	9px 3px #F22613,
+	12px 3px #F22613,
+	15px 3px #F22613,
+	18px 3px #F22613,
+
+	0px 6px #F22613,
+	3px 6px white,
+	6px 6px #F22613,
+	9px 6px #F22613,
+	12px 6px #F22613,
+	15px 6px #F22613,
+	18px 6px #F22613,
+
+	3px 9px #F22613,
+	6px 9px #F22613,
+	9px 9px #F22613,
+	12px 9px #F22613,
+	15px 9px #F22613,
+
+	6px 12px #F22613,
+	9px 12px #F22613,
+	12px 12px #F22613,
+
+	9px 15px #F22613;
+
+    
+}
+
+$lifeCounter: (
+  "1" 1, "2" 2, "3" 3
+);
+
+@each $lifes in $lifeCounter {
+    .black--#{nth($lifes, 1)} {
+        box-shadow:
+        3px 0px black,
+        6px 0px black,
+        12px 0px black,
+        15px 0px black,
+
+        0px 3px black,
+        3px 3px black,
+        6px 3px white,
+        9px 3px black,
+        12px 3px black,
+        15px 3px black,
+        18px 3px black,
+
+        0px 6px black,
+        3px 6px white,
+        6px 6px black,
+        9px 6px black,
+        12px 6px black,
+        15px 6px black,
+        18px 6px black,
+
+        3px 9px black,
+        6px 9px black,
+        9px 9px black,
+        12px 9px black,
+        15px 9px black,
+
+        6px 12px black,
+        9px 12px black,
+        12px 12px black,
+
+        9px 15px black;
+    }
+}
+
+.black--1 {
+    box-shadow:
+        3px 0px black,
+        6px 0px black,
+        12px 0px black,
+        15px 0px black,
+
+        0px 3px black,
+        3px 3px black,
+        6px 3px white,
+        9px 3px black,
+        12px 3px black,
+        15px 3px black,
+        18px 3px black,
+
+        0px 6px black,
+        3px 6px white,
+        6px 6px black,
+        9px 6px black,
+        12px 6px black,
+        15px 6px black,
+        18px 6px black,
+
+        3px 9px black,
+        6px 9px black,
+        9px 9px black,
+        12px 9px black,
+        15px 9px black,
+
+        6px 12px black,
+        9px 12px black,
+        12px 12px black,
+
+        9px 15px black;
+}   
+
+.audioWrapper {
+    position: absolute;
+    top: -125px;
+    .icon {
+        background-color: transparent !important;;
+        &:hover {
+            background-color: transparent !important;;
+            color: none !important;;
+        }
+    }
+}
