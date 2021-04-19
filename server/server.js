@@ -49,6 +49,23 @@ function userLeave(id) {
   console.log("AllUsers ==>", allUsers);
 }
 
+function userLeaveRoom(id) {
+  console.log("All rooms BEFORE update ==>", allRooms);
+  allRooms.map((room) => {
+    room.members.map((member) => {
+      if (member.id === id) {
+        const index = room.members.findIndex((user) => user.id === id);
+        if (index !== -1) {
+          room.members.splice(index, 1);
+        }
+      }
+    });
+  });
+
+  console.log("All rooms AFTER update ==>", allRooms);
+  return allRooms;
+}
+
 function userJoinRoom(roomID, user) {
   const index = allRooms.findIndex((user) => user.id === roomID);
   const userToJoin = { id: user.socketID, username: user.username };
@@ -137,8 +154,11 @@ io.on("connection", function (client) {
   client.on("disconnect", () => {
     console.log("AN USER HAS BEEN DISCONNECTED ==>", client.id);
     userLeave(client.id);
+    userLeaveRoom(client.id);
     gameClass.updatePlayers(allUsers);
+    gameClass.updateRooms(allRooms);
     io.emit("REFRESH_USERSLIST", gameClass.players);
+    io.emit("REFRESH_ROOMS", gameClass.rooms);
   });
 });
 
