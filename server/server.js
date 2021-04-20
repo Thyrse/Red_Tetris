@@ -92,6 +92,12 @@ io.on("connection", function (client) {
   //   console.log("All current username ==>", allUsers);
   // });
 
+  // Listen to populate the store
+  client.on("POPULATE", () => {
+    console.log("Populate the store");
+    io.emit("REFRESH_ROOMS", gameClass.rooms);
+  });
+
   // Listen for user login
   client.on("LOGIN", (current_user) => {
     // console.log("Username received for login ==>", current_user);

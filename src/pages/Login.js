@@ -48,6 +48,7 @@ const Login = ({ socket }) => {
           room: "Lobby",
         })
       );
+      socket.emit("POPULATE");
       socket.emit("REFRESH_USERSLIST", username.toUpperCase());
       history.push("/home");
     } else {
