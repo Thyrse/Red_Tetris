@@ -29,7 +29,7 @@ const Home = ({ socket }) => {
 
   // console.log("Socket on Home ==>", socket);
   // console.log("ROOM VALUE ==>", room);
-  console.log("ROOMS LIST ==>", roomsList);
+  // console.log("ROOMS LIST ==>", roomsList);
   useEffect(() => {
     socket.emit("JOIN_LOBBY", currentUser);
     const updateRoom = { ...currentUser };

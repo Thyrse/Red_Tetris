@@ -112,7 +112,7 @@ io.on("connection", function (client) {
   // Listen for new message in chat
   client.on("NEW_MESSAGE", (data) => {
     console.log("New message emited ==>", data);
-    io.to(data.room).emit("NEW_MESSAGE", {
+    io.to(data.room).emit("REFRESH_MESSAGES", {
       username: data.username,
       message: data.message,
       room: data.room,

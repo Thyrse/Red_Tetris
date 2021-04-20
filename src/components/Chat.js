@@ -24,15 +24,15 @@ const Chat = ({ socket }) => {
   // console.log("Socket on Chat ==>", socket);
   // console.log("VALUE OF currentUser ==>", currentUser);
 
-  const outputMessage = (pseudo, message) => {
-    const yolo = chatContent;
-    yolo.push({ username: pseudo, msg: message });
-    setChatContent(yolo);
+  function outputMessage(pseudo, message) {
+    const updateContent = chatContent;
+    updateContent.push({ username: pseudo, msg: message });
+    setChatContent([...chatContent]);
     // console.log("Pseudo ==>", pseudo);
     // console.log("Message ==>", message);
-  };
+  }
 
-  // console.log("Chat content ==>", chatContent);
+  console.log("Chat content ==>", chatContent);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -50,8 +50,9 @@ const Chat = ({ socket }) => {
   };
 
   // console.log("Message state ==>", message);
+
   useEffect(() => {
-    socket.on("NEW_MESSAGE", function (data) {
+    socket.on("REFRESH_MESSAGES", function (data) {
       outputMessage(data.username, data.message);
     });
   }, []);
