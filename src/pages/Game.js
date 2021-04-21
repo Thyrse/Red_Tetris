@@ -1,6 +1,9 @@
 /* eslint-disable array-callback-return */
 // REACT
 import React, { useState, useEffect, useContext, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setGameInit } from "../redux/game/action";
+
 // REACT ROUTER
 import { Link, useHistory } from "react-router-dom";
 import arrowRight from "../img/arrow_right.png";
@@ -9,6 +12,7 @@ import Chat from "../components/Chat";
 
 import Grid from "./Grid";
 import Board from "./Board";
+import Start from "./Start";
 import GameB from "./Game_BAK";
 /**
  * Component that displays the patient page,
@@ -19,11 +23,12 @@ import GameB from "./Game_BAK";
 const Game = ({ socket }) => {
   console.log("Socket on Game ==>", socket);
 
+  const gameReady = useSelector((state) => state.startGame.startGame);
+
   return (
     <div className="game">
-      {/* <GameB /> */}
-      <Board />
-      <Chat socket={socket} />
+        { !gameReady ? <Start /> : <Board /> }
+        <Chat socket={socket} />
     </div>
   );
 };

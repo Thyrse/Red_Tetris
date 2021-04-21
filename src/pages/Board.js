@@ -9,7 +9,7 @@ import BuildGrid from "../utils/BuildGrid";
 import CleanGrids from "../utils/CompletesLines";
 
 import GameOptions from "../components/GameOptions"
-import Tetromino from "./Tetrominos";
+import Tetromino from "./tetrominos";
 
 import "../styles/grid.scss";
 
@@ -57,7 +57,6 @@ class Board extends React.Component{
             this.makeTetromino()
             this.handleGameTime()
             this.launchTimer()
-            
         })
 	}
 
@@ -407,6 +406,9 @@ class Board extends React.Component{
                                             color={this.state.nextPiece + 1}
                                         />
                                 }
+                                <div>
+                                    <AudioTetris />
+                                </div>
                             </div>
                             { this.state.gameOver ?
                                 <div className={"gameoverContainer"}>
@@ -429,9 +431,6 @@ class Board extends React.Component{
                                     <div className={`pixelized--heart black--${this.state.nextLifes}`}/>
                                     <div className={`pixelized--heart black--${this.state.lifes}`}/>
                                 </div>
-                                <div>
-                                    <AudioTetris />
-                                </div>
                                 <GameOptions className={"gameComponentsscore"} title={"Score"} state={this.state.score}/>
                                 <GameOptions className={"gameComponentsline"} title={"Lines"} state={ `${this.state.linesCompletes}/${this.state.lineslevelUp}`}/>
                                 <GameOptions className={"gameComponentstime"} title={"Time"} state={this.state.timer}/>
@@ -442,7 +441,6 @@ class Board extends React.Component{
             </>
         );
 	}
-
 }
 
 export default Board;

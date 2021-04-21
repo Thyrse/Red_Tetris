@@ -28,12 +28,12 @@ const AudioTetris = () => {
         <div>
             <audio ref={myRef} src={tetrisgame} autoPlay={true}/>
             { !mute ? 
-                <IconButton className={"audioWrapper"} onClick={() => playTetrisAudio()}>
-                    <VolumeOff className={"audioWrapper icon"} color="secondary"/>
+                <IconButton className={"audioWrapper"} onClick={() => playTetrisAudio()} disableRipple>
+                    <VolumeOff className={"audioWrapper icon"} style={{ backgroundColor: 'transparent' }} color="secondary"/>
                 </IconButton>
             :
-                <IconButton className={"audioWrapper"} onClick={() => pauseTetrisAudio()}>
-                        <VolumeUp className={"audioWrapper icon"} color="secondary"/>
+                <IconButton className={"audioWrapper"} onClick={() => pauseTetrisAudio()} disableRipple>
+                        <VolumeUp className={"audioWrapper icon"} style={{ backgroundColor: 'transparent' }} color="secondary"/>
                 </IconButton>
             }
         </div>
