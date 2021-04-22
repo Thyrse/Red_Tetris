@@ -9,7 +9,14 @@ import Chat from "../components/Chat";
 import socketIOClient from "socket.io-client";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserData } from "../redux/auth/actions";
-import { Tooltip, Zoom } from "@material-ui/core";
+import {
+  FormControl,
+  InputLabel,
+  OutlinedInput,
+  Select,
+  Tooltip,
+  Zoom,
+} from "@material-ui/core";
 import { useSnackbar } from "../contexts/Snackbar";
 
 const Home = ({ socket }) => {
@@ -17,10 +24,12 @@ const Home = ({ socket }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [room, setRoom] = useState("");
+  const [roomType, setRoomType] = useState(null);
   const roomsList = useSelector((state) => state.roomsList.roomsList);
   const currentUser = useSelector((state) => state.userData.userDatas);
   const snackbar = useSnackbar();
 
+  console.log("ROOM TYPE ==>", roomType);
   // console.log("Socket on Home ==>", socket);
   // console.log("ROOM VALUE ==>", room);
   // console.log("ROOMS LIST ==>", roomsList);
@@ -79,6 +88,24 @@ const Home = ({ socket }) => {
                       onChange={(e) => handleChange(e)}
                       value={room || ""}
                     />
+                    <FormControl variant="outlined">
+                      <InputLabel
+                        htmlFor="outlined-age-native-simple"
+                        labelid="demo-simple-select-outlined-label"
+                      >
+                        Type
+                      </InputLabel>
+                      <Select
+                        native
+                        value={roomType || ""}
+                        onChange={(e) => setRoomType(e.target.value)}
+                        label="Type"
+                      >
+                        <option aria-label="None" value="" />
+                        <option value="1">Solo</option>
+                        <option value="2">Multiplayer</option>
+                      </Select>
+                    </FormControl>
                     <Tooltip
                       TransitionComponent={Zoom}
                       title="Room must contain between 1 and 10 alphanumeric characters."
@@ -100,8 +127,11 @@ const Home = ({ socket }) => {
                   roomsList.length > 0 &&
                   roomsList.map((room, index) => (
                     <div key={index} className="row text-center room-item">
-                      <div className="col-8">
+                      <div className="col-6">
                         <span>{room.name}</span>
+                      </div>
+                      <div className="room-mode col-2">
+                        <span>Multiplayer</span>
                       </div>
                       <div className="room-join col-2">
                         <span>

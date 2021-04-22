@@ -1,5 +1,5 @@
 {
-  "name": "webapp",
+  "name": "red_tetris",
   "version": "0.1.0",
   "main": "src/index.js",
   "private": true,

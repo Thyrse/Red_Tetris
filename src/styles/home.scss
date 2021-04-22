@@ -29,6 +29,10 @@
         justify-content: center;
         align-items: center;
       }
+      .room-mode {
+        border-left: 3px solid $whiter;
+        word-break: break-all;
+      }
       .room-join {
         border-left: 3px solid $whiter;
         border-right: 3px solid $whiter;
