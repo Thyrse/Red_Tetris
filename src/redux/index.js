@@ -7,6 +7,7 @@ import logger from "redux-logger";
 import { userSlice } from "./auth/reducers";
 import { usersSlice } from "./usersList/reducers";
 import { roomsSlice } from "./rooms/reducers";
+import { gameSlice } from "./game/reducers";
 
 /**
  * Store de l'application renvoyé au provider dans App.js, on récupere le reducer de chaque Slices/Reducers que l'on combine en 1 objet
@@ -15,6 +16,7 @@ const reducer = combineReducers({
   userData: userSlice.reducer,
   listUsers: usersSlice.reducer,
   roomsList: roomsSlice.reducer,
+  startGame: gameSlice.reducer,
 });
 
 /**

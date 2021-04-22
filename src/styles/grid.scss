@@ -298,13 +298,14 @@ $lifeCounter: (
 }   
 
 .audioWrapper {
-    position: absolute;
-    top: -125px;
     .icon {
-        background-color: transparent !important;;
+        background-color: transparent !important;
+        color: none !important;
+        text-decoration: "none";        
         &:hover {
-            background-color: transparent !important;;
-            color: none !important;;
+            background-color: transparent !important;
+            color: none !important;
+            text-decoration: "none";
         }
     }
 }
