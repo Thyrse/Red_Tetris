@@ -14,12 +14,6 @@ import Grid from "./Grid";
 import Board from "./Board";
 import Start from "./Start";
 import GameB from "./Game_BAK";
-/**
- * Component that displays the patient page,
- * contains the list of patients,
- * as well as the components for display and editing,
- * drawers and modal
- */
 const Game = ({ socket }) => {
   console.log("Socket on Game ==>", socket);
 
@@ -27,8 +21,8 @@ const Game = ({ socket }) => {
 
   return (
     <div className="game">
-        { !gameReady ? <Start /> : <Board /> }
-        <Chat socket={socket} />
+      {!gameReady ? <Start /> : <Board />}
+      <Chat socket={socket} />
     </div>
   );
 };

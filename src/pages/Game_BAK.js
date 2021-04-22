@@ -7,12 +7,6 @@ import arrowRight from "../img/arrow_right.png";
 import arrowRightWhite from "../img/arrow_right_white.png";
 import Chat from "../components/Chat";
 
-/**
- * Component that displays the patient page,
- * contains the list of patients,
- * as well as the components for display and editing,
- * drawers and modal
- */
 const GameB = ({ socket }) => {
   console.log("Socket on Game ==>", socket);
   return (

@@ -11,12 +11,6 @@ import { setUsersList } from "../redux/usersList/action";
 import { Tooltip, Zoom } from "@material-ui/core";
 import { useSnackbar } from "../contexts/Snackbar";
 
-/**
- * Component that displays the patient page,
- * contains the list of patients,
- * as well as the components for display and editing,
- * drawers and modal
- */
 const Login = ({ socket }) => {
   // const socket = socketIOClient.connect("http://localhost:4000");
   const [username, setUsername] = useState("");

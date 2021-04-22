@@ -10,12 +10,6 @@ import { setDisconnectUser } from "./redux/auth/actions";
 import { Snackbar } from "@material-ui/core";
 import { SnackbarContext } from "./contexts/Snackbar";
 
-/**
- * Component that displays the patient page,
- * contains the list of patients,
- * as well as the components for display and editing,
- * drawers and modal
- */
 export const Layout = (props) => {
   const currentUser = useSelector((state) => state.userData.userDatas);
   const dispatch = useDispatch();

@@ -1,43 +1,59 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { VolumeOff, VolumeUp } from '@material-ui/icons';
-import IconButton from '@material-ui/core/IconButton';
+import React, { useState, useEffect, useRef } from "react";
+import { VolumeOff, VolumeUp } from "@material-ui/icons";
+import IconButton from "@material-ui/core/IconButton";
 
-import tetrisgame from "../utils/tetrisgame.mp3"
+import tetrisgame from "../utils/tetrisgame.mp3";
 
 const AudioTetris = () => {
-    const [mute, setMute] = useState(false);
-    const myRef = useRef();
+  const [mute, setMute] = useState(false);
+  const myRef = useRef();
 
-    useEffect(() => {
-        playTetrisAudio();
-    }, [])
+  useEffect(() => {
+    playTetrisAudio();
+  }, []);
 
-    const playTetrisAudio = () => {
-        // console.log("play")
-        myRef.current.play();
-        setMute(true);
-    }
+  const playTetrisAudio = () => {
+    // console.log("play")
+    myRef.current.play();
+    setMute(true);
+  };
 
-    const pauseTetrisAudio = () => {
-        // console.log("pause")
-        myRef.current.pause();
-        setMute(false);
-    }
+  const pauseTetrisAudio = () => {
+    // console.log("pause")
+    myRef.current.pause();
+    setMute(false);
+  };
 
-    return (
-        <div>
-            <audio ref={myRef} src={tetrisgame} autoPlay={true}/>
-            { !mute ? 
-                <IconButton className={"audioWrapper"} onClick={() => playTetrisAudio()} disableRipple>
-                    <VolumeOff className={"audioWrapper icon"} style={{ backgroundColor: 'transparent' }} color="secondary"/>
-                </IconButton>
-            :
-                <IconButton className={"audioWrapper"} onClick={() => pauseTetrisAudio()} disableRipple>
-                        <VolumeUp className={"audioWrapper icon"} style={{ backgroundColor: 'transparent' }} color="secondary"/>
-                </IconButton>
-            }
-        </div>
-    )
-}
+  return (
+    <div className="stats-audio">
+      <audio ref={myRef} src={tetrisgame} autoPlay={true} />
+      {!mute ? (
+        <IconButton
+          className={"stats-audio__wrapper"}
+          onClick={() => playTetrisAudio()}
+          disableRipple
+        >
+          <VolumeOff
+            className={"stats-audio__wrapper icon"}
+            style={{ backgroundColor: "transparent" }}
+            color="secondary"
+          />
+        </IconButton>
+      ) : (
+        <IconButton
+          className={"stats-audio__wrapper"}
+          onClick={() => pauseTetrisAudio()}
+          disableRipple
+        >
+          <VolumeUp
+            className={"stats-audio__wrapper icon"}
+            style={{ backgroundColor: "transparent" }}
+            color="secondary"
+          />
+        </IconButton>
+      )}
+    </div>
+  );
+};
 
 export default AudioTetris;

@@ -8,12 +8,6 @@ import arrowRightWhite from "../img/arrow_right_white.png";
 import socketIOClient from "socket.io-client";
 import { useSelector } from "react-redux";
 
-/**
- * Component that displays the patient page,
- * contains the list of patients,
- * as well as the components for display and editing,
- * drawers and modal
- */
 const Chat = ({ socket }) => {
   const [message, setMessage] = useState("");
   const [chatContent, setChatContent] = useState([]);

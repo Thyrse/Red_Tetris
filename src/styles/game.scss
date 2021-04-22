@@ -11,12 +11,18 @@
       display: flex;
       position: relative;
       flex-wrap: wrap;
-      background: linear-gradient(
-        32deg,
-        rgba(36, 37, 37, 1) 13%,
-        rgba(53, 56, 65, 1) 55%,
-        rgba(224, 224, 224, 1) 100%
-      );
+      // background: linear-gradient(
+      //   32deg,
+      //   rgba(36, 37, 37, 1) 13%,
+      //   rgba(53, 56, 65, 1) 55%,
+      //   rgba(224, 224, 224, 1) 100%
+      // );
+      background: linear-gradient(135deg, grey 25%, transparent 25%) -50px 0,
+        linear-gradient(225deg, grey 25%, transparent 25%) -50px 0,
+        linear-gradient(315deg, grey 25%, transparent 25%),
+        linear-gradient(45deg, grey 25%, transparent 25%);
+      background-size: 2em 2em;
+      background-color: #e4e4e4;
       // &__line {
       //   display: flex;
       //   flex: 1 1 0%;
@@ -24,11 +30,11 @@
       &__cell {
         display: flex;
         flex: 1 1 10%;
-        border: 1px solid $white;
+        border: 1px solid $main-dark;
         padding: 4px;
       }
       .mirror {
-        background-color: $whiter;
+        background-color: $dark-light;
       }
       &__over {
         height: 100%;
@@ -51,6 +57,7 @@
       flex-direction: column;
       width: 20vh;
       background-color: $main-dark;
+      color: $whiter;
       &__next {
         display: flex;
         flex-direction: column;
@@ -58,12 +65,69 @@
         width: 100%;
         align-items: center;
         border-bottom: 5px solid $white;
+        justify-content: center;
+        .tetromino-wrapper {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          width: 80%;
+          height: 80%;
+          justify-content: center;
+        }
       }
       &__infos {
         display: flex;
         flex-direction: column;
         width: 100%;
         color: $whiter;
+        .stats-hearts {
+          display: flex;
+          justify-content: space-evenly;
+          height: 25px;
+        }
+        .stats-audio {
+          &__wrapper {
+            padding: 0 !important;
+          }
+        }
+        .stats-audit {
+          &__level {
+            border: 3px outset darken(#03ebfc, 3%) !important;
+            background: darken(#03ebfc, 3%);
+            display: flex;
+            justify-content: space-around;
+            padding: 1px;
+            margin: 15px;
+            color: $darker;
+          }
+          &__score {
+            border: 3px outset #fc5e03 !important;
+            background: #fc5e03;
+            display: flex;
+            justify-content: space-around;
+            padding: 1px;
+            margin: 15px;
+            color: $darker;
+          }
+          &__timer {
+            border: 3px outset lighten(#fc0303, 10%) !important;
+            background: lighten(#fc0303, 10%);
+            display: flex;
+            justify-content: space-around;
+            padding: 1px;
+            margin: 15px;
+            color: $darker;
+          }
+          &__lines {
+            border: 3px outset darken(#f0fc03, 5%) !important;
+            background: darken(#f0fc03, 5%);
+            display: flex;
+            justify-content: space-around;
+            padding: 1px;
+            margin: 15px;
+            color: $darker;
+          }
+        }
       }
       &__block {
         display: flex;
@@ -79,6 +143,11 @@
           flex: 1 1 10%;
           border: 2px solid $white;
         }
+      }
+      &__replay {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
       }
     }
   }

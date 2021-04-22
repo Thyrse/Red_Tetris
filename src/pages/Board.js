@@ -63,6 +63,7 @@ class Board extends React.Component {
   };
 
   keyboardUp = (e) => {
+    e.preventDefault();
     this.pressedMultipleKey = false;
     let index = this.pressedKey.indexOf(e.key);
 
@@ -72,6 +73,7 @@ class Board extends React.Component {
   };
 
   keyboardDown = (e) => {
+    e.preventDefault();
     if (this.pressedKey.indexOf(e.key) === -1) {
       this.pressedKey.push(e.key);
     }
@@ -407,99 +409,86 @@ class Board extends React.Component {
   render() {
     return (
       <>
-        <div className="game__pan p-3 bg">
-          <div className="game__pan">
-            <div className="gameGridContainer">
-              {this.state.grid !== null && (
-                <Grid
-                  grid={this.state.grid}
-                  tetromino={this.state.tetromino}
-                  gameover={this.state.gameOver}
+        <div className="game__pan p-3">
+          {this.state.grid !== null && (
+            <Grid
+              grid={this.state.grid}
+              tetromino={this.state.tetromino}
+              gameover={this.state.gameOver}
+            />
+          )}
+          <div className="game-stats">
+            <div className="game-stats__next p-2">
+              <div>
+                <p>Coming next</p>
+              </div>
+              {this.state.nextPiece !== null && (
+                <NextTetromino
+                  grid={Tetromino[this.state.nextPiece]}
+                  color={this.state.nextPiece + 1}
                 />
               )}
             </div>
-            <div className="gameComponentsContainer">
-              <div>
+            <div className="game-stats__infos p-3">
+              <AudioTetris />
+              <div className="stats-hearts">
+                <div
+                  className={`pixelized--heart black--${this.state.lifeGameOver}`}
+                />
+                <div
+                  className={`pixelized--heart black--${this.state.nextLifes}`}
+                />
+                <div
+                  className={`pixelized--heart black--${this.state.lifes}`}
+                />
+              </div>
+              <div className="stats-audit">
                 <GameOptions
-                  className={"gameComponentslevel"}
+                  className={"stats-audit__level"}
                   title={"Level"}
                   state={this.state.level}
                 />
-                {this.state.nextPiece !== null && (
-                  <NextTetromino
-                    grid={Tetromino[this.state.nextPiece]}
-                    color={this.state.nextPiece + 1}
-                  />
-                )}
-              </div>
-              {this.state.gameOver ? (
-                <div className={"gameoverContainer"}>
-                  <p className={"gameover"}>GAME</p>
-                  <p className={"gameover"}>OVER</p>
-                  {this.state.stayalive === 4 ||
-                  this.state.stayalive === 3 ||
-                  this.state.stayalive === 2 ? (
-                    <button
-                      className={"gameButtonGameover"}
-                      onClick={() => this.initGame()}
-                    >
-                      Continue ?
-                    </button>
-                  ) : (
-                    ""
-                  )}
-                  <button
-                    className={"gameButtonGameover rr"}
-                    onClick={() => this.restart()}
-                  >
-                    Play again
-                  </button>
-                </div>
-              ) : (
-                ""
-              )}
-              <div>
-                <div
-                  style={{
-                    marginBottom: "30px",
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    width: "100px",
-                    alignItems: "center",
-                    marginLeft: "15px",
-                  }}
-                >
-                  <div
-                    className={`pixelized--heart black--${this.state.lifeGameOver}`}
-                  />
-                  <div
-                    className={`pixelized--heart black--${this.state.nextLifes}`}
-                  />
-                  <div
-                    className={`pixelized--heart black--${this.state.lifes}`}
-                  />
-                </div>
-                <div>
-                  <AudioTetris />
-                </div>
                 <GameOptions
-                  className={"gameComponentsscore"}
+                  className={"stats-audit__score"}
                   title={"Score"}
                   state={this.state.score}
                 />
                 <GameOptions
-                  className={"gameComponentsline"}
+                  className={"stats-audit__lines"}
                   title={"Lines"}
                   state={`${this.state.linesCompletes}/${this.state.lineslevelUp}`}
                 />
                 <GameOptions
-                  className={"gameComponentstime"}
-                  title={"Time"}
+                  className={"stats-audit__timer"}
+                  title={"Timer"}
                   state={this.state.timer}
                 />
               </div>
             </div>
+            {this.state.gameOver ? (
+              <div className="game-stats__replay">
+                {this.state.stayalive === 4 ||
+                this.state.stayalive === 3 ||
+                this.state.stayalive === 2 ? (
+                  <button
+                    className="btn btn-retro m-2"
+                    onClick={() => this.initGame()}
+                  >
+                    Continue
+                  </button>
+                ) : (
+                  ""
+                )}
+                <button
+                  className="btn btn-retro m-2"
+                  onClick={() => this.restart()}
+                >
+                  Play again
+                </button>
+              </div>
+            ) : (
+              ""
+            )}
           </div>
         </div>
       </>

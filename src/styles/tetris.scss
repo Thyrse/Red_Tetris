@@ -109,6 +109,17 @@ a {
       color: $white-text;
     }
   }
+  &-retro {
+    border: 3px outset $whiter !important;
+    background: $whiter;
+    border-radius: 3px;
+    padding: 3px;
+    &:hover {
+      background-color: darken($whiter, 5%);
+      border-color: darken($whiter, 3%);
+      color: $white-text;
+    }
+  }
   &-img {
     padding: 0.1rem 0.7rem;
   }
