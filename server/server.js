@@ -29,8 +29,16 @@ function allAssignement(id, username) {
   return current;
 }
 
-function allAssignementRooms(name, owner) {
-  const current = { id: uuidv1(), name, owner, members: [], size: 5 };
+function allAssignementRooms(name, owner, type) {
+  const current = {
+    id: uuidv1(),
+    name,
+    owner,
+    members: [],
+    size: 5,
+    type: type,
+    hasStarted: false,
+  };
 
   allRooms.push(current);
   return current;
@@ -67,8 +75,13 @@ function userLeaveRoom(id) {
 }
 
 function userJoinRoom(roomID, user) {
-  const index = allRooms.findIndex((user) => user.id === roomID);
+  const index = allRooms.findIndex((room) => room.id === roomID);
+
   const userToJoin = { id: user.socketID, username: user.username };
+  console.log("USER SENT JOIN ROOM ==>", user);
+  if (allRooms[index].members.length === 0) {
+    allRooms[index].owner = user.socketID;
+  }
   if (index !== -1) {
     allRooms[index].members.push(userToJoin);
     return allRooms;
@@ -121,7 +134,7 @@ io.on("connection", function (client) {
 
   // Listen for creating room
   client.on("CREATE_ROOM", (data) => {
-    allAssignementRooms(data.name, data.owner);
+    allAssignementRooms(data.name, data.owner, data.type);
     gameClass.updateRooms(allRooms);
     io.emit("REFRESH_ROOMS", gameClass.rooms);
   });

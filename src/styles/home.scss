@@ -9,6 +9,7 @@
   &__create {
     display: flex;
     justify-content: space-around;
+    align-items: center;
     input {
       max-width: 400px;
     }
@@ -35,9 +36,9 @@
       }
       .room-join {
         border-left: 3px solid $whiter;
-        border-right: 3px solid $whiter;
       }
       .room-button {
+        border-left: 3px solid $whiter;
         word-break: break-all;
       }
     }

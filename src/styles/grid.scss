@@ -58,9 +58,14 @@ $tetrominoColors: (
     padding: 0px !important;
   }
 
+  #tetrominoContainer .color#{1} {
+    position: relative;
+    top: 15px;
+  }
+
   #tetrominoContainer .color#{7} {
     position: relative;
-    top: 20px;
+    top: 15px;
   }
 }
 

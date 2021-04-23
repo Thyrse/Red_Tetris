@@ -18,9 +18,35 @@ import {
   Zoom,
 } from "@material-ui/core";
 import { useSnackbar } from "../contexts/Snackbar";
+import { makeStyles } from "@material-ui/core/styles";
+
+const styles = makeStyles((theme) => ({
+  select: {
+    color: "#e0e0e0 !important",
+    "&:before": {
+      borderColor: "#e0e0e0 !important",
+    },
+    "&:after": {
+      borderColor: "#e0e0e0 !important",
+    },
+  },
+  option: {
+    backgroundColor: "#414852 !important",
+  },
+  icon: {
+    fill: "#e0e0e0 !important",
+  },
+  label: {
+    color: "#e0e0e0 !important",
+    "&:focus": {
+      color: "#e0e0e0 !important",
+    },
+  },
+}));
 
 const Home = ({ socket }) => {
   // const socket = socketIOClient.connect("http://localhost:4000");
+  const classes = styles();
   const dispatch = useDispatch();
   const history = useHistory();
   const [room, setRoom] = useState("");
@@ -46,13 +72,17 @@ const Home = ({ socket }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (room !== "") {
-      socket.emit("CREATE_ROOM", { name: room, owner: currentUser.socketID });
+    if (room !== "" && (roomType === "1" || roomType === "2")) {
+      socket.emit("CREATE_ROOM", {
+        name: room,
+        owner: currentUser.socketID,
+        type: roomType,
+      });
       setRoom("");
     } else {
       snackbar.set({
         open: true,
-        text: "You must provide a valid username.",
+        text: "You must provide a valid room name and type of room.",
         severity: "snackbar-danger",
       });
     }
@@ -88,22 +118,31 @@ const Home = ({ socket }) => {
                       onChange={(e) => handleChange(e)}
                       value={room || ""}
                     />
-                    <FormControl variant="outlined">
-                      <InputLabel
-                        htmlFor="outlined-age-native-simple"
-                        labelid="demo-simple-select-outlined-label"
-                      >
-                        Type
-                      </InputLabel>
+                    <FormControl className="mx-3 pb-3">
+                      <InputLabel className={classes.label}>Type</InputLabel>
                       <Select
                         native
                         value={roomType || ""}
                         onChange={(e) => setRoomType(e.target.value)}
                         label="Type"
+                        className={classes.select}
+                        inputProps={{
+                          classes: {
+                            icon: classes.icon,
+                          },
+                        }}
                       >
-                        <option aria-label="None" value="" />
-                        <option value="1">Solo</option>
-                        <option value="2">Multiplayer</option>
+                        <option
+                          className={classes.option}
+                          aria-label="None"
+                          value={null}
+                        />
+                        <option className={classes.option} value={1}>
+                          Solo
+                        </option>
+                        <option className={classes.option} value={2}>
+                          Multiplayer
+                        </option>
                       </Select>
                     </FormControl>
                     <Tooltip
@@ -113,7 +152,12 @@ const Home = ({ socket }) => {
                       <span className="p-1">
                         <button
                           className="btn btn-img btn-outline-arrow"
-                          disabled={!validRoomName}
+                          // disabled={!validRoomName}
+                          disabled={
+                            roomType === null ||
+                            roomType === "" ||
+                            !validRoomName
+                          }
                         >
                           <img src={arrowRightWhite} alt="Validation button" />
                         </button>
@@ -131,28 +175,55 @@ const Home = ({ socket }) => {
                         <span>{room.name}</span>
                       </div>
                       <div className="room-mode col-2">
-                        <span>Multiplayer</span>
-                      </div>
-                      <div className="room-join col-2">
                         <span>
-                          {room?.members?.length}/{room?.size}
+                          {room.type === "1" ? "Solo" : "Multijoueur"}
                         </span>
                       </div>
-                      <div className="room-button col-2">
-                        {room?.members?.length >= room?.size ? (
-                          <span>UNAVAILABLE</span>
-                        ) : (
-                          <button
-                            onClick={() => handleJoin(room)}
-                            className="btn btn-img btn-join-room"
-                          >
-                            <img
-                              src={arrowRightWhite}
-                              alt="Validation button"
-                            />
-                          </button>
-                        )}
-                      </div>
+                      {room.type === "2" && (
+                        <div className="room-join col-2">
+                          <span>
+                            {room?.members?.length}/{room?.size}
+                          </span>
+                        </div>
+                      )}
+                      {room.type === "2" ? (
+                        <div className="room-button col-2">
+                          {room.type === "2" && room?.hasStarted === true ? (
+                            <span>UNAVAILABLE</span>
+                          ) : room?.members?.length >= room?.size ? (
+                            <span>UNAVAILABLE</span>
+                          ) : (
+                            <button
+                              onClick={() => handleJoin(room)}
+                              className="btn btn-img btn-join-room"
+                            >
+                              <img
+                                src={arrowRightWhite}
+                                alt="Validation button"
+                              />
+                            </button>
+                          )}
+                        </div>
+                      ) : room.type === "1" ? (
+                        <div className="room-button col-4">
+                          {room.type === "1" &&
+                          room?.owner !== currentUser.socketID ? (
+                            <span>UNAVAILABLE</span>
+                          ) : (
+                            <button
+                              onClick={() => handleJoin(room)}
+                              className="btn btn-img btn-join-room"
+                            >
+                              <img
+                                src={arrowRightWhite}
+                                alt="Validation button"
+                              />
+                            </button>
+                          )}
+                        </div>
+                      ) : (
+                        <></>
+                      )}
                     </div>
                   ))}
               </div>
