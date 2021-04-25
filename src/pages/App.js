@@ -44,6 +44,7 @@ const App = ({ message }) => {
     });
 
     socket.on("REFRESH_ROOMS", function (data) {
+      console.log("RECEOVED A REFRESH ROOMS ==>", data);
       dispatch(setRooms(data));
     });
   }, []);

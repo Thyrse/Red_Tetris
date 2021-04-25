@@ -34,9 +34,18 @@ export const Layout = (props) => {
           <div className="header__username">
             <span>{currentUser && currentUser.username}</span>
           </div>
-          <div className="header__logo">
-            <img alt="Logo Red Tetris" src={logo} />
-          </div>
+          {window.location.hash ? (
+            <div
+              onClick={() => history.push("/home")}
+              className="header__logo pointer"
+            >
+              <img alt="Logo Red Tetris" src={logo} />
+            </div>
+          ) : (
+            <div className="header__logo">
+              <img alt="Logo Red Tetris" src={logo} />
+            </div>
+          )}
           <div className="header__disconnect">
             {currentUser && (
               <img

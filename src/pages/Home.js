@@ -55,7 +55,7 @@ const Home = ({ socket }) => {
   const currentUser = useSelector((state) => state.userData.userDatas);
   const snackbar = useSnackbar();
 
-  console.log("ROOM TYPE ==>", roomType);
+  // console.log("ROOM TYPE ==>", roomType);
   // console.log("Socket on Home ==>", socket);
   // console.log("ROOM VALUE ==>", room);
   // console.log("ROOMS LIST ==>", roomsList);

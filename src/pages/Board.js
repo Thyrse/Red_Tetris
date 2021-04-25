@@ -62,8 +62,6 @@ class Board extends React.Component {
     );
   };
 
-  handleStart = () => {};
-
   keyboardUp = (e) => {
     e.preventDefault();
     this.pressedMultipleKey = false;
@@ -465,7 +463,6 @@ class Board extends React.Component {
                   title={"Timer"}
                   state={this.state.timer}
                 />
-                <button onClick={() => this.handleStart()}>Start</button>
               </div>
             </div>
             {this.state.gameOver ? (

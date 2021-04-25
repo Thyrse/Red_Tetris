@@ -11,22 +11,26 @@ import { useSelector } from "react-redux";
 const Chat = ({ socket }) => {
   const [message, setMessage] = useState("");
   const [chatContent, setChatContent] = useState([]);
+  const [displayUsers, setDisplayUsers] = useState([]);
   // const socket = socketIOClient.connect("http://localhost:4000");
   const usersList = useSelector((state) => state.listUsers.usersList);
   const currentUser = useSelector((state) => state.userData.userDatas);
+  const roomsList = useSelector((state) => state.roomsList.roomsList);
 
   // console.log("Socket on Chat ==>", socket);
   // console.log("VALUE OF currentUser ==>", currentUser);
-
-  function outputMessage(pseudo, message) {
+  // console.log("ROOMS LIST ==>", roomsList);
+  // console.log("DISPLAY USERS ==>", displayUsers);
+  // console.log("USERS LIST ==>", usersList);
+  function outputMessage(pseudo, message, user) {
     const updateContent = chatContent;
-    updateContent.push({ username: pseudo, msg: message });
+    updateContent.push({ username: pseudo, msg: message, id: user });
     setChatContent([...chatContent]);
     // console.log("Pseudo ==>", pseudo);
     // console.log("Message ==>", message);
   }
 
-  console.log("Chat content ==>", chatContent);
+  // console.log("Chat content ==>", chatContent);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -35,6 +39,7 @@ const Chat = ({ socket }) => {
       message: message.trim(),
       username: currentUser.username,
       room: currentUser.room,
+      userID: currentUser.socketID,
     });
     setMessage("");
   };
@@ -47,9 +52,28 @@ const Chat = ({ socket }) => {
 
   useEffect(() => {
     socket.on("REFRESH_MESSAGES", function (data) {
-      outputMessage(data.username, data.message);
+      outputMessage(data.username, data.message, data.user);
     });
   }, []);
+
+  useEffect(() => {
+    if (currentUser?.room !== "Lobby") {
+      const index = roomsList.findIndex(
+        (room) => room.id === currentUser?.room
+      );
+      setDisplayUsers(roomsList[index].members);
+    } else {
+      if (usersList && usersList.length > 0) {
+        const usersContent = [];
+        usersList.map((user) => {
+          if (user.room === "Lobby") {
+            usersContent.push(user);
+          }
+        });
+        setDisplayUsers([...usersContent]);
+      }
+    }
+  }, [usersList]);
 
   return (
     <>
@@ -64,22 +88,32 @@ const Chat = ({ socket }) => {
                 <div className="row">
                   {chatContent &&
                     chatContent.length > 0 &&
-                    chatContent.map((content, index) => (
-                      <div
-                        key={index}
-                        className="col-12 text-right my-1 chat-messages__message"
-                      >
-                        <span>{content.username}</span>
-                        <p className="secondary-font">{content.msg}</p>
-                      </div>
-                    ))}
+                    chatContent.map((content, index) =>
+                      content.id === currentUser.socketID ? (
+                        <div
+                          key={index}
+                          className="col-12 text-right my-1 chat-messages__message"
+                        >
+                          <span>{content.username}</span>
+                          <p className="secondary-font">{content.msg}</p>
+                        </div>
+                      ) : (
+                        <div
+                          key={index}
+                          className="col-12 text-left my-1 chat-messages__message"
+                        >
+                          <span>{content.username}</span>
+                          <p className="secondary-font">{content.msg}</p>
+                        </div>
+                      )
+                    )}
                 </div>
               </div>
               <div className="col-3 chat-users shadow__light">
                 <ul>
-                  {usersList &&
-                    usersList.length > 0 &&
-                    usersList.map((user, index) => (
+                  {displayUsers &&
+                    displayUsers.length > 0 &&
+                    displayUsers.map((user, index) => (
                       <li key={index}>{user.username}</li>
                     ))}
                 </ul>

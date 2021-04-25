@@ -11,18 +11,19 @@
       display: flex;
       position: relative;
       flex-wrap: wrap;
+      background: rgba(36, 37, 37, 1);
       // background: linear-gradient(
       //   32deg,
       //   rgba(36, 37, 37, 1) 13%,
       //   rgba(53, 56, 65, 1) 55%,
       //   rgba(224, 224, 224, 1) 100%
       // );
-      background: linear-gradient(135deg, grey 25%, transparent 25%) -50px 0,
-        linear-gradient(225deg, grey 25%, transparent 25%) -50px 0,
-        linear-gradient(315deg, grey 25%, transparent 25%),
-        linear-gradient(45deg, grey 25%, transparent 25%);
-      background-size: 2em 2em;
-      background-color: #e4e4e4;
+      // background: linear-gradient(135deg, grey 25%, transparent 25%) -50px 0,
+      //   linear-gradient(225deg, grey 25%, transparent 25%) -50px 0,
+      //   linear-gradient(315deg, grey 25%, transparent 25%),
+      //   linear-gradient(45deg, grey 25%, transparent 25%);
+      // background-size: 2em 2em;
+      // background-color: #e4e4e4;
       // &__line {
       //   display: flex;
       //   flex: 1 1 0%;
@@ -30,11 +31,18 @@
       &__cell {
         display: flex;
         flex: 1 1 10%;
-        border: 1px solid $main-dark;
+        border: 1px solid $whiter;
         padding: 4px;
+        &.colory {
+          background: $main-dark !important;
+          border: none !important;
+          &:last {
+            border-right: 5px solid red !important;
+          }
+        }
       }
       .mirror {
-        background-color: $dark-light;
+        background-color: darken($whiter, 40%);
       }
       &__over {
         height: 100%;
@@ -99,6 +107,7 @@
             padding: 1px;
             margin: 15px;
             color: $darker;
+            flex-wrap: wrap;
           }
           &__score {
             border: 3px outset #fc5e03 !important;
@@ -108,6 +117,7 @@
             padding: 1px;
             margin: 15px;
             color: $darker;
+            flex-wrap: wrap;
           }
           &__timer {
             border: 3px outset lighten(#fc0303, 10%) !important;
@@ -117,6 +127,7 @@
             padding: 1px;
             margin: 15px;
             color: $darker;
+            flex-wrap: wrap;
           }
           &__lines {
             border: 3px outset darken(#f0fc03, 5%) !important;
@@ -126,6 +137,7 @@
             padding: 1px;
             margin: 15px;
             color: $darker;
+            flex-wrap: wrap;
           }
         }
       }

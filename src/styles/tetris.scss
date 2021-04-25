@@ -78,6 +78,9 @@ a {
     color: $white;
   }
   &__logo {
+    &.pointer {
+      cursor: pointer;
+    }
     img {
       width: 160px;
     }
