@@ -65,6 +65,9 @@ function userLeaveRoom(id) {
         const index = room.members.findIndex((user) => user.id === id);
         if (index !== -1) {
           room.members.splice(index, 1);
+          if (room.hasStarted === false && room.members.length === 1) {
+            io.to(room.id).emit("GAME_WINNER", room.id);
+          }
         }
       }
     });
@@ -178,6 +181,11 @@ io.on("connection", function (client) {
     client.join("Lobby");
     client.emit("REFRESH_USER", roomName);
   });
+
+  // // Listen for winning a game
+  // client.on("GAME_WINNER", (data) => {
+
+  // })
 
   // Listen for manual disconnect
   client.on("DISCONNECT", (data) => {

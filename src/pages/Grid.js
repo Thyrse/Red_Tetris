@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext, useCallback } from "react";
 import GetMirrorTetromino from "../utils/GetMirrorTetromino";
 import "../styles/grid.scss";
 
-const Grid = ({ grid, tetromino, gameover }) => {
+const Grid = ({ grid, tetromino, gameover, winner }) => {
   let mirrorTetromino = [];
   if (tetromino) {
     mirrorTetromino = GetMirrorTetromino(grid, tetromino);
@@ -14,6 +14,11 @@ const Grid = ({ grid, tetromino, gameover }) => {
       {gameover && (
         <div className="game-table__over">
           <p>GAME OVER</p>
+        </div>
+      )}
+      {winner && (
+        <div className="game-table__win">
+          <p>YOU WIN!</p>
         </div>
       )}
       {grid.map((line, y) => {

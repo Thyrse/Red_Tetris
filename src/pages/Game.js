@@ -21,7 +21,7 @@ const Game = ({ socket }) => {
 
   return (
     <div className="game">
-      {!gameReady ? <Start /> : <Board />}
+      {!gameReady ? <Start /> : <Board socket={socket} />}
       <Chat socket={socket} />
     </div>
   );

@@ -31,10 +31,15 @@ class Board extends React.Component {
     lifeGameOver: 0,
     stayalive: 4,
     audioMute: false,
+    winner: false,
   };
 
   componentDidMount() {
     this.initGame();
+    console.log("SALUT ICI OUI");
+    this.props.socket.on("GAME_WINNER", () => {
+      this.gameWin();
+    });
   }
 
   initGame = () => {
@@ -131,6 +136,10 @@ class Board extends React.Component {
       stayalive: 4,
     });
     this.initGame();
+  };
+
+  gameWin = () => {
+    this.setState({ winner: true });
   };
 
   gameOver = () => {
@@ -415,6 +424,7 @@ class Board extends React.Component {
               grid={this.state.grid}
               tetromino={this.state.tetromino}
               gameover={this.state.gameOver}
+              winner={this.state.winner}
             />
           )}
           <div className="game-stats">
