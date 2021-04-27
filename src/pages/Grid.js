@@ -1,12 +1,18 @@
 import React, { useState, useEffect, useContext, useCallback } from "react";
+import { useSelector } from "react-redux";
+import { setGridGoingUp } from "../redux/game/action";
+
 // REACT ROUTER
-import GetMirrorTetromino from "../utils/GetMirrorTetromino";
+import MirrorTetromino from "../utils/MirrorTetromino";
 import "../styles/grid.scss";
 
 const Grid = ({ grid, tetromino, gameover }) => {
-  let mirrorTetromino = [];
+    let mirrorTetromino = [];
+    const gridGoingUp = useSelector((state) => state.startGame.gridGoingUp);
+    const gameReady = useSelector((state) => state.startGame.startGame);
+
   if (tetromino) {
-    mirrorTetromino = GetMirrorTetromino(grid, tetromino);
+    mirrorTetromino = MirrorTetromino(grid, tetromino, gridGoingUp, gameReady);
   }
 
   return (
@@ -20,8 +26,9 @@ const Grid = ({ grid, tetromino, gameover }) => {
         return line.map((col, x) => {
           let tetrominosSetting = [];
 
+        //   console.log("--->" + grid)
           if (x === 0) {
-            tetrominosSetting.push("first");
+            // tetrominosSetting.push("first");
           }
           if (gameover) {
             tetrominosSetting.push("finish");
@@ -37,6 +44,7 @@ const Grid = ({ grid, tetromino, gameover }) => {
             }
           }
 
+          // aca el mirror gridlevelup CASI
           if (mirrorTetromino.indexOf(y + "_" + x) !== -1) {
             tetrominosSetting.push("mirror");
           }
@@ -44,6 +52,15 @@ const Grid = ({ grid, tetromino, gameover }) => {
           if (grid[y][x] > 0) {
             tetrominosSetting.push("color" + grid[y][x]); //jugar invisible
           }
+
+          if (y >= grid.length - gridGoingUp) {
+            tetrominosSetting.push("gridUp");
+          }
+
+            if (grid[y]) { 
+                tetrominosSetting.push("back")
+            }
+
 
           return (
             <div

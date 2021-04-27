@@ -26,7 +26,7 @@ const Chat = ({ socket }) => {
     // console.log("Message ==>", message);
   }
 
-  console.log("Chat content ==>", chatContent);
+//   console.log("Chat content ==>", chatContent);
 
   const handleSubmit = (e) => {
     e.preventDefault();

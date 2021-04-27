@@ -15,13 +15,12 @@ import Board from "./Board";
 import Start from "./Start";
 import GameB from "./Game_BAK";
 const Game = ({ socket }) => {
-  console.log("Socket on Game ==>", socket);
-
-  const gameReady = useSelector((state) => state.startGame.startGame);
+//   console.log("Socket on Game ==>", socket);
 
   return (
     <div className="game">
-      {!gameReady ? <Start /> : <Board />}
+      {/* {!gameReady ? <Start /> : <Board />} */}
+      <Board />
       <Chat socket={socket} />
     </div>
   );

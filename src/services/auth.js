@@ -14,7 +14,7 @@ export const setupAuthentication = () => {
   // Récupération des données du storage
   authData = loadAuthDataFromStorage();
 
-  console.log("AUTH DATA IN AUTH.JS ==>", authData);
+//   console.log("AUTH DATA IN AUTH.JS ==>", authData);
 
   // Si il y avait quelque chose dans le storage
   if (authData) {
@@ -37,7 +37,7 @@ export const loadAuthDataFromStorage = () => {
  * @param {object} data Les données d'authentification (comprenant user, workspace et SID !)
  */
 export const saveAuthDataInStorage = (data) => {
-  console.log("saveAuthDataInStorage", data);
+//   console.log("saveAuthDataInStorage", data);
   window.sessionStorage.setItem("userData", JSON.stringify(data));
 };
 
@@ -47,10 +47,10 @@ export const saveAuthDataInStorage = (data) => {
  * @param {object} data Les données d'authentificaiton (comprenant user, workspace et SID !)
  */
 export const authenticate = (data) => {
-  console.log("DATA RECEIVED BY AUTHENTICATE ==>", data);
-  console.log("AUTH STATE BEFORE UPDATE ==>", authState);
+//   console.log("DATA RECEIVED BY AUTHENTICATE ==>", data);
+//   console.log("AUTH STATE BEFORE UPDATE ==>", authState);
   authState = true;
-  console.log("AUTH STATE AFTER UPDATE ==>", authState);
+//   console.log("AUTH STATE AFTER UPDATE ==>", authState);
   authData = data;
   saveAuthDataInStorage(data);
 };
@@ -75,5 +75,5 @@ export const updateStorageData = (props) => {
 
   // On stock authData dans le storage
   saveAuthDataInStorage(authData);
-  // console.log("UPDATE_STORAGE", props);
+//   console.log("UPDATE_STORAGE", props);
 };

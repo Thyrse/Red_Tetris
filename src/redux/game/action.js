@@ -1,3 +1,3 @@
 import { gameSlice } from "./reducers";
 
-export const { setGameInit } = gameSlice.actions;
+export const { setGameInit, setGridGoingUp } = gameSlice.actions;
