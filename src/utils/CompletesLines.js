@@ -1,11 +1,17 @@
 import React, { useState } from "react";
 
-function cleaningLine(width) { 
+function cleaningLine(grid, width) { 
     let line = []
     let x = 0;
 
+    // console.log("line", line)
+
     while(x < width) {
-        line.push(0);
+        // if (grid.length >= -10) {
+        //     line.push(1)
+        // } else {
+            line.push(0);
+        // }
         x++;
     }
     return line;
@@ -26,6 +32,7 @@ const cleanGrids = (grid, gridHeight, gridWidth) => {
             x++;
         }
         if (lineCompleted === false) {
+            // console.log("number", grid[y]);
             cleanGrid.push(grid[y]);
         }      
         y++;  
@@ -34,10 +41,11 @@ const cleanGrids = (grid, gridHeight, gridWidth) => {
     numberLinesReady = gridHeight - cleanGrid.length
     let z  = 0;
 
-    while(z < numberLinesReady) { 
-        cleanGrid.unshift(cleaningLine(gridWidth))
+    while(z < numberLinesReady) {         
+        cleanGrid.unshift(cleaningLine(grid, gridWidth))
         z++;
     }
+
 
     return { cleanGrid, numberLinesReady }
 }

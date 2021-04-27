@@ -143,3 +143,14 @@ $lifeCounter: ("1" 1, "2" 2, "3" 3);
     6px 9px black, 9px 9px black, 12px 9px black, 15px 9px black, 6px 12px black,
     9px 12px black, 12px 12px black, 9px 15px black;
 }
+
+.gridUp:not(.game-table__cell.color) {
+    background-color: #0f0f0f !important;
+    border: 5px outset #414141 !important;
+    padding: 0px !important;
+}
+
+.back {
+    border: 0.5px solid rgb(223, 223, 223) ;
+    background-color: rgb(138, 138, 138);
+}

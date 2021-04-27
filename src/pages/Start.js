@@ -13,7 +13,7 @@ const Start = (props) => {
 
     const handleChange = () => {
         setChecked((prev) => !prev);
-        console.log("cacacacacaac" + gameReady)
+        // console.log("cacacacacaac" + gameReady)
     
         if (checked) {
             dispatch(setGameInit({startGame: false}));
@@ -28,7 +28,7 @@ const Start = (props) => {
                 <div className="container-fluid row mx-auto d-flex justify-content-center m-3">
                     <div className="col-12 border-dark rounded chat-container__box shadow" >
                         <div className="bg-head chat-container__box-title row align-items-center justify-content-center p-3"
-                            style={{width: "400px", height: "600px", borderRadius: "5px"}}
+                            // style={{width: "400px", height: "600px", borderRadius: "5px"}}
                         >
                             <button onClick={ (e) => handleChange() } style={{backgroundColor: checked ? "green" : "red"}}>
                                 <h3>READY</h3>

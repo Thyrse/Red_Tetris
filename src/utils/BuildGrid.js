@@ -13,6 +13,7 @@ const BuildGrid = (gridHeight, gridWidth) => {
         grid.push(line);
         y++;
     }
+
     return grid;
 }
 

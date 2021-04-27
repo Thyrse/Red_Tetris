@@ -1,4 +1,6 @@
 import React from "react";
+import { connect } from "react-redux";
+import { setGridGoingUp, setGameInit } from "../redux/game/action";
 
 import Grid from "./Grid";
 
@@ -10,13 +12,14 @@ import CleanGrids from "../utils/CompletesLines";
 
 import GameOptions from "../components/GameOptions";
 import Tetromino from "./tetrominos";
+import Start from "./Start";
 
 import "../styles/grid.scss";
 
 class Board extends React.Component {
   state = {
     grid: null,
-    gridHeight: 21,
+    gridHeight: 20,
     gridWidth: 10,
     tetromino: null,
     linesCompletes: 0,
@@ -32,11 +35,14 @@ class Board extends React.Component {
     stayalive: 4,
     audioMute: false,
     winner: false,
+    firstStart: false,
+    gridLevelUp: 1,
   };
 
-  componentDidMount() {
+  //   componentDidUpdate() {
+  componentWillMount() {
+    //   componentDidMount() {
     this.initGame();
-    console.log("SALUT ICI OUI");
     this.props.socket.on("GAME_WINNER", () => {
       this.gameWin();
     });
@@ -53,6 +59,7 @@ class Board extends React.Component {
 
     window.addEventListener("keyup", this.keyboardUp);
     window.addEventListener("keydown", this.keyboardDown);
+
     this.setState(
       {
         gameOver: false,
@@ -135,6 +142,7 @@ class Board extends React.Component {
       lifeGameOver: 0,
       stayalive: 4,
     });
+    this.props.setGridGoingUp(-this.props.gridGoingUp);
     this.initGame();
   };
 
@@ -143,16 +151,17 @@ class Board extends React.Component {
   };
 
   gameOver = () => {
-    clearInterval(this.timer);
+    // clearInterval(this.timer);
+    // clearInterval(this.gameTimer);
 
     //set status lost game
     this.setState({ gameOver: true });
 
+    this.lifeGameSystem();
     if (this.state.gameOver) {
       console.log("game-over");
-      this.lifeGameSystem();
-      window.removeEventListener("keyup", this.keyboardUp);
       window.removeEventListener("keydown", this.keyboardDown);
+      window.removeEventListener("keyup", this.keyboardUp);
     }
   };
 
@@ -210,11 +219,13 @@ class Board extends React.Component {
   mergeTetrominoToGrid = () => {
     const piece = this.state.tetromino;
     const gridState = this.state.grid;
+    let gridLevelUp = this.props.gridLevelUp;
     let score = this.state.score;
     let level = this.state.level;
     let levelChanged = false;
     let linesCompletes = this.state.linesCompletes; // level score for lines completes
 
+    // color data grid
     piece.mergeData.forEach((element) => {
       const [y, x] = element.split("_");
       gridState[y][x] = this.state.tetromino.color;
@@ -236,6 +247,9 @@ class Board extends React.Component {
         levelChanged = true;
         clearInterval(this.timer);
       }
+      if (numberLinesReady > 1) {
+        this.props.setGridGoingUp(numberLinesReady - 1);
+      }
     }
 
     this.setState(
@@ -251,35 +265,48 @@ class Board extends React.Component {
 
   // terminado
   tetrominoIsPosition = (tetromino) => {
+    const gridGoingUp = this.props.gridGoingUp;
+    const linesCompletes = this.state.linesCompletes;
+
+    // console.log("das", linesCompletes - 1);
+
     let cordinate = [];
     let y = 0;
 
-    while (y < tetromino.grid.length) {
-      // console.log("YYY", y);
-      let x = 0;
-      while (x < tetromino.grid[0].length) {
-        // console.log("XXX", x)
-        if (tetromino.grid[y][x] > 0) {
-          // console.log(grid[y])
-          // console.log(this.state.grid[y + tetromino.posY][x + tetromino.posX])
-          if (this.state.grid[y + tetromino.posY] === undefined) {
-            return false;
+    if (this.props.startGame === true) {
+      while (y < tetromino.grid.length) {
+        // console.log("YYY", y);
+        let x = 0;
+        while (x < tetromino.grid[0].length) {
+          // console.log("XXX", x)
+          if (tetromino.grid[y][x] > 0) {
+            // console.log(grid[y])
+            // console.log(this.state.grid[y + tetromino.posY][x + tetromino.posX])
+            if (this.state.grid[y + tetromino.posY] === undefined) {
+              return false;
+            }
+            if (
+              this.state.grid[y + gridGoingUp + tetromino.posY] === undefined
+            ) {
+              return false;
+            }
+            if (
+              this.state.grid[y + tetromino.posY][x + tetromino.posX] ===
+              undefined
+            ) {
+              return false;
+            }
+            if (this.state.grid[y + tetromino.posY][x + tetromino.posX] > 0) {
+              return false;
+            }
+            cordinate.push(y + tetromino.posY + "_" + (x + tetromino.posX));
           }
-          if (
-            this.state.grid[y + tetromino.posY][x + tetromino.posX] ===
-            undefined
-          ) {
-            return false;
-          }
-          if (this.state.grid[y + tetromino.posY][x + tetromino.posX] > 0) {
-            return false;
-          }
-          cordinate.push(y + tetromino.posY + "_" + (x + tetromino.posX));
+          x++;
         }
-        x++;
+        y++;
       }
-      y++;
     }
+
     return cordinate;
   };
 
@@ -314,8 +341,10 @@ class Board extends React.Component {
     let resultCordinate = this.tetrominoIsPosition(tetromino);
 
     if (resultCordinate !== false) {
-      tetromino.mergeData = resultCordinate;
-      this.setState({ tetromino });
+      if (this.props.startGame === true) {
+        tetromino.mergeData = resultCordinate;
+        this.setState({ tetromino });
+      }
     } else {
       this.mergeTetrominoToGrid();
     }
@@ -391,9 +420,11 @@ class Board extends React.Component {
   };
 
   handleGameTime() {
-    this.gameTimer = setInterval(() => {
-      this.setState({ timer: this.state.timer + 1 });
-    }, 1000);
+    if (this.props.startGame) {
+      this.gameTimer = setInterval(() => {
+        this.setState({ timer: this.state.timer + 1 });
+      }, 1000);
+    }
   }
 
   lifeGameSystem() {
@@ -415,6 +446,12 @@ class Board extends React.Component {
     }
   }
 
+  firstStart() {
+    this.props.setGameInit(true);
+    //   console.log(this.state.firstStart)
+    //   this.initGame()
+  }
+
   render() {
     return (
       <>
@@ -428,77 +465,92 @@ class Board extends React.Component {
             />
           )}
           <div className="game-stats">
-            <div className="game-stats__next p-2">
-              <div>
-                <p>Coming next</p>
+            <div className="game-stats">
+              <div className="game-stats__next p-2">
+                <div>
+                  <p>Coming next</p>
+                </div>
+                {this.state.nextPiece !== null && (
+                  <NextTetromino
+                    grid={Tetromino[this.state.nextPiece]}
+                    color={this.state.nextPiece + 1}
+                  />
+                )}
               </div>
-              {this.state.nextPiece !== null && (
-                <NextTetromino
-                  grid={Tetromino[this.state.nextPiece]}
-                  color={this.state.nextPiece + 1}
-                />
-              )}
-            </div>
-            <div className="game-stats__infos p-3">
-              <AudioTetris />
-              <div className="stats-hearts">
-                <div
-                  className={`pixelized--heart black--${this.state.lifeGameOver}`}
-                />
-                <div
-                  className={`pixelized--heart black--${this.state.nextLifes}`}
-                />
-                <div
-                  className={`pixelized--heart black--${this.state.lifes}`}
-                />
+              <div className="game-stats__infos p-3">
+                <AudioTetris />
+                {/* <p style={{color: "white"}}>{this.props.gridGoingUp}</p> */}
+                <div className="stats-hearts">
+                  <div
+                    className={`pixelized--heart black--${this.state.lifeGameOver}`}
+                  />
+                  <div
+                    className={`pixelized--heart black--${this.state.nextLifes}`}
+                  />
+                  <div
+                    className={`pixelized--heart black--${this.state.lifes}`}
+                  />
+                </div>
+                <div className="stats-audit">
+                  <GameOptions
+                    className={"stats-audit__level"}
+                    title={"Level"}
+                    state={this.state.level}
+                  />
+                  <GameOptions
+                    className={"stats-audit__score"}
+                    title={"Score"}
+                    state={this.state.score}
+                  />
+                  <GameOptions
+                    className={"stats-audit__lines"}
+                    title={"Lines"}
+                    state={`${this.state.linesCompletes}/${this.state.lineslevelUp}`}
+                  />
+                  <GameOptions
+                    className={"stats-audit__timer"}
+                    title={"Timer"}
+                    state={this.state.timer}
+                  />
+                </div>
               </div>
-              <div className="stats-audit">
-                <GameOptions
-                  className={"stats-audit__level"}
-                  title={"Level"}
-                  state={this.state.level}
-                />
-                <GameOptions
-                  className={"stats-audit__score"}
-                  title={"Score"}
-                  state={this.state.score}
-                />
-                <GameOptions
-                  className={"stats-audit__lines"}
-                  title={"Lines"}
-                  state={`${this.state.linesCompletes}/${this.state.lineslevelUp}`}
-                />
-                <GameOptions
-                  className={"stats-audit__timer"}
-                  title={"Timer"}
-                  state={this.state.timer}
-                />
-              </div>
-            </div>
-            {this.state.gameOver ? (
-              <div className="game-stats__replay">
-                {this.state.stayalive === 4 ||
-                this.state.stayalive === 3 ||
-                this.state.stayalive === 2 ? (
+              {!this.props.startGame ? (
+                <div>
                   <button
                     className="btn btn-retro m-2"
-                    onClick={() => this.initGame()}
+                    onClick={() => this.firstStart()}
                   >
-                    Continue
+                    START GAME
                   </button>
-                ) : (
-                  ""
-                )}
-                <button
-                  className="btn btn-retro m-2"
-                  onClick={() => this.restart()}
-                >
-                  Play again
-                </button>
-              </div>
-            ) : (
-              ""
-            )}
+                </div>
+              ) : (
+                ""
+              )}
+              {this.state.gameOver ? (
+                <div className="game-stats__replay">
+                  {this.state.stayalive === 4 ||
+                  this.state.stayalive === 3 ||
+                  this.state.stayalive === 2 ? (
+                    <button
+                      className="btn btn-retro m-2"
+                      onClick={() => this.initGame()}
+                    >
+                      Continue
+                    </button>
+                  ) : (
+                    ""
+                  )}
+                  <button
+                    className="btn btn-retro m-2"
+                    onClick={() => this.restart()}
+                  >
+                    Play again
+                  </button>
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
           </div>
         </div>
       </>
@@ -506,4 +558,26 @@ class Board extends React.Component {
   }
 }
 
-export default Board;
+const mapStateToProps = (state) => {
+  return {
+    gridGoingUp: state.startGame.gridGoingUp,
+    startGame: state.startGame.startGame,
+  };
+  // gridGoingUp: state.gridGoingUp
+};
+
+const mapDispatchToProps = (dispatch) => {
+  // console.log("HJOLAS" + dispatch)
+  // dispatch(setGridGoingUp({gridGoingUp: 10}));
+  // return {
+  //     setGridGoingUp
+  // }
+  return {
+    setGridGoingUp: (gridUp) => dispatch(setGridGoingUp(gridUp)),
+    setGameInit: (gameFirst) => dispatch(setGameInit(gameFirst)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Board);
+
+// export default Board;
