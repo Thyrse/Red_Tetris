@@ -1,23 +1,20 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Route, Redirect } from "react-router-dom";
-import { AuthContext } from "../../contexts";
+import { useSelector } from "react-redux";
 
 /**
- * Permet de créer des routes protégées dans notre application
- *
  * @param {{path: string, component: string}} props
  */
 const PrivateRoute = ({ path, component, children, render, other }) => {
-  // On récupère le contexte d'authentification duquel on extrait uniquement ce qui nous intéresse :
-  // Est-ce que la personne est authentifiée ou pas
-  // Si elle est authentifiée, on affiche le composant demandé, sinon on redirige vers le login
-
-  // const { isAuthenticated } = useContext(AuthContext);
-  // console.log("IS AUTHENTICATED IN PRIVATE ROUTE ==>", isAuthenticated);
-  return (
+  // Here we need to check if the user is connected, by checking the store directly
+  // Since we dont allow any refresh on page, the user is considerer as logged out upon doing it
+  const currentUser = useSelector((state) => state.userData.userDatas);
+  return currentUser && currentUser?.socketID ? (
     <Route path={path} component={component} render={render} {...other}>
       {children}
     </Route>
+  ) : (
+    <Redirect to="/" />
   );
 };
 

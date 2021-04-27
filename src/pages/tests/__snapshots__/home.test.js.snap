@@ -39,6 +39,61 @@ exports[`Home unit test Homepage rendering upon arrival 1`] = `
                 type="text"
                 value=""
               />
+              <div
+                className="MuiFormControl-root mx-3 pb-3"
+              >
+                <label
+                  className="MuiFormLabel-root MuiInputLabel-root makeStyles-label-4 MuiInputLabel-formControl MuiInputLabel-animated"
+                  data-shrink={false}
+                >
+                  Type
+                </label>
+                <div
+                  className="MuiInputBase-root MuiInput-root MuiInput-underline makeStyles-select-1 MuiInputBase-formControl MuiInput-formControl"
+                  onClick={[Function]}
+                >
+                  <select
+                    aria-invalid={false}
+                    className="MuiSelect-root MuiSelect-select MuiInputBase-input MuiInput-input"
+                    disabled={false}
+                    multiple={false}
+                    onAnimationStart={[Function]}
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    required={false}
+                    value=""
+                  >
+                    <option
+                      aria-label="None"
+                      className="makeStyles-option-2"
+                      value={null}
+                    />
+                    <option
+                      className="makeStyles-option-2"
+                      value={1}
+                    >
+                      Solo
+                    </option>
+                    <option
+                      className="makeStyles-option-2"
+                      value={2}
+                    >
+                      Multiplayer
+                    </option>
+                  </select>
+                  <svg
+                    aria-hidden={true}
+                    className="MuiSvgIcon-root MuiSelect-icon makeStyles-icon-3"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M7 10l5 5 5-5z"
+                    />
+                  </svg>
+                </div>
+              </div>
               <span
                 aria-describedby={null}
                 className="p-1"
@@ -70,10 +125,17 @@ exports[`Home unit test Homepage rendering upon arrival 1`] = `
             className="row text-center room-item"
           >
             <div
-              className="col-8"
+              className="col-6"
             >
               <span>
                 Salut
+              </span>
+            </div>
+            <div
+              className="room-mode col-2"
+            >
+              <span>
+                Multijoueur
               </span>
             </div>
             <div

@@ -1,18 +1,15 @@
 /* eslint-disable array-callback-return */
 // REACT
-import React, { useState, useEffect, useContext, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 // REACT ROUTER
-import { Link, useHistory } from "react-router-dom";
-import arrowRight from "../img/arrow_right.png";
+import { useHistory } from "react-router-dom";
 import arrowRightWhite from "../img/arrow_right_white.png";
 import Chat from "../components/Chat";
-import socketIOClient from "socket.io-client";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserData } from "../redux/auth/actions";
 import {
   FormControl,
   InputLabel,
-  OutlinedInput,
   Select,
   Tooltip,
   Zoom,
@@ -45,7 +42,6 @@ const styles = makeStyles((theme) => ({
 }));
 
 const Home = ({ socket }) => {
-  // const socket = socketIOClient.connect("http://localhost:4000");
   const classes = styles();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -55,10 +51,6 @@ const Home = ({ socket }) => {
   const currentUser = useSelector((state) => state.userData.userDatas);
   const snackbar = useSnackbar();
 
-  // console.log("ROOM TYPE ==>", roomType);
-  // console.log("Socket on Home ==>", socket);
-  // console.log("ROOM VALUE ==>", room);
-  // console.log("ROOMS LIST ==>", roomsList);
   useEffect(() => {
     socket.emit("JOIN_LOBBY", currentUser);
     const updateRoom = { ...currentUser };

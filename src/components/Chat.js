@@ -1,40 +1,23 @@
 /* eslint-disable array-callback-return */
-// REACT
-import React, { useState, useEffect, useContext, useCallback } from "react";
-// REACT ROUTER
-import { Link, useHistory } from "react-router-dom";
-import arrowRight from "../img/arrow_right.png";
-import arrowRightWhite from "../img/arrow_right_white.png";
-import socketIOClient from "socket.io-client";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 const Chat = ({ socket }) => {
   const [message, setMessage] = useState("");
   const [chatContent, setChatContent] = useState([]);
   const [displayUsers, setDisplayUsers] = useState([]);
-  // const socket = socketIOClient.connect("http://localhost:4000");
   const usersList = useSelector((state) => state.listUsers.usersList);
   const currentUser = useSelector((state) => state.userData.userDatas);
   const roomsList = useSelector((state) => state.roomsList.roomsList);
 
-  // console.log("Socket on Chat ==>", socket);
-  // console.log("VALUE OF currentUser ==>", currentUser);
-  // console.log("ROOMS LIST ==>", roomsList);
-  // console.log("DISPLAY USERS ==>", displayUsers);
-  // console.log("USERS LIST ==>", usersList);
   function outputMessage(pseudo, message, user) {
     const updateContent = chatContent;
     updateContent.push({ username: pseudo, msg: message, id: user });
     setChatContent([...chatContent]);
-    // console.log("Pseudo ==>", pseudo);
-    // console.log("Message ==>", message);
   }
-
-  // console.log("Chat content ==>", chatContent);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log("PASSING SUBMIT NEW MESSAGE");
     socket.emit("NEW_MESSAGE", {
       message: message.trim(),
       username: currentUser.username,
@@ -47,8 +30,6 @@ const Chat = ({ socket }) => {
   const handleChange = (e) => {
     setMessage(e.target.value);
   };
-
-  // console.log("Message state ==>", message);
 
   useEffect(() => {
     socket.on("REFRESH_MESSAGES", function (data) {

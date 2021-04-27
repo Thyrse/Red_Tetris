@@ -10,7 +10,7 @@ import { roomsSlice } from "./rooms/reducers";
 import { gameSlice } from "./game/reducers";
 
 /**
- * Store de l'application renvoyé au provider dans App.js, on récupere le reducer de chaque Slices/Reducers que l'on combine en 1 objet
+ * App store sended to provider (linked in App.js), retrieve Slices and Reducers here in one object only
  */
 const reducer = combineReducers({
   userData: userSlice.reducer,
@@ -20,13 +20,13 @@ const reducer = combineReducers({
 });
 
 /**
- * Permet d'utiliser le middleWare par defaut de redux-toolkit, et ajout d'un middleware qui permet de log l'état de nos Slices/Reducers, avant/pendant/apres utilisation
+ * Get the default redux-toolkit middleware and log the Slices & Reducers states
  */
 const middleware = [...getDefaultMiddleware(), logger];
 // const middleware = [...getDefaultMiddleware()];
 
 /**
- * On export le store et nos middleWare afin de pouvoir l'ajouter au provider de App.js
+ * Export store
  */
 export default configureStore({
   reducer,

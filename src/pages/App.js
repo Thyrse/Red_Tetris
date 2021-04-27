@@ -1,42 +1,23 @@
-import React, { useContext, useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-import MomentUtils from "@date-io/moment";
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import PrivateRoute from "../components/PrivateRoute/PrivateRoute";
-import { Switch, Route, useLocation, useParams } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import { Layout } from "../Layout";
 import Login from "./Login";
 import Home from "./Home";
 import Game from "./Game";
 import socketIOClient from "socket.io-client";
 import "../styles/tetris.scss";
-import { AuthContext } from "../contexts";
 import { setUsersList } from "../redux/usersList/action";
 import { setRooms } from "../redux/rooms/action";
-import { setUserData } from "../redux/auth/actions";
 
 import Board from "../pages/Board";
 
-const App = ({ message }) => {
-  // const location = useLocation();
-  // const [currentUser, setCurrentUser] = useState();
-  const currentUser = useSelector((state) => state.userData.userDatas);
-  const authContext = useContext(AuthContext);
+const App = () => {
   const [socket, setSocket] = useState(
     socketIOClient.connect("http://localhost:4000")
   );
-  // const withNavbar = location.pathname !== "/";
-  // const snackbar = useSnackbar();
   const dispatch = useDispatch();
-  // const [id, setId] = useState();
-  // socket.on("REFRESH_USER", function (data) {
-  //   console.log("REFRESH DATA RECEIVED ==>", data);
-  //   const updateRoom = { ...currentUser };
-  //   console.log("UPDATE ROOM FROM REFRESH USER before ==>", updateRoom);
-  //   updateRoom.room = data;
-  //   console.log("UPDATE ROOM FROM REFRESH USER after ==>", updateRoom);
-  //   // dispatch(setUserData(updateRoom));
-  // });
   useEffect(() => {
     setSocket(socketIOClient.connect("http://localhost:4000"));
     socket.on("REFRESH_USERSLIST", function (data) {
@@ -72,13 +53,5 @@ const App = ({ message }) => {
     </>
   );
 };
-
-// const mapStateToProps = (state) => {
-//   return {
-//     message: state.message
-//   }
-// }
-
-// export default connect(mapStateToProps, null)(App)
 
 export default App;

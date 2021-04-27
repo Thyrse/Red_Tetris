@@ -31,11 +31,7 @@ exports[`Chat unit test Chat rendering upon arrival 1`] = `
         <div
           className="col-3 chat-users shadow__light"
         >
-          <ul>
-            <li>
-              ZIPHLOT
-            </li>
-          </ul>
+          <ul />
         </div>
       </div>
       <form

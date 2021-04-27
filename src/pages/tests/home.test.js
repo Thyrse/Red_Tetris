@@ -42,6 +42,7 @@ const initialState = {
         name: "Salut",
         owner: "Thyrse",
         members: [],
+        type: "2",
         size: 5,
       },
     ],
@@ -80,8 +81,11 @@ describe("Home unit test", () => {
       </Provider>
     );
     const roomName = "Salut";
+    const roomType = "2";
     const event = { target: { value: roomName } };
+    const eventBis = { target: { value: roomType } };
     expect(wrapper.find(".control-room").simulate("change", event));
+    expect(wrapper.find(".MuiSelect-select").simulate("change", eventBis));
     wrapper.find(".form-room").simulate("submit", fakeEvent);
     expect(wrapper.find(".control-room").props().value).toBe("");
   });

@@ -1,25 +1,17 @@
 /* eslint-disable array-callback-return */
-// REACT
-import React, { useState, useEffect, useContext, useCallback } from "react";
-// REACT ROUTER
-import { Link, useHistory } from "react-router-dom";
-import socketIOClient from "socket.io-client";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { setUserData } from "../redux/auth/actions";
-import { authenticate, updateStorageData } from "../services/auth";
-import { setUsersList } from "../redux/usersList/action";
 import { Tooltip, Zoom } from "@material-ui/core";
 import { useSnackbar } from "../contexts/Snackbar";
 
 const Login = ({ socket }) => {
-  // const socket = socketIOClient.connect("http://localhost:4000");
   const [username, setUsername] = useState("");
   const history = useHistory();
   const dispatch = useDispatch();
   const [error, setError] = useState(0);
   const snackbar = useSnackbar();
-
-  // console.log("Socket on Login ==>", socket);
 
   const handleChange = (e) => {
     setUsername(e.target.value);
@@ -29,10 +21,6 @@ const Login = ({ socket }) => {
     if (username !== "") {
       setError(null);
       socket.emit("LOGIN", username.toUpperCase());
-      authenticate({
-        username: username.toUpperCase(),
-        socketID: socket.id,
-      });
       dispatch(
         setUserData({
           username: username.toUpperCase(),
