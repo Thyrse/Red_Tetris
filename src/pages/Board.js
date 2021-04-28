@@ -39,9 +39,7 @@ class Board extends React.Component {
 	gridLevelUp: 1
   };
 
-//   componentDidUpdate() {
-  componentWillMount() {
-//   componentDidMount() {
+  componentDidMount() {
 	this.initGame();
   }
 
