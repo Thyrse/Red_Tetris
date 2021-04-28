@@ -63,7 +63,7 @@ class Board extends React.Component {
 		},
 		() => {
 				this.makeTetromino();
-				this.handleGameTime();
+				// this.handleGameTime();
 				this.launchTimer();
 		}
 	);
@@ -409,12 +409,15 @@ class Board extends React.Component {
 	}
   };
 
-  handleGameTime() {
-	  if (this.props.startGame) {
+  handleGameTime = () => {
+    console.log("coucou in");
+
+	//   if (this.props.startGame) {
+          console.log("coucou", this.props.startGame);
 		this.gameTimer = setInterval(() => {
 		this.setState({ timer: this.state.timer + 1 });
 		}, 1000);
-	}
+	// }
   }
 
   lifeGameSystem() {
@@ -439,7 +442,8 @@ class Board extends React.Component {
   }
 
   firstStart() {
-	  this.props.setGameInit(true)
+	  this.props.setGameInit(true);
+      this.handleGameTime();
 	//   console.log(this.state.firstStart)
 	//   this.initGame()
   }
