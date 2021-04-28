@@ -1,6 +1,6 @@
 class Hello {
   constructor(){
-      console.log("ok");
+    //   console.log("ok");
       // super();
   }
 }

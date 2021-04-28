@@ -185,7 +185,7 @@ class Board extends React.Component {
 
 	// value 0 cordinate = 0 offset y to -1 init spwn
 	if (tetromino.grid[0][0] === 0) {
-	  tetromino.posY--;
+	    tetromino.posY-- ;
 	}
 
 	// premier piece x center piece
@@ -420,6 +420,8 @@ class Board extends React.Component {
   }
 
   lifeGameSystem() {
+    window.removeEventListener("keydown", this.keyboardDown);
+    window.removeEventListener("keyup", this.keyboardUp);
 	// console.log("this.state.stayalive" + this.state.stayalive)
 	this.setState({ stayalive: this.state.stayalive - 1 });
 
