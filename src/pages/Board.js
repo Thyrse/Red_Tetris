@@ -71,8 +71,10 @@ class Board extends React.Component {
       },
       () => {
         this.makeTetromino();
-        this.handleGameTime();
-        // this.launchTimer();
+        this.launchTimer();
+        if (this.props.startGame) {
+            this.handleGameTime();
+        }
       }
     );
   };
@@ -165,18 +167,18 @@ class Board extends React.Component {
   };
 
   gameOver = () => {
-    // clearInterval(this.timer);
-    // clearInterval(this.gameTimer);
+    clearInterval(this.timer);
+    clearInterval(this.gameTimer);
 
     //set status lost game
     this.setState({ gameOver: true });
 
     this.lifeGameSystem();
-    if (this.state.gameOver) {
-      console.log("game-over");
-      window.removeEventListener("keydown", this.keyboardDown);
-      window.removeEventListener("keyup", this.keyboardUp);
-    }
+    // if (this.state.gameOver) {
+    //   console.log("game-over");
+    //   window.removeEventListener("keydown", this.keyboardDown);
+    //   window.removeEventListener("keyup", this.keyboardUp);
+    // }
   };
 
   // level timer
@@ -434,11 +436,11 @@ class Board extends React.Component {
   };
 
   handleGameTime() {
-    if (this.props.startGame) {
+    // if (this.props.startGame) {
       this.gameTimer = setInterval(() => {
         this.setState({ timer: this.state.timer + 1 });
       }, 1000);
-    }
+    // }
   }
 
   lifeGameSystem() {
@@ -464,7 +466,8 @@ class Board extends React.Component {
 
   firstStart() {
     this.props.setGameInit(true);
-    this.launchTimer();
+    // this.launchTimer();
+    this.handleGameTime()
     //   console.log(this.state.firstStart)
     //   this.initGame()
   }
