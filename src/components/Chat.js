@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
-const Chat = ({ socket }) => {
+const Chat = ({ socket, yolo }) => {
   const [message, setMessage] = useState("");
   const [chatContent, setChatContent] = useState([]);
   const [displayUsers, setDisplayUsers] = useState([]);
@@ -35,6 +35,9 @@ const Chat = ({ socket }) => {
     socket.on("REFRESH_MESSAGES", function (data) {
       outputMessage(data.username, data.message, data.user);
     });
+    return () => {
+      socket.off();
+    };
   }, []);
 
   useEffect(() => {

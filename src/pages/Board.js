@@ -46,6 +46,11 @@ class Board extends React.Component {
     });
   }
 
+  componentWillUnmount() {
+    window.removeEventListener("keydown", this.keyboardDown);
+    window.removeEventListener("keyup", this.keyboardUp);
+  }
+
   initGame = () => {
     console.log("game-start");
 
@@ -67,13 +72,17 @@ class Board extends React.Component {
       () => {
         this.makeTetromino();
         this.handleGameTime();
-        this.launchTimer();
+        // this.launchTimer();
       }
     );
   };
 
   keyboardUp = (e) => {
-    e.preventDefault();
+    if (
+      ["ArrowDown", "ArrowUp", "ArrowRight", "ArrowLeft"].indexOf(e.key) > -1
+    ) {
+      e.preventDefault();
+    }
     this.pressedMultipleKey = false;
     let index = this.pressedKey.indexOf(e.key);
 
@@ -83,7 +92,11 @@ class Board extends React.Component {
   };
 
   keyboardDown = (e) => {
-    e.preventDefault();
+    if (
+      ["ArrowDown", "ArrowUp", "ArrowRight", "ArrowLeft"].indexOf(e.key) > -1
+    ) {
+      e.preventDefault();
+    }
     if (this.pressedKey.indexOf(e.key) === -1) {
       this.pressedKey.push(e.key);
     }
@@ -124,7 +137,7 @@ class Board extends React.Component {
       case "x":
         this.rotatePiece("left");
         break;
-        case " ":
+      case " ":
         this.rotatePiece("left");
         break;
       default:
@@ -430,6 +443,8 @@ class Board extends React.Component {
 
   lifeGameSystem() {
     // console.log("this.state.stayalive" + this.state.stayalive)
+    window.removeEventListener("keydown", this.keyboardDown);
+    window.removeEventListener("keyup", this.keyboardUp);
     this.setState({ stayalive: this.state.stayalive - 1 });
 
     if (this.state.stayalive === 4) {
@@ -449,6 +464,7 @@ class Board extends React.Component {
 
   firstStart() {
     this.props.setGameInit(true);
+    this.launchTimer();
     //   console.log(this.state.firstStart)
     //   this.initGame()
   }
@@ -513,7 +529,7 @@ class Board extends React.Component {
                     title={"Timer"}
                     state={this.state.timer}
                   />
-                    <AudioTetris />
+                  <AudioTetris />
                 </div>
               </div>
               {!this.props.startGame ? (
