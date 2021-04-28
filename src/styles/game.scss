@@ -11,7 +11,7 @@
       display: flex;
       position: relative;
       flex-wrap: wrap;
-      background: rgba(36, 37, 37, 1);
+      // background: rgba(36, 37, 37, 1);
       // background: linear-gradient(
       //   32deg,
       //   rgba(36, 37, 37, 1) 13%,
@@ -23,7 +23,7 @@
       //   linear-gradient(315deg, grey 25%, transparent 25%),
       //   linear-gradient(45deg, grey 25%, transparent 25%);
       // background-size: 2em 2em;
-      // background-color: #e4e4e4;
+      background-color: #e4e4e4;
       // &__line {
       //   display: flex;
       //   flex: 1 1 0%;
@@ -31,7 +31,7 @@
       &__cell {
         display: flex;
         flex: 1 1 10%;
-        border: 1px solid $whiter;
+        border: 1px solid $main-dark;
         padding: 4px;
         &.colory {
           background: $main-dark !important;
@@ -42,7 +42,7 @@
         }
       }
       .mirror {
-        background-color: darken($whiter, 40%);
+        background-color: $dark-light;
       }
       &__over {
         height: 100%;
