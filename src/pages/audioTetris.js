@@ -27,7 +27,7 @@ const AudioTetris = () => {
   return (
     <div className="stats-audio">
     {/* autoplay change to true */}
-      <audio ref={myRef} src={tetrisgame} autoPlay={true} />
+      <audio ref={myRef} src={tetrisgame} autoPlay={false} />
       {!mute ? (
         <IconButton
           className={"stats-audio__wrapper"}
