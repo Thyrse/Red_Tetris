@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+// import React, { useState } from "react";
 
-function cleaningLine(grid, width) { 
+function cleaningLine(width) { 
     let line = []
     let x = 0;
 

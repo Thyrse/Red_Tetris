@@ -11,7 +11,7 @@ import "../styles/tetris.scss";
 import { setUsersList } from "../redux/usersList/action";
 import { setRooms } from "../redux/rooms/action";
 
-import Board from "../pages/Board";
+// import Board from "../pages/Board";
 
 const App = () => {
   const [socket, setSocket] = useState(

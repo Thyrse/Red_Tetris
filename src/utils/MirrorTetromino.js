@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setGridGoingUp } from "../redux/game/action";
+// import React, { useState, useEffect, useContext, useCallback } from "react";
+// import { useDispatch, useSelector } from "react-redux";
+// import { setGridGoingUp } from "../redux/game/action";
 
 const MirrorTetromino = (grid, tetromino, gridGoingUp, gameReady) => {
     let previousCordinate = [];

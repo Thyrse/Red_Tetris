@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setGameInit } from "../redux/game/action";
 
 const Start = (props) => {
@@ -9,7 +9,7 @@ const Start = (props) => {
 
 
     const dispatch = useDispatch();
-    const gameReady = useSelector((state) => state.startGame.startGame);
+    // const gameReady = useSelector((state) => state.startGame.startGame);
 
     const handleChange = () => {
         setChecked((prev) => !prev);

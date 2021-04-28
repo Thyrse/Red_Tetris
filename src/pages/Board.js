@@ -12,7 +12,7 @@ import CleanGrids from "../utils/CompletesLines";
 
 import GameOptions from "../components/GameOptions";
 import Tetromino from "./tetrominos";
-import Start from "./Start";
+// import Start from "./Start";
 
 import "../styles/grid.scss";
 
@@ -39,7 +39,7 @@ class Board extends React.Component {
     gridLevelUp: 1,
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.initGame();
     this.props.socket.on("GAME_WINNER", () => {
       this.gameWin();
@@ -220,7 +220,7 @@ class Board extends React.Component {
   mergeTetrominoToGrid = () => {
     const piece = this.state.tetromino;
     const gridState = this.state.grid;
-    let gridLevelUp = this.props.gridLevelUp;
+    // let gridLevelUp = this.props.gridLevelUp;
     let score = this.state.score;
     let level = this.state.level;
     let levelChanged = false;
@@ -267,7 +267,7 @@ class Board extends React.Component {
   // terminado
   tetrominoIsPosition = (tetromino) => {
     const gridGoingUp = this.props.gridGoingUp;
-    const linesCompletes = this.state.linesCompletes;
+    // const linesCompletes = this.state.linesCompletes;
 
     // console.log("das", linesCompletes - 1);
 

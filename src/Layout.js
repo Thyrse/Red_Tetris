@@ -1,8 +1,8 @@
 /* eslint-disable array-callback-return */
 // REACT
-import React, { useState, useEffect, useContext, useCallback } from "react";
+import React, { useState } from "react";
 // REACT ROUTER
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import logo from "./img/logo_test.png";
 import disconnect from "./img/power_button.png";
 import { useSelector, useDispatch } from "react-redux";

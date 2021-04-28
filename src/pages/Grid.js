@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext, useCallback } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
-import { setGridGoingUp } from "../redux/game/action";
+// import { setGridGoingUp } from "../redux/game/action";
 
 // REACT ROUTER
 import MirrorTetromino from "../utils/MirrorTetromino";
