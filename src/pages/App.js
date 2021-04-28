@@ -34,7 +34,7 @@ const App = () => {
     <>
       <Layout socket={socket}>
         <Switch>
-          <Route exact path="/board" render={() => <Board />} />
+          {/* <Route exact path="/board" render={() => <Board />} /> */}
           <Route
             exact
             path="/"

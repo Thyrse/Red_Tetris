@@ -39,9 +39,7 @@ class Board extends React.Component {
     gridLevelUp: 1,
   };
 
-  //   componentDidUpdate() {
   componentWillMount() {
-    //   componentDidMount() {
     this.initGame();
     this.props.socket.on("GAME_WINNER", () => {
       this.gameWin();
@@ -124,6 +122,9 @@ class Board extends React.Component {
         this.rotatePiece("right");
         break;
       case "x":
+        this.rotatePiece("left");
+        break;
+        case " ":
         this.rotatePiece("left");
         break;
       default:
@@ -478,7 +479,7 @@ class Board extends React.Component {
                 )}
               </div>
               <div className="game-stats__infos p-3">
-                <AudioTetris />
+                {/* <AudioTetris /> */}
                 {/* <p style={{color: "white"}}>{this.props.gridGoingUp}</p> */}
                 <div className="stats-hearts">
                   <div
@@ -512,6 +513,7 @@ class Board extends React.Component {
                     title={"Timer"}
                     state={this.state.timer}
                   />
+                    <AudioTetris />
                 </div>
               </div>
               {!this.props.startGame ? (

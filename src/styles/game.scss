@@ -75,7 +75,7 @@
     }
     .game-stats {
       display: flex;
-      border: 2px solid $white;
+    //   border: 2px solid $white;
       align-items: center;
       height: 85vh;
       flex-direction: column;
@@ -111,7 +111,7 @@
         }
         .stats-audio {
           &__wrapper {
-            padding-top: 0 !important;
+            margin-left: 1px !important;
           }
         }
         .stats-audit {
