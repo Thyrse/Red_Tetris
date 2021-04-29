@@ -559,7 +559,8 @@ class Board extends React.Component {
               </div>
               {this.state.ownered !== null &&
               this.props.rooms[this.state.ownered].owner ===
-                this.props.user.socketID ? (
+                this.props.user.socketID &&
+              !this.props.startGame ? (
                 <div>
                   <button
                     className="btn btn-retro m-2"
