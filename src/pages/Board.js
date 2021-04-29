@@ -13,6 +13,7 @@ import CleanGrids from "../utils/CompletesLines";
 import GameOptions from "../components/GameOptions";
 import Tetromino from "./tetrominos";
 import Start from "./Start";
+import { useDispatch, useSelector } from "react-redux";
 
 import "../styles/grid.scss";
 
@@ -37,18 +38,37 @@ class Board extends React.Component {
     winner: false,
     firstStart: false,
     gridLevelUp: 1,
+    ownered: null,
   };
 
   componentDidMount() {
     this.initGame();
+    const findOwner = this.props.rooms.findIndex(
+      (room) => room.id === this.props.user.room
+    );
+    this.setState({
+      ownered: findOwner,
+    });
     this.props.socket.on("GAME_WINNER", () => {
       this.gameWin();
+    });
+    this.props.socket.on("BEGIN_GAME", () => {
+      this.props.setGameInit(true);
+      this.launchTimer();
+    });
+    this.props.socket.on("RECEIVE_PENALTY", (data) => {
+      if (data.user !== this.props.user.socketID) {
+        this.props.setGridGoingUp(data.penalty);
+      }
     });
   }
 
   componentWillUnmount() {
     window.removeEventListener("keydown", this.keyboardDown);
     window.removeEventListener("keyup", this.keyboardUp);
+    this.setState({
+      ownered: null,
+    });
   }
 
   initGame = () => {
@@ -262,7 +282,11 @@ class Board extends React.Component {
         clearInterval(this.timer);
       }
       if (numberLinesReady > 1) {
-        this.props.setGridGoingUp(numberLinesReady - 1);
+        this.props.socket.emit("SEND_PENALTY", {
+          penalty: numberLinesReady - 1,
+          user: this.props.user,
+        });
+        // this.props.setGridGoingUp(numberLinesReady - 1);
       }
     }
 
@@ -463,11 +487,12 @@ class Board extends React.Component {
   }
 
   firstStart() {
-    this.props.setGameInit(true);
-    this.launchTimer();
-    //   console.log(this.state.firstStart)
-    //   this.initGame()
+    // this.props.setGameInit(true);
+    // this.launchTimer();
+    this.props.socket.emit("START_GAME", this.props.user);
   }
+
+  yolo() {}
 
   render() {
     return (
@@ -532,7 +557,9 @@ class Board extends React.Component {
                   <AudioTetris />
                 </div>
               </div>
-              {!this.props.startGame ? (
+              {this.state.ownered !== null &&
+              this.props.rooms[this.state.ownered].owner ===
+                this.props.user.socketID ? (
                 <div>
                   <button
                     className="btn btn-retro m-2"

@@ -57,6 +57,15 @@ function userLeave(id) {
   // console.log("AllUsers ==>", allUsers);
 }
 
+function startGame(roomID) {
+  const index = allRooms.findIndex((room) => room.id === roomID);
+
+  if (index !== -1) {
+    allRooms[index].hasStarted = true;
+  }
+  return allRooms;
+}
+
 function userLeaveRoom(id) {
   console.log("All rooms BEFORE update ==>", allRooms);
   allRooms.map((room) => {
@@ -65,7 +74,10 @@ function userLeaveRoom(id) {
         const index = room.members.findIndex((user) => user.id === id);
         if (index !== -1) {
           room.members.splice(index, 1);
-          if (room.hasStarted === false && room.members.length === 1) {
+          if (room.owner === id && room.members.length >= 1) {
+            room.owner = room.members[0].id;
+          }
+          if (room.hasStarted === true && room.members.length === 1) {
             io.to(room.id).emit("GAME_WINNER", room.id);
           }
         }
@@ -150,6 +162,14 @@ io.on("connection", function (client) {
     io.emit("REFRESH_ROOMS", gameClass.rooms);
   });
 
+  // Listen for creating room
+  client.on("START_GAME", (data) => {
+    startGame(data.room);
+    gameClass.updateRooms(allRooms);
+    io.emit("REFRESH_ROOMS", gameClass.rooms);
+    io.to(data.room).emit("BEGIN_GAME");
+  });
+
   // Listen for joining room
   client.on("JOIN_ROOM", (data) => {
     // console.log("ROOM JOINED ==>", data.datas.id);
@@ -165,7 +185,7 @@ io.on("connection", function (client) {
     // io.emit("REFRESH_USER", data.datas.id);
   });
 
-  // Listen for joining room
+  // Listen for joining lobby
   client.on("JOIN_LOBBY", (data) => {
     const roomName = "Lobby";
     if (data && data.room && data.room !== "Lobby") {
@@ -182,10 +202,16 @@ io.on("connection", function (client) {
     client.emit("REFRESH_USER", roomName);
   });
 
-  // // Listen for winning a game
-  // client.on("GAME_WINNER", (data) => {
-
-  // })
+  // Listen for sending a penalty
+  client.on("SEND_PENALTY", (data) => {
+    // userLeave(data);
+    // gameClass.updatePlayers(allUsers);
+    console.log("NEED TO SEND A PENALTY", data);
+    io.to(data.user.room).emit("RECEIVE_PENALTY", {
+      user: data.user.socketID,
+      penalty: data.penalty,
+    });
+  });
 
   // Listen for manual disconnect
   client.on("DISCONNECT", (data) => {
