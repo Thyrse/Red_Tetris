@@ -47,6 +47,7 @@ class Board extends React.Component {
   }
 
   componentWillUnmount() {
+    //   this.setState({firstStart: false})
     window.removeEventListener("keydown", this.keyboardDown);
     window.removeEventListener("keyup", this.keyboardUp);
   }
