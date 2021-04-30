@@ -1,6 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import { setGridGoingUp, setGameInit } from "../redux/game/action";
+import {
+  setGridGoingUp,
+  setGameInit,
+  setTetrominoRandom,
+} from "../redux/game/action";
 
 import Grid from "./Grid";
 
@@ -9,6 +13,7 @@ import AudioTetris from "./audioTetris";
 
 import BuildGrid from "../utils/BuildGrid";
 import CleanGrids from "../utils/CompletesLines";
+import RandomTetrominos from "../utils/RandomTetrominos";
 
 import GameOptions from "../components/GameOptions";
 import Tetromino from "./tetrominos";
@@ -64,6 +69,7 @@ class Board extends React.Component {
   }
 
   componentWillUnmount() {
+    this.props.setGameInit(false);
     window.removeEventListener("keydown", this.keyboardDown);
     window.removeEventListener("keyup", this.keyboardUp);
     this.setState({
@@ -91,8 +97,10 @@ class Board extends React.Component {
       },
       () => {
         this.makeTetromino();
-        this.handleGameTime();
-        // this.launchTimer();
+        this.launchTimer();
+        if (this.props.startGame) {
+          this.handleGameTime();
+        }
       }
     );
   };
@@ -185,18 +193,18 @@ class Board extends React.Component {
   };
 
   gameOver = () => {
-    // clearInterval(this.timer);
-    // clearInterval(this.gameTimer);
+    clearInterval(this.timer);
+    clearInterval(this.gameTimer);
 
     //set status lost game
     this.setState({ gameOver: true });
 
     this.lifeGameSystem();
-    if (this.state.gameOver) {
-      console.log("game-over");
-      window.removeEventListener("keydown", this.keyboardDown);
-      window.removeEventListener("keyup", this.keyboardUp);
-    }
+    // if (this.state.gameOver) {
+    //   console.log("game-over");
+    //   window.removeEventListener("keydown", this.keyboardDown);
+    //   window.removeEventListener("keyup", this.keyboardUp);
+    // }
   };
 
   // level timer
@@ -213,7 +221,22 @@ class Board extends React.Component {
   };
 
   generateNextPiece() {
-    return Math.floor(Math.random() * Tetromino.length);
+    let array = [...this.props.tetrominoRandom];
+    console.log("1---> ", this.props.tetrominoRandom);
+    let thiw = array.pop();
+    this.props.setTetrominoRandom(array);
+
+    // this.setState({tetrominoNumber: array});
+    // console.log("2---> ", this.props.tetrominoRandom)
+
+    if (this.props.tetrominoRandom.length === 1) {
+      console.log("GG");
+      this.props.setTetrominoRandom(RandomTetrominos());
+
+      // this.setState({tetrominoNumber: RandomTetrominos()});
+    }
+    console.log("thiw", thiw);
+    return thiw;
   }
 
   makeTetromino = () => {
@@ -458,11 +481,11 @@ class Board extends React.Component {
   };
 
   handleGameTime() {
-    if (this.props.startGame) {
-      this.gameTimer = setInterval(() => {
-        this.setState({ timer: this.state.timer + 1 });
-      }, 1000);
-    }
+    // if (this.props.startGame) {
+    this.gameTimer = setInterval(() => {
+      this.setState({ timer: this.state.timer + 1 });
+    }, 1000);
+    // }
   }
 
   lifeGameSystem() {
@@ -490,10 +513,12 @@ class Board extends React.Component {
     // this.props.setGameInit(true);
     // this.launchTimer();
     this.props.socket.emit("START_GAME", this.props.user);
+    this.props.setGameInit(true);
+    // this.launchTimer();
+    this.handleGameTime();
+    //   console.log(this.state.firstStart)
+    //   this.initGame()
   }
-
-  yolo() {}
-
   render() {
     return (
       <>
@@ -608,6 +633,7 @@ const mapStateToProps = (state) => {
   return {
     gridGoingUp: state.startGame.gridGoingUp,
     startGame: state.startGame.startGame,
+    tetrominoRandom: state.startGame.tetrominoRandom,
   };
   // gridGoingUp: state.gridGoingUp
 };
@@ -621,6 +647,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setGridGoingUp: (gridUp) => dispatch(setGridGoingUp(gridUp)),
     setGameInit: (gameFirst) => dispatch(setGameInit(gameFirst)),
+    setTetrominoRandom: (random) => dispatch(setTetrominoRandom(random)),
   };
 };
 
