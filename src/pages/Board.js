@@ -9,6 +9,7 @@ import AudioTetris from "./audioTetris";
 
 import BuildGrid from "../utils/BuildGrid";
 import CleanGrids from "../utils/CompletesLines";
+import RandomTetrominos from "../utils/RandomTetrominos";
 
 import GameOptions from "../components/GameOptions";
 import Tetromino from "./tetrominos";
@@ -37,6 +38,8 @@ class Board extends React.Component {
     winner: false,
     firstStart: false,
     gridLevelUp: 1,
+
+    tetrominoNumber: RandomTetrominos(),
   };
 
   componentDidMount() {
@@ -47,7 +50,7 @@ class Board extends React.Component {
   }
 
   componentWillUnmount() {
-    //   this.setState({firstStart: false})
+    this.props.setGameInit(false);  
     window.removeEventListener("keydown", this.keyboardDown);
     window.removeEventListener("keyup", this.keyboardUp);
   }
@@ -196,7 +199,18 @@ class Board extends React.Component {
   };
 
   generateNextPiece() {
-    return Math.floor(Math.random() * Tetromino.length);
+    let array = [...this.state.tetrominoNumber];
+        console.log("1---> ", this.state.tetrominoNumber);
+        let thiw = array.pop()
+        this.setState({tetrominoNumber: array});
+        // console.log("2---> ", this.state.tetrominoNumber)
+        
+        if (this.state.tetrominoNumber.length === 1) {
+            console.log("GG")
+            this.setState({tetrominoNumber: RandomTetrominos()});
+        }
+        console.log("thiw", thiw)
+    return thiw;
   }
 
   makeTetromino = () => {
@@ -584,6 +598,7 @@ const mapStateToProps = (state) => {
   return {
     gridGoingUp: state.startGame.gridGoingUp,
     startGame: state.startGame.startGame,
+    tetrominoRandom: state.startGame.tetrominoRandom
   };
   // gridGoingUp: state.gridGoingUp
 };
