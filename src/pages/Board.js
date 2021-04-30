@@ -207,7 +207,7 @@ class Board extends React.Component {
         
         // if (array.length > this.state.next) 
             this.setState({next: this.state.next + 1})
-            // console.log("JOJO", thiw, this.state.next, array.length);
+            console.log("JOJO", thiw);
             // 
             // Caca().map((b) => array.push(b))
         Caca().map((b) => array.push(b))
