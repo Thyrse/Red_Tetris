@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux'
-import { setGridGoingUp, setGameInit } from "../redux/game/action";
+import { setGridGoingUp, setGameInit, setTetrominoRandom } from "../redux/game/action";
 
 import Grid from "./Grid";
 
@@ -17,6 +17,9 @@ import Start from "./Start";
 import "../styles/grid.scss";
 
 class Board extends React.Component {
+    constructor(props){
+        super(props);
+      }
   state = {
 	grid: null,
 	gridHeight: 20,
@@ -34,24 +37,19 @@ class Board extends React.Component {
 	lifeGameOver: 0,
 	stayalive: 4,
 	audioMute: false,
-
 	firstStart: false,
 	gridLevelUp: 1,
 
-    tetrominoNumber: [0],
-    // tetrominoRandom: [0,1,2,3,4,5,6]
+    tetrominoNumber: this.handleRandomTetrominos(),
   };
 
   componentDidMount() {
-    console.log("TITI", this.state.titi, this.props.titi, this.props.greeting)
-
-    // this.setState({tetrominoNumber: this.handleRandomTetrominos()});
 	this.initGame();
   }
 
+
   initGame = () => {
 	console.log("game-start");
-    // const { titi } = this.props;
 	// put in options
 	this.levelTimeSpeed = 1500;
 
@@ -64,8 +62,8 @@ class Board extends React.Component {
 	this.setState(
 		{
 			gameOver: false,
+            // tetrominoNumber: this.handleRandomTetrominos(),
 			grid: BuildGrid(this.state.gridHeight, this.state.gridWidth),
-            tetrominoNumber: this.handleRandomTetrominos(),
             nextPiece: this.generateNextPiece()
 		},
 		() => {
@@ -177,48 +175,35 @@ class Board extends React.Component {
   };
 
   handleRandomTetrominos() {
-    let caca = [0,1,2,3,4,5,6];
-    var ctr = caca.length, temp, index;
+    let newTetromino = [0,1,2,3,4,5,6];
+    var tetrominosValues = newTetromino.length, temp, index;
 
-    while (ctr > 0) {
-
-        index = Math.floor(Math.random() * ctr);
-        ctr--;
-        temp = caca[ctr];
-        caca[ctr] = caca[index];
-        caca[index] = temp;
+    while (tetrominosValues > 0) {
+        index = Math.floor(Math.random() * tetrominosValues);
+        tetrominosValues--;
+        temp = newTetromino[tetrominosValues];
+        newTetromino[tetrominosValues] = newTetromino[index];
+        newTetromino[index] = temp;
     }
 
-    // this.setState({tetrominoNumber: caca});
-    console.log("caca1", caca)
-    // console.log("TETE", this.state.tetrominoNumber)
-    return caca;
-    // return caca;
-    // console.log("AER", caca);
-    // var currentIndex = Tetromino.length, temporaryValue, randomIndex;
-    // while (0 !== currentIndex) {
-    //   randomIndex = Math.floor(Math.random() * currentIndex);
-    //   currentIndex--;
-    //   temporaryValue = this.state.tetrominoRandom[currentIndex];
-    //   this.state.tetrominoRandom[currentIndex] = this.state.tetrominoRandom[randomIndex];
-    //   this.state.tetrominoRandom[randomIndex] = temporaryValue;
-    // }
-    // // return this.state.tetrominoRandom;
-    // // let array = [...this.state.tetrominoRandom]
-    // // array.pop();
+    // console.log("newTetromino1", newTetromino)
+    // return this.setState({tetrominoNumber: newTetromino});
 
-    //         // var myArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+    // console.log("TETEs", this.state.tetrominoNumber)
+    return newTetromino;
+
   }
 
   generateNextPiece() {
-    // if (this.props.startGame === false) {
     //     this.handleRandomTetrominos()
     // }
         let array = [...this.state.tetrominoNumber];
-        // console.log("1---> ", this.state.tetrominoNumber);
+        console.log("1---> ", this.state.tetrominoNumber);
         let thiw = array.pop()
         this.setState({tetrominoNumber: array});
         // console.log("2---> ", this.state.tetrominoNumber)
+        
         if (this.state.tetrominoNumber.length === 1) {
             console.log("GG")
             // let caca = 
@@ -658,7 +643,8 @@ class Board extends React.Component {
 const mapStateToProps = (state) => {
 	return {
 		gridGoingUp: state.startGame.gridGoingUp,
-		startGame: state.startGame.startGame
+		startGame: state.startGame.startGame,
+        tetrominoRandom: state.startGame.tetrominoRandom
 	}
 	// gridGoingUp: state.gridGoingUp
 };
@@ -671,7 +657,8 @@ const mapDispatchToProps = (dispatch) => {
 	// }
 	return {
 		setGridGoingUp: (gridUp) => dispatch(setGridGoingUp(gridUp)),
-		setGameInit: (gameFirst) => dispatch(setGameInit(gameFirst))
+		setGameInit: (gameFirst) => dispatch(setGameInit(gameFirst)),
+        setTetrominoRandom: (random) => dispatch(setTetrominoRandom(random))
 	}
 }
 

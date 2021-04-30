@@ -16,13 +16,11 @@ import Start from "./Start";
 import GameB from "./Game_BAK";
 const Game = ({ socket }) => {
 //   console.log("Socket on Game ==>", socket);
-    let titi = "caca";
-    const greeting = 'Welcome to React';
 
   return (
     <div className="game">
       {/* {!gameReady ? <Start /> : <Board />} */}
-      <Board titi={titi} greeting={greeting}/>
+      <Board/>
       <Chat socket={socket} />
     </div>
   );

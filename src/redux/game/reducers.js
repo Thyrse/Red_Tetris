@@ -4,7 +4,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const gameInitialState = {
     startGame: false,
-    gridGoingUp: 0
+    gridGoingUp: 0,
+    tetrominoRandom: []
 };
 
 export const gameSlice = createSlice({
@@ -13,15 +14,18 @@ export const gameSlice = createSlice({
     reducers: {
             setGameInit: (state, { payload }) => {
                 state.startGame = payload;
-        },
+            },
             setGridGoingUp: (state, { payload }) => {
                 // state.gridGoingUp += 1;
                 state.gridGoingUp = state.gridGoingUp + payload;
             },
+            setTetrominoRandom: (state, {payload}) => {
+                state.tetrominoRandom = payload;
+            }
     },
 });
 
-export const { setGameInit, setGridGoingUp } = gameSlice.actions;
+export const { setGameInit, setGridGoingUp, setTetrominoRandom } = gameSlice.actions;
 
 export default gameSlice.reducer;
 
