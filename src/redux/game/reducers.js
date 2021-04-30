@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
+import Caca from "../../pages/caca"
 
 // import * as actionTypes from "redux/action/types";
 
 const gameInitialState = {
     startGame: false,
     gridGoingUp: 0,
-    tetrominoRandom: []
+    tetrominoRandom: Caca()
 };
 
 export const gameSlice = createSlice({
@@ -20,6 +21,7 @@ export const gameSlice = createSlice({
                 state.gridGoingUp = state.gridGoingUp + payload;
             },
             setTetrominoRandom: (state, {payload}) => {
+                console.log("ALGRANO", payload)
                 state.tetrominoRandom = payload;
             }
     },

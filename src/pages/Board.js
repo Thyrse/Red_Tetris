@@ -13,6 +13,7 @@ import CleanGrids from "../utils/CompletesLines";
 import GameOptions from "../components/GameOptions";
 import Tetromino from "./tetrominos";
 import Start from "./Start";
+import Caca from "./caca"
 
 import "../styles/grid.scss";
 
@@ -40,10 +41,11 @@ class Board extends React.Component {
 	firstStart: false,
 	gridLevelUp: 1,
 
-    tetrominoNumber: this.handleRandomTetrominos(),
+    // tetrominoNumber: this.handleRandomTetrominos(),
   };
 
   componentDidMount() {
+
 	this.initGame();
   }
 
@@ -59,6 +61,8 @@ class Board extends React.Component {
 	window.addEventListener("keyup", this.keyboardUp);
 	window.addEventListener("keydown", this.keyboardDown);
 
+    // this.props.setTetrominoRandom(Caca());
+
 	this.setState(
 		{
 			gameOver: false,
@@ -68,7 +72,8 @@ class Board extends React.Component {
 		},
 		() => {
 				this.makeTetromino();
-				this.handleRandomTetrominos();
+				// this.handleRandomTetrominos();
+                // Caca()
 				this.launchTimer();
 		}
 	);
@@ -174,42 +179,43 @@ class Board extends React.Component {
 	return interval < 100 ? 100 : interval;
   };
 
-  handleRandomTetrominos() {
-    let newTetromino = [0,1,2,3,4,5,6];
-    var tetrominosValues = newTetromino.length, temp, index;
+//   handleRandomTetrominos() {
+//     let newTetromino = [0,1,2,3,4,5,6];
+//     var tetrominosValues = newTetromino.length, temp, index;
 
-    while (tetrominosValues > 0) {
-        index = Math.floor(Math.random() * tetrominosValues);
-        tetrominosValues--;
-        temp = newTetromino[tetrominosValues];
-        newTetromino[tetrominosValues] = newTetromino[index];
-        newTetromino[index] = temp;
-    }
+//     while (tetrominosValues > 0) {
+//         index = Math.floor(Math.random() * tetrominosValues);
+//         tetrominosValues--;
+//         temp = newTetromino[tetrominosValues];
+//         newTetromino[tetrominosValues] = newTetromino[index];
+//         newTetromino[index] = temp;
+//     }
 
-    // console.log("newTetromino1", newTetromino)
-    // return this.setState({tetrominoNumber: newTetromino});
+//     // console.log("newTetromino1", newTetromino)
+//     // return this.setState({tetrominoNumber: newTetromino});
 
 
-    // console.log("TETEs", this.state.tetrominoNumber)
-    return newTetromino;
-
-  }
+//     // console.log("TETEs", this.state.tetrominoNumber)
+//     return newTetromino;
+//   }
 
   generateNextPiece() {
     //     this.handleRandomTetrominos()
     // }
-        let array = [...this.state.tetrominoNumber];
-        console.log("1---> ", this.state.tetrominoNumber);
+        let array = [...this.props.tetrominoRandom];
+        console.log("1---> ", this.props.tetrominoRandom);
         let thiw = array.pop()
-        this.setState({tetrominoNumber: array});
-        // console.log("2---> ", this.state.tetrominoNumber)
+        this.props.setTetrominoRandom(array);
+
+        // this.setState({tetrominoRandom: array});
+        // console.log("2---> ", this.props.tetrominoRandom)
         
-        if (this.state.tetrominoNumber.length === 1) {
+        if (this.props.tetrominoRandom.length === 1) {
             console.log("GG")
             // let caca = 
             // this.handleRandomTetrominos()
-            this.setState({tetrominoNumber: this.handleRandomTetrominos()});
-
+            // this.setState({tetrominoRandom: this.handleRandomTetrominos()});
+            this.props.setTetrominoRandom(Caca());
         }
         console.log("thiw", thiw)
         return thiw;
