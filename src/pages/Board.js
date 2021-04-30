@@ -21,6 +21,7 @@ import Start from "./Start";
 import { useDispatch, useSelector } from "react-redux";
 
 import "../styles/grid.scss";
+import { setRooms } from "../redux/rooms/reducers";
 
 class Board extends React.Component {
   state = {
@@ -56,6 +57,20 @@ class Board extends React.Component {
     });
     this.props.socket.on("GAME_WINNER", () => {
       this.gameWin();
+    });
+    setInterval(() => {
+      if (
+        this.props.rooms[this.state.ownered].owner === this.props.user.socketID
+      ) {
+        this.props.socket.emit("NEW_PIECES", {
+          room: this.props.user.room,
+          pieces: RandomTetrominos(),
+        });
+      }
+    }, 3000);
+    this.props.socket.on("UPDATE_PIECES", (data) => {
+      this.props.setRooms(data);
+      console.log("PIECES RECEIVED ==>", data);
     });
     this.props.socket.on("BEGIN_GAME", () => {
       this.props.setGameInit(true);
@@ -648,6 +663,7 @@ const mapDispatchToProps = (dispatch) => {
     setGridGoingUp: (gridUp) => dispatch(setGridGoingUp(gridUp)),
     setGameInit: (gameFirst) => dispatch(setGameInit(gameFirst)),
     setTetrominoRandom: (random) => dispatch(setTetrominoRandom(random)),
+    setRooms: (data) => dispatch(setRooms(data)),
   };
 };
 

@@ -29,12 +29,29 @@ function allAssignement(id, username) {
   return current;
 }
 
+function RandomTetrominos() {
+  let newTetromino = [0, 1, 2, 3, 4, 5, 6];
+  var tetrominosValues = newTetromino.length,
+    temp,
+    index;
+
+  while (tetrominosValues > 0) {
+    index = Math.floor(Math.random() * tetrominosValues);
+    tetrominosValues--;
+    temp = newTetromino[tetrominosValues];
+    newTetromino[tetrominosValues] = newTetromino[index];
+    newTetromino[index] = temp;
+  }
+  return newTetromino;
+}
+
 function allAssignementRooms(name, owner, type) {
   const current = {
     id: uuidv1(),
     name,
     owner,
     members: [],
+    pieces: RandomTetrominos(),
     size: 5,
     type: type,
     hasStarted: false,
@@ -109,6 +126,18 @@ function updateUsersList(roomID, user) {
   allUsers[index].room = roomID;
 
   return allUsers;
+}
+
+function addPiecesToRoom(roomID, pieces) {
+  const index = allRooms.findIndex((room) => room.id === roomID);
+
+  console.log("ALL ROOMS PIECES BEFORE ==>", allRooms);
+
+  allRooms[index].pieces = allRooms[index].pieces.concat(pieces);
+
+  console.log("ALL ROOMS PIECES AFTER ==>", allRooms);
+
+  return allRooms;
 }
 
 // const index = require("./src/index");
@@ -204,13 +233,19 @@ io.on("connection", function (client) {
 
   // Listen for sending a penalty
   client.on("SEND_PENALTY", (data) => {
-    // userLeave(data);
-    // gameClass.updatePlayers(allUsers);
     console.log("NEED TO SEND A PENALTY", data);
     io.to(data.user.room).emit("RECEIVE_PENALTY", {
       user: data.user.socketID,
       penalty: data.penalty,
     });
+  });
+
+  // Listen for receiving new piece
+  client.on("NEW_PIECES", (data) => {
+    console.log("NEED TO SEND A PENALTY", data);
+    addPiecesToRoom(data.room, data.pieces);
+    gameClass.updateRooms(allRooms);
+    io.to(data.room).emit("UPDATE_PIECES", allRooms);
   });
 
   // Listen for manual disconnect
