@@ -45,6 +45,7 @@ class Board extends React.Component {
     firstStart: false,
     gridLevelUp: 1,
     ownered: null,
+    currentPieces: [],
   };
 
   componentDidMount() {
@@ -54,6 +55,9 @@ class Board extends React.Component {
     );
     this.setState({
       ownered: findOwner,
+    });
+    this.setState({
+      currentPieces: this.props.rooms[findOwner].pieces,
     });
     this.props.socket.on("GAME_WINNER", () => {
       this.gameWin();
@@ -70,6 +74,11 @@ class Board extends React.Component {
     }, 3000);
     this.props.socket.on("UPDATE_PIECES", (data) => {
       this.props.setRooms(data);
+      // const getPiecesList = this.props.rooms[findOwner].pieces;
+      this.setState({
+        currentPieces: this.props.rooms[findOwner].pieces,
+      });
+      console.log("PIECES HERE ==>", this.state.currentPieces);
       console.log("PIECES RECEIVED ==>", data);
     });
     this.props.socket.on("BEGIN_GAME", () => {
