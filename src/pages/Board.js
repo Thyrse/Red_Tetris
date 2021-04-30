@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { setGridGoingUp, setGameInit } from "../redux/game/action";
+import { setGridGoingUp, setGameInit, setTetrominoRandom } from "../redux/game/action";
 
 import Grid from "./Grid";
 
@@ -38,8 +38,6 @@ class Board extends React.Component {
     winner: false,
     firstStart: false,
     gridLevelUp: 1,
-
-    tetrominoNumber: RandomTetrominos(),
   };
 
   componentDidMount() {
@@ -199,15 +197,19 @@ class Board extends React.Component {
   };
 
   generateNextPiece() {
-    let array = [...this.state.tetrominoNumber];
-        console.log("1---> ", this.state.tetrominoNumber);
+    let array = [...this.props.tetrominoRandom];
+        console.log("1---> ", this.props.tetrominoRandom);
         let thiw = array.pop()
-        this.setState({tetrominoNumber: array});
-        // console.log("2---> ", this.state.tetrominoNumber)
+        this.props.setTetrominoRandom(array);
+
+        // this.setState({tetrominoNumber: array});
+        // console.log("2---> ", this.props.tetrominoRandom)
         
-        if (this.state.tetrominoNumber.length === 1) {
+        if (this.props.tetrominoRandom.length === 1) {
             console.log("GG")
-            this.setState({tetrominoNumber: RandomTetrominos()});
+            this.props.setTetrominoRandom(RandomTetrominos());
+
+            // this.setState({tetrominoNumber: RandomTetrominos()});
         }
         console.log("thiw", thiw)
     return thiw;
@@ -612,6 +614,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setGridGoingUp: (gridUp) => dispatch(setGridGoingUp(gridUp)),
     setGameInit: (gameFirst) => dispatch(setGameInit(gameFirst)),
+    setTetrominoRandom: (random) => dispatch(setTetrominoRandom(random))
   };
 };
 

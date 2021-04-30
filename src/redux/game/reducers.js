@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
+import RandomTetrominos from "../../utils/RandomTetrominos";
 
 // import * as actionTypes from "redux/action/types";
 
 const gameInitialState = {
     startGame: false,
     gridGoingUp: 0,
-    tetrominoRandom: [0,1,2,3,4,5,6]
+    tetrominoRandom: RandomTetrominos()
 };
 
 export const gameSlice = createSlice({
@@ -20,7 +21,7 @@ export const gameSlice = createSlice({
                 state.gridGoingUp = state.gridGoingUp + payload;
             },
             setTetrominoRandom: (state, {payload}) => {
-                state.tetrominoRandom = [payload];
+                state.tetrominoRandom = payload;
             }
     },
 });
