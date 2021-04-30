@@ -21,7 +21,7 @@ export const gameSlice = createSlice({
                 state.gridGoingUp = state.gridGoingUp + payload;
             },
             setTetrominoRandom: (state, {payload}) => {
-                console.log("ALGRANO", payload)
+                // console.log("ALGRANO", payload)
                 state.tetrominoRandom = payload;
             }
     },
