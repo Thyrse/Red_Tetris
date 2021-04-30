@@ -199,7 +199,7 @@ class Board extends React.Component {
   generateNextPiece() {
     let array = [...this.props.tetrominoRandom];
         console.log("1---> ", this.props.tetrominoRandom);
-        let thiw = array.pop()
+        let thiw = array.shift()
         this.props.setTetrominoRandom(array);
 
         // this.setState({tetrominoNumber: array});
