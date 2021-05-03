@@ -46,7 +46,6 @@ class Board extends React.Component {
     gridLevelUp: 1,
     ownered: null,
     // currentPieces: this.props.rooms[this.props.rooms.findIndex((room) => room.id === this.props.user.room)].pieces,
-    currentPieces: RandomTetrominos(),
     next: 0
   };
 
@@ -65,7 +64,7 @@ class Board extends React.Component {
 
   initGame = () => {
     console.log("game-start");
-    this.socketSetting();
+    // this.socketSetting();
 
     // put in options
     this.levelTimeSpeed = 1500;
@@ -85,9 +84,9 @@ class Board extends React.Component {
       () => {
         this.makeTetromino();
         this.launchTimer();
-        if (this.props.startGame) {
-          this.handleGameTime();
-        }
+        // if (this.props.startGame) {
+        //   this.handleGameTime();
+        // }
       }
     );
   };
@@ -235,17 +234,17 @@ class Board extends React.Component {
     clearInterval(this.gameTimer);
     clearInterval(this.newPieces);
 
-    console.log("game-over");
     //set status lost game
     this.setState({ 
         gameOver: true,
         // currentPieces: this.props.rooms[this.props.rooms.findIndex((room) => room.id === this.props.user.room)].pieces
     });
     this.lifeGameSystem();
-    // if (this.state.gameOver) {
+    if (this.state.gameOver) {
+      console.log("game-over");
       window.removeEventListener("keydown", this.keyboardDown);
       window.removeEventListener("keyup", this.keyboardUp);
-    // }
+    }
   };
 
   // level timer
@@ -262,14 +261,16 @@ class Board extends React.Component {
   };
 
   generateNextPiece() {
-    let array = [...this.state.currentPieces];
-    // this.setState({
-    //     currentPieces: 
-    // })
+    // let array = [...this.state.currentPieces];
+    let array = [...this.props.tetrominoRandom];
 
     let thiw = array[this.state.next]
 
     this.setState({next: this.state.next + 1})
+
+    RandomTetrominos().map((b) => array.push(b))
+    this.props.setTetrominoRandom(array);
+
     return thiw;
   }
 
@@ -515,7 +516,7 @@ class Board extends React.Component {
     }
   };
 
-  handleGameTime() {
+  handleGameTime = () => {
     // if (this.props.startGame) {
     this.gameTimer = setInterval(() => {
       this.setState({ timer: this.state.timer + 1 });
@@ -621,9 +622,10 @@ class Board extends React.Component {
                   <AudioTetris />
                 </div>
               </div>
-              {this.state.ownered !== null &&
-              this.props.rooms[this.state.ownered].owner ===
-                this.props.user.socketID &&
+              {
+            //   this.state.ownered !== null &&
+            //   this.props.rooms[this.state.ownered].owner ===
+            //     this.props.user.socketID &&
               !this.props.startGame ? (
                 <div>
                   <button
