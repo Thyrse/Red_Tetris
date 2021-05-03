@@ -131,11 +131,11 @@ function updateUsersList(roomID, user) {
 function addPiecesToRoom(roomID, pieces) {
   const index = allRooms.findIndex((room) => room.id === roomID);
 
-  console.log("ALL ROOMS PIECES BEFORE ==>", allRooms);
+//   console.log("ALL ROOMS PIECES BEFORE ==>", allRooms);
 
   allRooms[index].pieces = allRooms[index].pieces.concat(pieces);
 
-  console.log("ALL ROOMS PIECES AFTER ==>", allRooms);
+//   console.log("ALL ROOMS PIECES AFTER ==>", allRooms);
 
   return allRooms;
 }
