@@ -16,6 +16,7 @@ import Start from "./Start";
 import Caca from "./caca"
 
 import "../styles/grid.scss";
+import GridMirror from "./GridMirror";
 
 class Board extends React.Component {
     constructor(props){
@@ -598,6 +599,13 @@ class Board extends React.Component {
 					)}
 				</div>
 			</div>
+            {this.state.grid !== null && (
+			<GridMirror
+			  grid={this.state.grid}
+			  tetromino={this.state.tetromino}
+			  gameover={this.state.gameOver}
+			/>
+		  )}
 		</div>
 	  </>
 	);

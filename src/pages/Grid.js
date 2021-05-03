@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useContext, useCallback } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
-import { setGridGoingUp } from "../redux/game/action";
+// import { setGridGoingUp } from "../redux/game/action";
 
 // REACT ROUTER
 import MirrorTetromino from "../utils/MirrorTetromino";
 import "../styles/grid.scss";
 
-const Grid = ({ grid, tetromino, gameover }) => {
-    let mirrorTetromino = [];
-    const gridGoingUp = useSelector((state) => state.startGame.gridGoingUp);
-    const gameReady = useSelector((state) => state.startGame.startGame);
+const Grid = ({ grid, tetromino, gameover, winner }) => {
+  let mirrorTetromino = [];
+  const gridGoingUp = useSelector((state) => state.startGame.gridGoingUp);
+  const gameReady = useSelector((state) => state.startGame.startGame);
 
   if (tetromino) {
     mirrorTetromino = MirrorTetromino(grid, tetromino, gridGoingUp, gameReady);
@@ -22,11 +22,16 @@ const Grid = ({ grid, tetromino, gameover }) => {
           <p>GAME OVER</p>
         </div>
       )}
+      {winner && (
+        <div className="game-table__win">
+          <p>YOU WIN!</p>
+        </div>
+      )}
       {grid.map((line, y) => {
         return line.map((col, x) => {
           let tetrominosSetting = [];
 
-        //   console.log("--->" + grid)
+          //   console.log("--->" + grid)
           if (x === 0) {
             // tetrominosSetting.push("first");
           }
@@ -57,10 +62,9 @@ const Grid = ({ grid, tetromino, gameover }) => {
             tetrominosSetting.push("gridUp");
           }
 
-            if (grid[y]) { 
-                tetrominosSetting.push("back")
-            }
-
+          if (grid[y]) {
+            tetrominosSetting.push("back");
+          }
 
           return (
             <div
