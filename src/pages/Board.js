@@ -45,51 +45,13 @@ class Board extends React.Component {
     firstStart: false,
     gridLevelUp: 1,
     ownered: null,
-    currentPieces: [],
+    // currentPieces: this.props.rooms[this.props.rooms.findIndex((room) => room.id === this.props.user.room)].pieces,
+    currentPieces: RandomTetrominos(),
+    next: 0
   };
 
   componentDidMount() {
     this.initGame();
-    const findOwner = this.props.rooms.findIndex(
-      (room) => room.id === this.props.user.room
-    );
-    this.setState({
-      ownered: findOwner,
-    });
-    this.setState({
-      currentPieces: this.props.rooms[findOwner].pieces,
-    });
-    this.props.socket.on("GAME_WINNER", () => {
-      this.gameWin();
-    });
-    setInterval(() => {
-      if (
-        this.props.rooms[this.state.ownered].owner === this.props.user.socketID
-      ) {
-        this.props.socket.emit("NEW_PIECES", {
-          room: this.props.user.room,
-          pieces: RandomTetrominos(),
-        });
-      }
-    }, 3000);
-    this.props.socket.on("UPDATE_PIECES", (data) => {
-      this.props.setRooms(data);
-      // const getPiecesList = this.props.rooms[findOwner].pieces;
-      this.setState({
-        currentPieces: this.props.rooms[findOwner].pieces,
-      });
-      console.log("PIECES HERE ==>", this.state.currentPieces);
-      console.log("PIECES RECEIVED ==>", data);
-    });
-    this.props.socket.on("BEGIN_GAME", () => {
-      this.props.setGameInit(true);
-      this.launchTimer();
-    });
-    this.props.socket.on("RECEIVE_PENALTY", (data) => {
-      if (data.user !== this.props.user.socketID) {
-        this.props.setGridGoingUp(data.penalty);
-      }
-    });
   }
 
   componentWillUnmount() {
@@ -103,6 +65,7 @@ class Board extends React.Component {
 
   initGame = () => {
     console.log("game-start");
+    this.socketSetting();
 
     // put in options
     this.levelTimeSpeed = 1500;
@@ -197,6 +160,55 @@ class Board extends React.Component {
     }
   };
 
+  socketSetting() {
+    // const userRoom = this.props.rooms[this.state.ownered].owner;
+    const findOwner = this.props.rooms.findIndex(
+        (room) => room.id === this.props.user.room
+      );
+
+      this.setState({
+        ownered: findOwner,
+        currentPieces: this.props.rooms[findOwner].pieces,
+      });
+
+      this.props.socket.on("GAME_WINNER", () => {
+        this.gameWin();
+      });
+
+    //   if (this.props.startGame === false) {
+        this.newPieces = setInterval(() => {
+            if (this.props.rooms[this.state.ownered].owner === this.props.user.socketID) {
+            this.props.socket.emit("NEW_PIECES", {
+                room: this.props.user.room,
+                pieces: RandomTetrominos(),
+            });
+            }
+        }, 3000);
+    // }
+
+      this.props.socket.on("UPDATE_PIECES", (data) => {
+        this.props.setRooms(data);
+        // const getPiecesList = this.props.rooms[findOwner].pieces;
+        this.setState({
+          currentPieces: this.props.rooms[findOwner].pieces,
+        });
+        console.log("PIECES HERE ==>", this.state.currentPieces);
+      //   console.log("PIECES RECEIVED ==>", data);
+      });
+    // }
+
+      this.props.socket.on("BEGIN_GAME", () => {
+        this.props.setGameInit(true);
+        this.launchTimer();
+      });
+
+      this.props.socket.on("RECEIVE_PENALTY", (data) => {
+        if (data.user !== this.props.user.socketID) {
+          this.props.setGridGoingUp(data.penalty);
+        }
+      });
+  }
+
   restart = () => {
     this.setState({
       linesCompletes: 0,
@@ -207,6 +219,8 @@ class Board extends React.Component {
       nextLifes: 0,
       lifeGameOver: 0,
       stayalive: 4,
+    //   next: 0,
+    //   currentPieces: this.props.rooms[this.props.rooms.findIndex((room) => room.id === this.props.user.room)].pieces
     });
     this.props.setGridGoingUp(-this.props.gridGoingUp);
     this.initGame();
@@ -219,15 +233,18 @@ class Board extends React.Component {
   gameOver = () => {
     clearInterval(this.timer);
     clearInterval(this.gameTimer);
+    clearInterval(this.newPieces);
 
+    console.log("game-over");
     //set status lost game
-    this.setState({ gameOver: true });
-
+    this.setState({ 
+        gameOver: true,
+        // currentPieces: this.props.rooms[this.props.rooms.findIndex((room) => room.id === this.props.user.room)].pieces
+    });
     this.lifeGameSystem();
     // if (this.state.gameOver) {
-    //   console.log("game-over");
-    //   window.removeEventListener("keydown", this.keyboardDown);
-    //   window.removeEventListener("keyup", this.keyboardUp);
+      window.removeEventListener("keydown", this.keyboardDown);
+      window.removeEventListener("keyup", this.keyboardUp);
     // }
   };
 
@@ -245,21 +262,14 @@ class Board extends React.Component {
   };
 
   generateNextPiece() {
-    let array = [...this.props.tetrominoRandom];
-    console.log("1---> ", this.props.tetrominoRandom);
-    let thiw = array.pop();
-    this.props.setTetrominoRandom(array);
+    let array = [...this.state.currentPieces];
+    // this.setState({
+    //     currentPieces: 
+    // })
 
-    // this.setState({tetrominoNumber: array});
-    // console.log("2---> ", this.props.tetrominoRandom)
+    let thiw = array[this.state.next]
 
-    if (this.props.tetrominoRandom.length === 1) {
-      console.log("GG");
-      this.props.setTetrominoRandom(RandomTetrominos());
-
-      // this.setState({tetrominoNumber: RandomTetrominos()});
-    }
-    console.log("thiw", thiw);
+    this.setState({next: this.state.next + 1})
     return thiw;
   }
 
@@ -291,9 +301,10 @@ class Board extends React.Component {
         nextPiece: this.generateNextPiece(),
       });
     } else {
-      clearInterval(this.timer);
-      clearInterval(this.gameTimer);
-      this.gameOver();
+        clearInterval(this.newPieces);
+        clearInterval(this.timer);
+        clearInterval(this.gameTimer);
+        this.gameOver();
     }
   };
 
@@ -533,6 +544,10 @@ class Board extends React.Component {
     }
   }
 
+  continueGame() {
+      this.initGame();
+  }
+
   firstStart() {
     // this.props.setGameInit(true);
     // this.launchTimer();
@@ -628,7 +643,7 @@ class Board extends React.Component {
                   this.state.stayalive === 2 ? (
                     <button
                       className="btn btn-retro m-2"
-                      onClick={() => this.initGame()}
+                      onClick={() => this.continueGame()}
                     >
                       Continue
                     </button>
