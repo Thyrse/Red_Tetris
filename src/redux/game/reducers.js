@@ -6,7 +6,8 @@ import Caca from "../../pages/caca"
 const gameInitialState = {
     startGame: false,
     gridGoingUp: 0,
-    tetrominoRandom: Caca()
+    tetrominoRandom: Caca(),
+    tetrominoMirror: null
 };
 
 export const gameSlice = createSlice({
@@ -23,11 +24,15 @@ export const gameSlice = createSlice({
             setTetrominoRandom: (state, {payload}) => {
                 // console.log("ALGRANO", payload)
                 state.tetrominoRandom = payload;
+            },
+            setTetrominoMirror: (state, {payload}) => {
+                // console.log("ALGRANO", payload)
+                state.tetrominoMirror = payload;
             }
     },
 });
 
-export const { setGameInit, setGridGoingUp, setTetrominoRandom } = gameSlice.actions;
+export const { setGameInit, setGridGoingUp, setTetrominoRandom, setTetrominoMirror } = gameSlice.actions;
 
 export default gameSlice.reducer;
 

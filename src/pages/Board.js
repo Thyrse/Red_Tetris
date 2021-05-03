@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux'
-import { setGridGoingUp, setGameInit, setTetrominoRandom } from "../redux/game/action";
+import { setGridGoingUp, setGameInit, setTetrominoRandom, setTetrominoMirror } from "../redux/game/action";
 
 import Grid from "./Grid";
 
@@ -74,11 +74,18 @@ class Board extends React.Component {
 		() => {
 				this.makeTetromino();
 				// this.handleRandomTetrominos();
-                // Caca()
+                this.aca();
 				this.launchTimer();
 		}
 	);
   };
+
+  aca = () => {
+      const tetrominoMirror = this.state.grid
+      console.log("das", this.props.tetrominoMirror)
+      console.log("HELLO");
+      this.props.setTetrominoMirror(tetrominoMirror);
+  }
 
   keyboardUp = (e) => {
 	e.preventDefault();
@@ -113,6 +120,9 @@ class Board extends React.Component {
   };
 
   executeKeyCode = (key) => {
+
+    // console.log("tete", ...this.state.grid[this.state.grid.length - 1])
+
 	switch (key) {
 	  case "ArrowLeft":
 		this.pieceMovePosX(-1);
@@ -132,6 +142,9 @@ class Board extends React.Component {
 	  case "x":
 		this.rotatePiece("left");
 		break;
+    // case "c":
+	// 	this.pieceMovePosDown();
+	// 	break;
 	  default:
 		break;
 	}
@@ -208,7 +221,7 @@ class Board extends React.Component {
         
         // if (array.length > this.state.next) 
             this.setState({next: this.state.next + 1})
-            console.log("JOJO", thiw);
+            // console.log("JOJO", thiw);
             // 
             // Caca().map((b) => array.push(b))
         Caca().map((b) => array.push(b))
@@ -219,7 +232,7 @@ class Board extends React.Component {
         //         // this.props.setTetrominoRandom(array.shift());
         //     }, 10000);
 
-        console.log("gg", this.props.tetrominoRandom)
+        // console.log("gg", this.props.tetrominoRandom)
         // console.log(...this.props.tetrominoRandom)
         // console.log(array)
         return thiw;
@@ -601,9 +614,8 @@ class Board extends React.Component {
 			</div>
             {this.state.grid !== null && (
 			<GridMirror
-			  grid={this.state.grid}
-			  tetromino={this.state.tetromino}
-			  gameover={this.state.gameOver}
+			//   grid={this.props.tetrominoMirror}
+                grid={this.state.grid}
 			/>
 		  )}
 		</div>
@@ -616,7 +628,8 @@ const mapStateToProps = (state) => {
 	return {
 		gridGoingUp: state.startGame.gridGoingUp,
 		startGame: state.startGame.startGame,
-        tetrominoRandom: state.startGame.tetrominoRandom
+        tetrominoRandom: state.startGame.tetrominoRandom,
+        tetrominoMirror: state.startGame.tetrominoMirror
 	}
 	// gridGoingUp: state.gridGoingUp
 };
@@ -630,7 +643,8 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		setGridGoingUp: (gridUp) => dispatch(setGridGoingUp(gridUp)),
 		setGameInit: (gameFirst) => dispatch(setGameInit(gameFirst)),
-        setTetrominoRandom: (random) => dispatch(setTetrominoRandom(random))
+        setTetrominoRandom: (random) => dispatch(setTetrominoRandom(random)),
+        setTetrominoMirror: (grid) => dispatch(setTetrominoMirror(grid))
 	}
 }
 
