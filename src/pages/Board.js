@@ -63,7 +63,6 @@ class Board extends React.Component {
 	window.addEventListener("keydown", this.keyboardDown);
 
     // this.props.setTetrominoRandom(Caca());
-
 	this.setState(
 		{
 			gameOver: false,
@@ -74,17 +73,20 @@ class Board extends React.Component {
 		() => {
 				this.makeTetromino();
 				// this.handleRandomTetrominos();
-                this.aca();
+                // this.aca();
 				this.launchTimer();
 		}
 	);
   };
 
-  aca = () => {
-      const tetrominoMirror = this.state.grid
-      console.log("das", this.props.tetrominoMirror)
-      console.log("HELLO");
-      this.props.setTetrominoMirror(tetrominoMirror);
+  aca = (aer, er) => {
+        // const gridState = this.state.grid;
+        var tetrominoMirror = [...this.state.grid]
+        var temp 
+        // console.log("JAJA1", aer);
+        // console.log("JAJA2", er);
+        console.log("JAJA3", tetrominoMirror);
+        this.props.setTetrominoMirror(tetrominoMirror);
   }
 
   keyboardUp = (e) => {
@@ -142,9 +144,6 @@ class Board extends React.Component {
 	  case "x":
 		this.rotatePiece("left");
 		break;
-    // case "c":
-	// 	this.pieceMovePosDown();
-	// 	break;
 	  default:
 		break;
 	}
@@ -235,6 +234,7 @@ class Board extends React.Component {
         // console.log("gg", this.props.tetrominoRandom)
         // console.log(...this.props.tetrominoRandom)
         // console.log(array)
+
         return thiw;
   }
 
@@ -245,7 +245,7 @@ class Board extends React.Component {
 	tetromino.posY = 0;
 	tetromino.color = indexTetromino + 1;
 	tetromino.grid = Tetromino[indexTetromino];
-
+    // this.aca();
 	// value 0 cordinate = 0 offset y to -1 init spwn
 	if (tetromino.grid[0][0] === 0) {
 	    tetromino.posY-- ;
@@ -310,9 +310,12 @@ class Board extends React.Component {
 	  } 
 	}
 
+    this.aca(gridState, cleanGrid);
+
 	this.setState(
 	  { grid: cleanGrid, piece: null, linesCompletes, level, score },
 	  () => {
+        // this.props.setTetrominoMirror(cleanGrid);
 		this.makeTetromino();
 		if (levelChanged) {
 		  this.launchTimer();
@@ -614,7 +617,7 @@ class Board extends React.Component {
 			</div>
             {this.state.grid !== null && (
 			<GridMirror
-			//   grid={this.props.tetrominoMirror}
+			    // gridMirror={this.props.tetrominoMirror}
                 grid={this.state.grid}
 			/>
 		  )}

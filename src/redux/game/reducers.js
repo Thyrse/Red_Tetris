@@ -26,8 +26,9 @@ export const gameSlice = createSlice({
                 state.tetrominoRandom = payload;
             },
             setTetrominoMirror: (state, {payload}) => {
-                // console.log("ALGRANO", payload)
-                state.tetrominoMirror = payload;
+                console.log("AAAAAA", payload)
+                console.log("tetrominoMirror", state.tetrominoMirror)
+                state.tetrominoMirror = payload
             }
     },
 });

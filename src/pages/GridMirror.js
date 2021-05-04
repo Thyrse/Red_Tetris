@@ -3,10 +3,12 @@ import { useSelector } from "react-redux";
 
 import "../styles/gridMirror.scss";
 
-const GridMirror = ({ grid }) => {
+const GridMirror = ({ grid, gridMirror }) => {
   const gridGoingUp = useSelector((state) => state.startGame.gridGoingUp);
 
-  console.log("ACAS", grid)
+//   console.log("grid", grid)
+//   console.log("mirror", gridMirror)
+
   return (
     <div id="grid" className="grid">
       {grid.map((line, y) => {
