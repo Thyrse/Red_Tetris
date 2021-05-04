@@ -7,6 +7,7 @@ import {
 } from "../redux/game/action";
 
 import Grid from "./Grid";
+import GridMirror from "./gridMirror";
 
 import NextTetromino from "./NextTetromino";
 import AudioTetris from "./audioTetris";
@@ -208,6 +209,12 @@ class Board extends React.Component {
       });
   }
 
+  gridTetrominoMirror = () => {
+    let tetrominoMirror = [...this.state.grid]
+
+    console.log("===>", tetrominoMirror);
+    }
+
   restart = () => {
     this.setState({
       linesCompletes: 0,
@@ -346,6 +353,8 @@ class Board extends React.Component {
         // this.props.setGridGoingUp(numberLinesReady - 1);
       }
     }
+
+    this.gridTetrominoMirror();
 
     this.setState(
       { grid: cleanGrid, piece: null, linesCompletes, level, score },
@@ -664,6 +673,12 @@ class Board extends React.Component {
               )}
             </div>
           </div>
+          {this.state.grid !== null && (
+			<GridMirror
+			    // gridMirror={this.props.tetrominoMirror}
+                grid={this.state.grid}
+			/>
+		  )}
         </div>
       </>
     );
