@@ -7,7 +7,7 @@ import {
 } from "../redux/game/action";
 
 import Grid from "./Grid";
-import GridMirror from "./gridMirror";
+import GridMirror from "./GridMirror";
 
 import NextTetromino from "./NextTetromino";
 import AudioTetris from "./audioTetris";
