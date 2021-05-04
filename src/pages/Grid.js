@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 
 // REACT ROUTER
 import MirrorTetromino from "../utils/MirrorTetromino";
-import "../styles/grid.scss";
 
 const Grid = ({ grid, tetromino, gameover, winner }) => {
   let mirrorTetromino = [];

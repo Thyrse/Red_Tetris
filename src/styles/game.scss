@@ -31,7 +31,7 @@
       &__cell {
         display: flex;
         flex: 1 1 10%;
-        border: 1px solid $main-dark;
+        border: 1px solid $whiter;
         padding: 4px;
         &.colory {
           background: $main-dark !important;
@@ -42,7 +42,7 @@
         }
       }
       .mirror {
-        background-color: $dark-light;
+        background-color: #868686;
       }
       &__over {
         height: 100%;
@@ -75,7 +75,7 @@
     }
     .game-stats {
       display: flex;
-    //   border: 2px solid $white;
+      //   border: 2px solid $white;
       align-items: center;
       height: 85vh;
       flex-direction: column;
@@ -177,6 +177,15 @@
         justify-content: center;
         flex-direction: column;
       }
+    }
+    .game-mirrors {
+      display: flex;
+      flex-wrap: wrap;
+      align-content: center;
+      align-items: center;
+      flex: 1 1 5%;
+      width: 37vh;
+      justify-content: center;
     }
   }
 }

@@ -1,16 +1,14 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import "../styles/gridMirror.scss";
-
 const GridMirror = ({ grid, gridMirror }) => {
   const gridGoingUp = useSelector((state) => state.startGame.gridGoingUp);
 
-//   console.log("grid", grid)
-//   console.log("mirror", gridMirror)
+  //   console.log("grid", grid)
+  //   console.log("mirror", gridMirror)
 
   return (
-    <div id="grid" className="grid">
+    <div id="grid" className="grid-mirror">
       {grid.map((line, y) => {
         return line.map((col, x) => {
           let tetrominosSetting = [];
@@ -32,7 +30,12 @@ const GridMirror = ({ grid, gridMirror }) => {
             tetrominosSetting.push("backMirror");
           }
 
-          return <span key={x + "_" + y} className={tetrominosSetting.join(" ")}></span>
+          return (
+            <div
+              key={x + "_" + y}
+              className={`grid-mirror-cell ` + tetrominosSetting.join(" ")}
+            ></div>
+          );
         });
       })}
     </div>

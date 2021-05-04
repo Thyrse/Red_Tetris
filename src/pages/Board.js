@@ -7,7 +7,7 @@ import {
 } from "../redux/game/action";
 
 import Grid from "./Grid";
-import GridMirror from "./GridMirror";
+import GridMirror from "./gridMirror";
 
 import NextTetromino from "./NextTetromino";
 import AudioTetris from "./audioTetris";
@@ -21,7 +21,6 @@ import Tetromino from "./tetrominos";
 import Start from "./Start";
 import { useDispatch, useSelector } from "react-redux";
 
-import "../styles/grid.scss";
 import { setRooms } from "../redux/rooms/reducers";
 
 class Board extends React.Component {
@@ -46,8 +45,10 @@ class Board extends React.Component {
     firstStart: false,
     gridLevelUp: 1,
     ownered: null,
-    currentPieces: this.props.rooms[this.props.rooms.findIndex((room) => room.id === this.props.user.room)].pieces,
-    next: 0
+    currentPieces: this.props.rooms[
+      this.props.rooms.findIndex((room) => room.id === this.props.user.room)
+    ].pieces,
+    next: 0,
   };
 
   componentDidMount() {
@@ -162,58 +163,68 @@ class Board extends React.Component {
   socketSetting() {
     // const userRoom = this.props.rooms[this.state.ownered].owner;
     const findOwner = this.props.rooms.findIndex(
-        (room) => room.id === this.props.user.room
-      );
+      (room) => room.id === this.props.user.room
+    );
 
-      this.setState({
-        ownered: findOwner,
-        currentPieces: this.props.rooms[findOwner].pieces,
-      });
+    this.setState({
+      ownered: findOwner,
+      currentPieces: this.props.rooms[findOwner].pieces,
+    });
 
-      this.props.socket.on("GAME_WINNER", () => {
-        this.gameWin();
-      });
+    this.props.socket.on("GAME_WINNER", () => {
+      this.gameWin();
+    });
 
     //   if (this.props.startGame === false) {
-        this.newPieces = setInterval(() => {
-            if (this.props.rooms[this.state.ownered].owner === this.props.user.socketID) {
-            this.props.socket.emit("NEW_PIECES", {
-                room: this.props.user.room,
-                pieces: RandomTetrominos(),
-            });
-            }
-        }, 3000);
-    // }
-
-      this.props.socket.on("UPDATE_PIECES", (data) => {
-        this.props.setRooms(data);
-        // const getPiecesList = this.props.rooms[findOwner].pieces;
-        this.setState({
-          currentPieces: this.props.rooms[findOwner].pieces,
+    this.newPieces = setInterval(() => {
+      if (
+        this.props.rooms[this.state.ownered].owner === this.props.user.socketID
+      ) {
+        this.props.socket.emit("NEW_PIECES", {
+          room: this.props.user.room,
+          pieces: RandomTetrominos(),
         });
-        // console.log("PIECES HERE ==>", this.state.currentPieces);
-      //   console.log("PIECES RECEIVED ==>", data);
-      });
+      }
+    }, 3000);
     // }
 
-      this.props.socket.on("BEGIN_GAME", () => {
-        this.props.setGameInit(true);
-        // this.handleGameTime();
-        // this.launchTimer();
+    this.props.socket.on("UPDATE_PIECES", (data) => {
+      this.props.setRooms(data);
+      // const getPiecesList = this.props.rooms[findOwner].pieces;
+      this.setState({
+        currentPieces: this.props.rooms[findOwner].pieces,
       });
+      // console.log("PIECES HERE ==>", this.state.currentPieces);
+      //   console.log("PIECES RECEIVED ==>", data);
+    });
+    // }
 
-      this.props.socket.on("RECEIVE_PENALTY", (data) => {
-        if (data.user !== this.props.user.socketID) {
-          this.props.setGridGoingUp(data.penalty);
-        }
-      });
+    this.props.socket.on("RECEIVE_MIRROR", (data) => {
+      this.props.setRooms(data);
+    });
+
+    this.props.socket.on("BEGIN_GAME", () => {
+      this.props.setGameInit(true);
+      // this.handleGameTime();
+      // this.launchTimer();
+    });
+
+    this.props.socket.on("RECEIVE_PENALTY", (data) => {
+      if (data.user !== this.props.user.socketID) {
+        this.props.setGridGoingUp(data.penalty);
+      }
+    });
   }
 
   gridTetrominoMirror = () => {
-    let tetrominoMirror = [...this.state.grid]
+    this.props.socket.emit("SEND_MIRROR", {
+      user: this.props.user,
+      mirror: this.state.grid,
+    });
+    // let tetrominoMirror = [...this.state.grid];
 
-    console.log("===>", tetrominoMirror);
-    }
+    // console.log("===>", tetrominoMirror);
+  };
 
   restart = () => {
     this.setState({
@@ -240,9 +251,9 @@ class Board extends React.Component {
     clearInterval(this.gameTimer);
 
     //set status lost game
-    this.setState({ 
-        gameOver: true,
-        // currentPieces: this.props.rooms[this.props.rooms.findIndex((room) => room.id === this.props.user.room)].pieces
+    this.setState({
+      gameOver: true,
+      // currentPieces: this.props.rooms[this.props.rooms.findIndex((room) => room.id === this.props.user.room)].pieces
     });
     this.lifeGameSystem();
     if (this.state.gameOver) {
@@ -269,11 +280,11 @@ class Board extends React.Component {
     let array = [...this.state.currentPieces];
     // let array = [...this.props.tetrominoRandom];
 
-    let thiw = array[this.state.next]
+    let thiw = array[this.state.next];
 
-    this.setState({next: this.state.next + 1})
+    this.setState({ next: this.state.next + 1 });
 
-    console.log("next", this.state.next)
+    console.log("next", this.state.next);
     // RandomTetrominos().map((b) => array.push(b))
     // this.props.setTetrominoRandom(array);
 
@@ -308,9 +319,9 @@ class Board extends React.Component {
         nextPiece: this.generateNextPiece(),
       });
     } else {
-        clearInterval(this.timer);
-        clearInterval(this.gameTimer);
-        this.gameOver();
+      clearInterval(this.timer);
+      clearInterval(this.gameTimer);
+      this.gameOver();
     }
   };
 
@@ -529,7 +540,7 @@ class Board extends React.Component {
       this.setState({ timer: this.state.timer + 1 });
     }, 1000);
     // }
-  }
+  };
 
   lifeGameSystem() {
     // console.log("this.state.stayalive" + this.state.stayalive)
@@ -554,9 +565,9 @@ class Board extends React.Component {
   }
 
   continueGame() {
-      this.initGame();
-      this.handleGameTime();
-    }
+    this.initGame();
+    this.handleGameTime();
+  }
 
   firstStart() {
     // this.props.setGameInit(true);
@@ -572,6 +583,27 @@ class Board extends React.Component {
     return (
       <>
         <div className="game__pan p-3">
+          {this.props?.rooms[
+            this.props.rooms?.findIndex(
+              (room) => room.id === this.props.user?.room
+            )
+          ].mirror.length > 0 && (
+            <div className="game-mirrors">
+              {this.props?.rooms[
+                this.props.rooms?.findIndex(
+                  (room) => room.id === this.props.user?.room
+                )
+              ].mirror.map(
+                (currentMirror) =>
+                  currentMirror.id !== this.props.user?.socketID && (
+                    <GridMirror
+                      // gridMirror={this.props.tetrominoMirror}
+                      grid={currentMirror.grid}
+                    />
+                  )
+              )}
+            </div>
+          )}
           {this.state.grid !== null && (
             <Grid
               grid={this.state.grid}
@@ -631,8 +663,7 @@ class Board extends React.Component {
                   <AudioTetris />
                 </div>
               </div>
-              {
-              this.state.ownered !== null &&
+              {this.state.ownered !== null &&
               this.props.rooms[this.state.ownered].owner ===
                 this.props.user.socketID &&
               !this.props.startGame ? (
@@ -673,12 +704,6 @@ class Board extends React.Component {
               )}
             </div>
           </div>
-          {this.state.grid !== null && (
-			<GridMirror
-			    // gridMirror={this.props.tetrominoMirror}
-                grid={this.state.grid}
-			/>
-		  )}
         </div>
       </>
     );

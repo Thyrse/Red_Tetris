@@ -1,0 +1,23 @@
+.grid-mirror {
+  height: 30vh;
+  width: 15vh;
+  display: flex;
+  position: relative;
+  flex-wrap: wrap;
+  background-color: $dark;
+  margin: 15px;
+  &-cell {
+    display: flex;
+    flex: 1 1 10%;
+    padding: 4px;
+    &.colorMirror {
+      background-color: #fc5e03 !important;
+    }
+  }
+}
+
+.gridGoingUp {
+  background-color: #fc5e03 !important;
+  border: 5px outset #fc5e03 !important;
+  padding: 0px !important;
+}

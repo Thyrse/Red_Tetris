@@ -1,5 +1,4 @@
 import React from "react";
-import "../styles/grid.scss";
 
 function NextTetromino({ grid, color }) {
   return (

@@ -55,6 +55,7 @@ function allAssignementRooms(name, owner, type) {
     size: 5,
     type: type,
     hasStarted: false,
+    mirror: [],
   };
 
   allRooms.push(current);
@@ -71,7 +72,6 @@ function userLeave(id) {
   if (index !== -1) {
     return allUsers.splice(index, 1)[0];
   }
-  // console.log("AllUsers ==>", allUsers);
 }
 
 function startGame(roomID) {
@@ -84,7 +84,6 @@ function startGame(roomID) {
 }
 
 function userLeaveRoom(id) {
-  console.log("All rooms BEFORE update ==>", allRooms);
   allRooms.map((room) => {
     room.members.map((member) => {
       if (member.id === id) {
@@ -101,8 +100,6 @@ function userLeaveRoom(id) {
       }
     });
   });
-
-  console.log("All rooms AFTER update ==>", allRooms);
   return allRooms;
 }
 
@@ -110,7 +107,6 @@ function userJoinRoom(roomID, user) {
   const index = allRooms.findIndex((room) => room.id === roomID);
 
   const userToJoin = { id: user.socketID, username: user.username };
-  // console.log("USER SENT JOIN ROOM ==>", user);
   if (allRooms[index].members.length === 0) {
     allRooms[index].owner = user.socketID;
   }
@@ -130,13 +126,21 @@ function updateUsersList(roomID, user) {
 
 function addPiecesToRoom(roomID, pieces) {
   const index = allRooms.findIndex((room) => room.id === roomID);
-
-//   console.log("ALL ROOMS PIECES BEFORE ==>", allRooms);
-
   allRooms[index].pieces = allRooms[index].pieces.concat(pieces);
+  return allRooms;
+}
 
-//   console.log("ALL ROOMS PIECES AFTER ==>", allRooms);
+function updateMirrorRoom(user, mirror) {
+  const index = allRooms.findIndex((room) => room.id === user.room);
+  const indexUser = allRooms[index].mirror.findIndex(
+    (shadow) => shadow.id === user.socketID
+  );
 
+  if (indexUser !== -1) {
+    allRooms[index].mirror[indexUser].grid = mirror;
+  } else {
+    allRooms[index].mirror.push({ id: user.socketID, grid: mirror });
+  }
   return allRooms;
 }
 
@@ -148,15 +152,6 @@ function addPiecesToRoom(roomID, pieces) {
 const gameClass = new Game();
 
 io.on("connection", function (client) {
-  // console.log("CONNECTED TO SOCKETIO ==>", client.id);
-  // const player = new Player(client);
-  // client.send({rooms: roomList });
-  // here you can start emitting events to the client
-  // client.on("home", (data) => {
-  //   console.log("Username received for home ==>", data);
-  //   console.log("All current username ==>", allUsers);
-  // });
-
   // Listen to populate the store
   client.on("POPULATE", () => {
     io.emit("REFRESH_ROOMS", gameClass.rooms);
@@ -164,18 +159,14 @@ io.on("connection", function (client) {
 
   // Listen for user login
   client.on("LOGIN", (current_user) => {
-    // console.log("Username received for login ==>", current_user);
-    const current = allAssignement(client.id, current_user);
-    // client.join(current.current_user);
+    allAssignement(client.id, current_user);
     client.join("Lobby");
-    // console.log("ALL USERS ==>", allUsers);
     gameClass.updatePlayers(allUsers);
     io.emit("REFRESH_USERSLIST", gameClass.players);
   });
 
   // Listen for new message in chat
   client.on("NEW_MESSAGE", (data) => {
-    console.log("New message emited ==>", data);
     io.to(data.room).emit("REFRESH_MESSAGES", {
       username: data.username,
       message: data.message,
@@ -191,7 +182,7 @@ io.on("connection", function (client) {
     io.emit("REFRESH_ROOMS", gameClass.rooms);
   });
 
-  // Listen for creating room
+  // Listen for starting game
   client.on("START_GAME", (data) => {
     startGame(data.room);
     gameClass.updateRooms(allRooms);
@@ -201,24 +192,20 @@ io.on("connection", function (client) {
 
   // Listen for joining room
   client.on("JOIN_ROOM", (data) => {
-    // console.log("ROOM JOINED ==>", data.datas.id);
     client.leave("Lobby");
     client.join(data.datas.id);
-    // console.log(client.rooms);
     userJoinRoom(data.datas.id, data.currentUser);
     updateUsersList(data.datas.id, data.currentUser);
     gameClass.updateRooms(allRooms);
     gameClass.updatePlayers(allUsers);
     io.emit("REFRESH_ROOMS", gameClass.rooms);
     io.emit("REFRESH_USERSLIST", gameClass.players);
-    // io.emit("REFRESH_USER", data.datas.id);
   });
 
   // Listen for joining lobby
   client.on("JOIN_LOBBY", (data) => {
     const roomName = "Lobby";
     if (data && data.room && data.room !== "Lobby") {
-      console.log("ROOM INTENDED TO LEAVE ==>", data.room);
       userLeaveRoom(client.id);
       updateUsersList(roomName, data);
       gameClass.updateRooms(allRooms);
@@ -233,16 +220,22 @@ io.on("connection", function (client) {
 
   // Listen for sending a penalty
   client.on("SEND_PENALTY", (data) => {
-    console.log("NEED TO SEND A PENALTY", data);
     io.to(data.user.room).emit("RECEIVE_PENALTY", {
       user: data.user.socketID,
       penalty: data.penalty,
     });
   });
 
+  // Listen for sending a mirror
+  client.on("SEND_MIRROR", (data) => {
+    updateMirrorRoom(data.user, data.mirror);
+    gameClass.updateRooms(allRooms);
+    io.to(data.room).emit("RECEIVE_MIRROR", allRooms);
+    io.to(data.user.room).emit("RECEIVE_MIRROR", allRooms);
+  });
+
   // Listen for receiving new piece
   client.on("NEW_PIECES", (data) => {
-    console.log("NEED TO SEND A PENALTY", data);
     addPiecesToRoom(data.room, data.pieces);
     gameClass.updateRooms(allRooms);
     io.to(data.room).emit("UPDATE_PIECES", allRooms);
@@ -250,15 +243,13 @@ io.on("connection", function (client) {
 
   // Listen for manual disconnect
   client.on("DISCONNECT", (data) => {
-    // console.log("DISCONNECT DATAS EMITTED ==>", data);
-    // console.log("DISCONNECT ALLUSERS before ==>", allUsers);
     userLeave(data);
     gameClass.updatePlayers(allUsers);
     io.emit("REFRESH_USERSLIST", gameClass.players);
   });
+
   // Listen for disconnect on refresh (or any other case that is triggered automatically by socket.io)
   client.on("disconnect", () => {
-    // console.log("AN USER HAS BEEN DISCONNECTED ==>", client.id);
     userLeave(client.id);
     userLeaveRoom(client.id);
     gameClass.updatePlayers(allUsers);
