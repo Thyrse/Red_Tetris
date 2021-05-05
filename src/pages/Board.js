@@ -56,11 +56,12 @@ class Board extends React.Component {
   }
 
   componentWillUnmount() {
+    console.log("INTERVAL TO CLEAR ==>", this.newPieces);
+    clearInterval(this.newPieces);
     this.props.setGameInit(false);
     window.removeEventListener("keydown", this.keyboardDown);
     window.removeEventListener("keyup", this.keyboardUp);
     this.setState({ ownered: null });
-    clearInterval(this.newPieces);
   }
 
   initGame = () => {
@@ -94,7 +95,8 @@ class Board extends React.Component {
 
   keyboardUp = (e) => {
     if (
-      ["ArrowDown", "ArrowUp", "ArrowRight", "ArrowLeft"].indexOf(e.key) > -1
+      ["ArrowDown", "ArrowUp", "ArrowRight", "ArrowLeft"].indexOf(e.key) > -1 ||
+      e.target === document.body
     ) {
       e.preventDefault();
     }
@@ -108,7 +110,8 @@ class Board extends React.Component {
 
   keyboardDown = (e) => {
     if (
-      ["ArrowDown", "ArrowUp", "ArrowRight", "ArrowLeft"].indexOf(e.key) > -1
+      ["ArrowDown", "ArrowUp", "ArrowRight", "ArrowLeft"].indexOf(e.key) > -1 ||
+      e.target === document.body
     ) {
       e.preventDefault();
     }
@@ -587,8 +590,8 @@ class Board extends React.Component {
             this.props.rooms?.findIndex(
               (room) => room.id === this.props.user?.room
             )
-          ].mirror.length > 0 && (
-            <div className="game-mirrors">
+          ].type === "2" && (
+            <div className="game-mirrors shadow">
               {this.props?.rooms[
                 this.props.rooms?.findIndex(
                   (room) => room.id === this.props.user?.room
@@ -596,10 +599,10 @@ class Board extends React.Component {
               ].mirror.map(
                 (currentMirror) =>
                   currentMirror.id !== this.props.user?.socketID && (
-                    <GridMirror
-                      // gridMirror={this.props.tetrominoMirror}
-                      grid={currentMirror.grid}
-                    />
+                    <div className="d-flex flex-column text-center m-2">
+                      <span>{currentMirror.username}</span>
+                      <GridMirror grid={currentMirror.grid} />
+                    </div>
                   )
               )}
             </div>

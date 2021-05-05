@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
-const Chat = ({ socket, yolo }) => {
+const Chat = ({ socket }) => {
   const [message, setMessage] = useState("");
   const [chatContent, setChatContent] = useState([]);
   const [displayUsers, setDisplayUsers] = useState([]);
@@ -114,7 +114,6 @@ const Chat = ({ socket, yolo }) => {
                     placeholder="Message..."
                     size="50"
                     spellCheck="false"
-                    autoFocus
                     onChange={(e) => handleChange(e)}
                     value={message || ""}
                   />

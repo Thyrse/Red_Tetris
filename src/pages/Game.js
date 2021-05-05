@@ -24,7 +24,8 @@ const Game = ({ socket }) => {
     <div className="game">
       {/* {!gameReady ? <Start /> : <Board />} */}
       <Board socket={socket} rooms={roomsList} user={currentUser} />
-      <Chat socket={socket} />
+      {roomsList[roomsList?.findIndex((room) => room.id === currentUser.room)]
+        .type === "2" && <Chat socket={socket} />}
     </div>
   );
 };

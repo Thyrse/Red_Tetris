@@ -14,13 +14,13 @@ const io = require("socket.io")(http, {
 });
 
 const Game = require("./class/Game");
+const Player = require("./class/Player");
 
 app.use(cors());
 
 const port = 4000;
 const allUsers = [];
 const allRooms = [];
-const users = [];
 
 function allAssignement(id, username) {
   const current = { id, username, inGame: false, room: "Lobby" };
@@ -60,10 +60,6 @@ function allAssignementRooms(name, owner, type) {
 
   allRooms.push(current);
   return current;
-}
-
-function getCurrentUser(id) {
-  return users.find((user) => user.id === id);
 }
 
 function userLeave(id) {
@@ -139,17 +135,17 @@ function updateMirrorRoom(user, mirror) {
   if (indexUser !== -1) {
     allRooms[index].mirror[indexUser].grid = mirror;
   } else {
-    allRooms[index].mirror.push({ id: user.socketID, grid: mirror });
+    allRooms[index].mirror.push({
+      id: user.socketID,
+      grid: mirror,
+      username: user.username,
+    });
   }
   return allRooms;
 }
 
-// const index = require("./src/index");
-// app.use(index);
-// const io = socketIo(server);
-// io.listen(port)
-
 const gameClass = new Game();
+const playerClass = new Player();
 
 io.on("connection", function (client) {
   // Listen to populate the store
@@ -161,8 +157,8 @@ io.on("connection", function (client) {
   client.on("LOGIN", (current_user) => {
     allAssignement(client.id, current_user);
     client.join("Lobby");
-    gameClass.updatePlayers(allUsers);
-    io.emit("REFRESH_USERSLIST", gameClass.players);
+    playerClass.updatePlayers(allUsers);
+    io.emit("REFRESH_USERSLIST", playerClass.players);
   });
 
   // Listen for new message in chat
@@ -175,14 +171,14 @@ io.on("connection", function (client) {
     });
   });
 
-  // Listen for creating room
+  // Listen for creating a room
   client.on("CREATE_ROOM", (data) => {
     allAssignementRooms(data.name, data.owner, data.type);
     gameClass.updateRooms(allRooms);
     io.emit("REFRESH_ROOMS", gameClass.rooms);
   });
 
-  // Listen for starting game
+  // Listen for starting a game
   client.on("START_GAME", (data) => {
     startGame(data.room);
     gameClass.updateRooms(allRooms);
@@ -190,16 +186,16 @@ io.on("connection", function (client) {
     io.to(data.room).emit("BEGIN_GAME");
   });
 
-  // Listen for joining room
+  // Listen for joining a room
   client.on("JOIN_ROOM", (data) => {
     client.leave("Lobby");
     client.join(data.datas.id);
     userJoinRoom(data.datas.id, data.currentUser);
     updateUsersList(data.datas.id, data.currentUser);
     gameClass.updateRooms(allRooms);
-    gameClass.updatePlayers(allUsers);
+    playerClass.updatePlayers(allUsers);
     io.emit("REFRESH_ROOMS", gameClass.rooms);
-    io.emit("REFRESH_USERSLIST", gameClass.players);
+    io.emit("REFRESH_USERSLIST", playerClass.players);
   });
 
   // Listen for joining lobby
@@ -209,9 +205,9 @@ io.on("connection", function (client) {
       userLeaveRoom(client.id);
       updateUsersList(roomName, data);
       gameClass.updateRooms(allRooms);
-      gameClass.updatePlayers(allUsers);
+      playerClass.updatePlayers(allUsers);
       io.emit("REFRESH_ROOMS", gameClass.rooms);
-      io.emit("REFRESH_USERSLIST", gameClass.players);
+      io.emit("REFRESH_USERSLIST", playerClass.players);
       client.leave(data.room);
     }
     client.join("Lobby");
@@ -234,7 +230,7 @@ io.on("connection", function (client) {
     io.to(data.user.room).emit("RECEIVE_MIRROR", allRooms);
   });
 
-  // Listen for receiving new piece
+  // Listen for receiving new pieces
   client.on("NEW_PIECES", (data) => {
     addPiecesToRoom(data.room, data.pieces);
     gameClass.updateRooms(allRooms);
@@ -244,17 +240,17 @@ io.on("connection", function (client) {
   // Listen for manual disconnect
   client.on("DISCONNECT", (data) => {
     userLeave(data);
-    gameClass.updatePlayers(allUsers);
-    io.emit("REFRESH_USERSLIST", gameClass.players);
+    playerClass.updatePlayers(allUsers);
+    io.emit("REFRESH_USERSLIST", playerClass.players);
   });
 
   // Listen for disconnect on refresh (or any other case that is triggered automatically by socket.io)
   client.on("disconnect", () => {
     userLeave(client.id);
     userLeaveRoom(client.id);
-    gameClass.updatePlayers(allUsers);
+    playerClass.updatePlayers(allUsers);
     gameClass.updateRooms(allRooms);
-    io.emit("REFRESH_USERSLIST", gameClass.players);
+    io.emit("REFRESH_USERSLIST", playerClass.players);
     io.emit("REFRESH_ROOMS", gameClass.rooms);
   });
 });
