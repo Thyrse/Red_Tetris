@@ -237,8 +237,11 @@ io.on("connection", function (client) {
   // Listen for manual disconnect
   client.on("DISCONNECT", (data) => {
     userLeave(data);
+    userLeaveRoom(data);
     playerClass.updatePlayers(allUsers);
+    gameClass.updateRooms(allRooms);
     io.emit("REFRESH_USERSLIST", playerClass.players);
+    io.emit("REFRESH_ROOMS", gameClass.rooms);
   });
 
   // Listen for disconnect on refresh (or any other case that is triggered automatically by socket.io)
