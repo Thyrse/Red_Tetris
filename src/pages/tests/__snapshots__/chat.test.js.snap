@@ -46,7 +46,6 @@ exports[`Chat unit test Chat rendering upon arrival 1`] = `
             className="col-md-9 col-lg-10 msg-new secondary-font"
           >
             <input
-              autoFocus={true}
               className="msg-new-input"
               id="message"
               name="message"
