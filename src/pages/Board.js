@@ -201,6 +201,7 @@ class Board extends React.Component {
 
     this.props.socket.on("BEGIN_GAME", () => {
       this.props.setGameInit(true);
+      this.handleGameTime();
     });
 
     this.props.socket.on("RECEIVE_PENALTY", (data) => {
@@ -540,7 +541,6 @@ class Board extends React.Component {
   firstStart() {
     this.props.socket.emit("START_GAME", this.props.user);
     this.props.setGameInit(true);
-    this.handleGameTime();
   }
   render() {
     return (
