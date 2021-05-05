@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-// intialState ( défini l'état initiale de nos slices/reducers)
+// intialState define state of slice & reducers
 export const userInitialState = {
   userDatas: null,
 };
@@ -11,7 +11,6 @@ export const userSlice = createSlice({
   initialState: userInitialState, // état initiale
   reducers: {
     setUserData: (state, { payload }) => {
-      // console.log("PAYLOAD RECEIVED ==>", payload);
       state.userDatas = payload;
     },
     setDisconnectUser: (state) => {

@@ -9,7 +9,6 @@ export const usersSlice = createSlice({
   initialState: listInitialState,
   reducers: {
     setUsersList: (state, { payload }) => {
-      // console.log("PAYLOAD USERS LIST ==>", payload);
       state.usersList = payload;
     },
   },

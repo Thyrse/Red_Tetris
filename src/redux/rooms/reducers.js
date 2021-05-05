@@ -9,7 +9,6 @@ export const roomsSlice = createSlice({
   initialState: listInitialState,
   reducers: {
     setRooms: (state, { payload }) => {
-      // console.log("PAYLOAD ROOMS LIST ==>", payload);
       state.roomsList = payload;
     },
   },

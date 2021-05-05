@@ -25,8 +25,6 @@ export const Layout = (props) => {
     text: null,
   });
 
-  console.log("SOCKET IN LAYOUT ==>", currentSocket);
-
   return (
     <>
       <SnackbarContext.Provider value={{ set: (state) => setSnackbar(state) }}>

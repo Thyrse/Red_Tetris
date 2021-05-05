@@ -1,11 +1,8 @@
-// import { NEW_MESSAGE, LOGIN } from "./socketActions";
 const express = require("express");
 const app = express();
-
 const cors = require("cors");
 const http = require("http").Server(app);
 const { v1: uuidv1 } = require("uuid");
-
 const io = require("socket.io")(http, {
   cors: {
     origin: "http://localhost:3000",

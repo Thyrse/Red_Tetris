@@ -1,6 +1,5 @@
 import React from "react";
-import { mount, shallow } from "enzyme";
-import toJson from "enzyme-to-json";
+import { mount } from "enzyme";
 import Chat from "../../components/Chat";
 import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";

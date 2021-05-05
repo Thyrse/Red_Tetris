@@ -30,7 +30,6 @@ const Grid = ({ grid, tetromino, gameover, winner }) => {
         return line.map((col, x) => {
           let tetrominosSetting = [];
 
-          //   console.log("--->" + grid)
           if (x === 0) {
             // tetrominosSetting.push("first");
           }

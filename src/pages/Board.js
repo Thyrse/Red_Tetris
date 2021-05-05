@@ -56,7 +56,6 @@ class Board extends React.Component {
   }
 
   componentWillUnmount() {
-    console.log("INTERVAL TO CLEAR ==>", this.newPieces);
     clearInterval(this.newPieces);
     this.props.setGameInit(false);
     window.removeEventListener("keydown", this.keyboardDown);
@@ -65,7 +64,7 @@ class Board extends React.Component {
   }
 
   initGame = () => {
-    console.log("game-start");
+    console.log = console.warn = console.error = () => {};
     this.socketSetting();
 
     // put in options
@@ -178,7 +177,6 @@ class Board extends React.Component {
       this.gameWin();
     });
 
-    //   if (this.props.startGame === false) {
     this.newPieces = setInterval(() => {
       if (
         this.props.rooms[this.state.ownered].owner === this.props.user.socketID
@@ -189,18 +187,13 @@ class Board extends React.Component {
         });
       }
     }, 3000);
-    // }
 
     this.props.socket.on("UPDATE_PIECES", (data) => {
       this.props.setRooms(data);
-      // const getPiecesList = this.props.rooms[findOwner].pieces;
       this.setState({
         currentPieces: this.props.rooms[findOwner].pieces,
       });
-      // console.log("PIECES HERE ==>", this.state.currentPieces);
-      //   console.log("PIECES RECEIVED ==>", data);
     });
-    // }
 
     this.props.socket.on("RECEIVE_MIRROR", (data) => {
       this.props.setRooms(data);
@@ -208,8 +201,6 @@ class Board extends React.Component {
 
     this.props.socket.on("BEGIN_GAME", () => {
       this.props.setGameInit(true);
-      // this.handleGameTime();
-      // this.launchTimer();
     });
 
     this.props.socket.on("RECEIVE_PENALTY", (data) => {
@@ -224,9 +215,6 @@ class Board extends React.Component {
       user: this.props.user,
       mirror: this.state.grid,
     });
-    // let tetrominoMirror = [...this.state.grid];
-
-    // console.log("===>", tetrominoMirror);
   };
 
   restart = () => {
@@ -247,6 +235,10 @@ class Board extends React.Component {
 
   gameWin = () => {
     this.setState({ winner: true });
+    window.removeEventListener("keydown", this.keyboardDown);
+    window.removeEventListener("keyup", this.keyboardUp);
+    clearInterval(this.gameTimer);
+    clearInterval(this.timer);
   };
 
   gameOver = () => {
@@ -256,11 +248,9 @@ class Board extends React.Component {
     //set status lost game
     this.setState({
       gameOver: true,
-      // currentPieces: this.props.rooms[this.props.rooms.findIndex((room) => room.id === this.props.user.room)].pieces
     });
     this.lifeGameSystem();
     if (this.state.gameOver) {
-      console.log("game-over");
       window.removeEventListener("keydown", this.keyboardDown);
       window.removeEventListener("keyup", this.keyboardUp);
     }
@@ -275,22 +265,13 @@ class Board extends React.Component {
 
   levelUpSpeed = () => {
     let interval = this.levelTimeSpeed / this.state.level;
-    // console.log("vitesse:" + interval);
     return interval < 100 ? 100 : interval;
   };
 
   generateNextPiece() {
     let array = [...this.state.currentPieces];
-    // let array = [...this.props.tetrominoRandom];
-
     let thiw = array[this.state.next];
-
     this.setState({ next: this.state.next + 1 });
-
-    console.log("next", this.state.next);
-    // RandomTetrominos().map((b) => array.push(b))
-    // this.props.setTetrominoRandom(array);
-
     return thiw;
   }
 
@@ -314,7 +295,6 @@ class Board extends React.Component {
     tetromino.mergeData = [];
 
     let resultCordinate = this.tetrominoIsPosition(tetromino);
-    // console.log(resultCordinate);
     if (resultCordinate !== false) {
       tetromino.mergeData = resultCordinate;
       this.setState({
@@ -385,21 +365,14 @@ class Board extends React.Component {
   tetrominoIsPosition = (tetromino) => {
     const gridGoingUp = this.props.gridGoingUp;
     const linesCompletes = this.state.linesCompletes;
-
-    // console.log("das", linesCompletes - 1);
-
     let cordinate = [];
     let y = 0;
 
     if (this.props.startGame === true) {
       while (y < tetromino.grid.length) {
-        // console.log("YYY", y);
         let x = 0;
         while (x < tetromino.grid[0].length) {
-          // console.log("XXX", x)
           if (tetromino.grid[y][x] > 0) {
-            // console.log(grid[y])
-            // console.log(this.state.grid[y + tetromino.posY][x + tetromino.posX])
             if (this.state.grid[y + tetromino.posY] === undefined) {
               return false;
             }
@@ -442,9 +415,7 @@ class Board extends React.Component {
     if (resultCordinate !== false) {
       tetromino.mergeData = resultCordinate;
       this.setState({ tetromino });
-      // console.log(resultCordinate)
     }
-    // console.log(tetromino);
   };
 
   pieceMovePosDown = (moveDown) => {
@@ -476,13 +447,11 @@ class Board extends React.Component {
 
     let newGrid = [];
     if (rotation === "right") {
-      // console.log(tetromino.grid[0].length)
       let x = tetromino.grid[0].length - 1;
       while (x > -1) {
         let line = [];
         let y = 0;
         while (y < tetromino.grid.length) {
-          // console.log(y + "_" + x + "  >" + tetromino.grid[y][x]);
           line.push(tetromino.grid[y][x]);
           y++;
         }
@@ -495,7 +464,6 @@ class Board extends React.Component {
         let line = [];
         let y = tetromino.grid.length - 1;
         while (y > -1) {
-          // console.log(y + "_" + x + "  >" + tetromino.grid[y][x]);
           line.push(tetromino.grid[y][x]);
           y--;
         }
@@ -538,15 +506,12 @@ class Board extends React.Component {
   };
 
   handleGameTime = () => {
-    // if (this.props.startGame) {
     this.gameTimer = setInterval(() => {
       this.setState({ timer: this.state.timer + 1 });
     }, 1000);
-    // }
   };
 
   lifeGameSystem() {
-    // console.log("this.state.stayalive" + this.state.stayalive)
     window.removeEventListener("keydown", this.keyboardDown);
     window.removeEventListener("keyup", this.keyboardUp);
     this.setState({ stayalive: this.state.stayalive - 1 });
@@ -573,14 +538,9 @@ class Board extends React.Component {
   }
 
   firstStart() {
-    // this.props.setGameInit(true);
-    // this.launchTimer();
     this.props.socket.emit("START_GAME", this.props.user);
     this.props.setGameInit(true);
-    // this.launchTimer();
     this.handleGameTime();
-    //   console.log(this.state.firstStart)
-    //   this.initGame()
   }
   render() {
     return (
@@ -719,15 +679,9 @@ const mapStateToProps = (state) => {
     startGame: state.startGame.startGame,
     tetrominoRandom: state.startGame.tetrominoRandom,
   };
-  // gridGoingUp: state.gridGoingUp
 };
 
 const mapDispatchToProps = (dispatch) => {
-  // console.log("HJOLAS" + dispatch)
-  // dispatch(setGridGoingUp({gridGoingUp: 10}));
-  // return {
-  //     setGridGoingUp
-  // }
   return {
     setGridGoingUp: (gridUp) => dispatch(setGridGoingUp(gridUp)),
     setGameInit: (gameFirst) => dispatch(setGameInit(gameFirst)),
@@ -737,5 +691,3 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Board);
-
-// export default Board;

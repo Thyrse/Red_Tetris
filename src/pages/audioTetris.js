@@ -13,21 +13,18 @@ const AudioTetris = () => {
   }, []);
 
   const playTetrisAudio = () => {
-    // console.log("play")
-    // myRef.current.play();
     setMute(true);
   };
 
   const pauseTetrisAudio = () => {
-    // console.log("pause")
     myRef.current.pause();
     setMute(false);
   };
 
   return (
     <div className="stats-audio">
-    {/* autoplay change to true */}
-      <audio ref={myRef} src={tetrisgame} autoPlay={false} />
+      {/* autoplay change to true */}
+      <audio ref={myRef} src={tetrisgame} autoPlay={true} />
       {!mute ? (
         <IconButton
           className={"stats-audio__wrapper"}
